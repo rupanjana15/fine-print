@@ -8,9 +8,16 @@ paths:
 
 tosdr:
   base_url: https://api.tosdr.org
-  seconds_between_requests: 3.0   # be polite: the API returns 429 quickly
-  max_retries: 6
-  backoff_base_seconds: 10
+  # Headers say 5 requests / 5 s, but bursts still get HTTP 429 ("You are doing this too much").
+  seconds_between_requests: 2.0
+  max_retries: 8
+  backoff_base_seconds: 30        # 30, 60, 120 ... capped at max_backoff_seconds
+  max_backoff_seconds: 600
+  user_agent: fine-print-research/0.1
+  # There is no public case-list endpoint, so we scan case ids. Real ids start around 120
+  # (ids 1-60+ are empty) and go past 500, so the scan must tolerate long gaps.
+  max_case_id: 1500
+  stop_after_empty_cases: 300     # stop after this many consecutive empty ids
 
 lexglue:
   hf_name: coastalcph/lex_glue
