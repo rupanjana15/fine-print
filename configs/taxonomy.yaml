@@ -1,0 +1,12 @@
+# Maps ToS;DR case IDs to our ~20-25 categories. Filled in during v0.2,
+# after the v0.1 data spike shows which cases have enough examples.
+#
+# Format:
+# categories:
+#   shares_data_with_third_parties:
+#     description: "They can share or sell your personal data."
+#     tosdr_case_ids: [ ... ]
+#     lexglue_labels: []
+categories: {}
+
+fallback_category: other

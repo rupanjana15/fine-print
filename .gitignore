@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Data (versioned on HF Hub, not git)
+data/raw/*
+data/interim/*
+data/processed/*
+!data/**/.gitkeep
+
+# Models
+*.gguf
+*.safetensors
+*.bin
+outputs/
+checkpoints/
+
+# Notebooks / OS / secrets
+.ipynb_checkpoints/
+.DS_Store
+.env

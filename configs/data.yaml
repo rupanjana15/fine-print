@@ -1,0 +1,32 @@
+# Data pipeline settings. Bump `version` whenever processed data changes.
+version: "v0-unbuilt"
+
+paths:
+  raw: data/raw
+  interim: data/interim
+  processed: data/processed
+
+tosdr:
+  base_url: https://api.tosdr.org
+  seconds_between_requests: 3.0   # be polite: the API returns 429 quickly
+  max_retries: 6
+  backoff_base_seconds: 10
+
+lexglue:
+  hf_name: coastalcph/lex_glue
+  config: unfair_tos
+
+chunking:
+  target_tokens: 200
+  overlap_tokens: 30
+
+split:
+  by: service            # never random — see docs/ARCHITECTURE.md §7
+  val_fraction: 0.1
+  test_fraction: 0.1
+  seed: 42
+
+negatives:
+  target_fraction: 0.55  # share of examples with {"flags": []}
+
+hf_dataset_repo: null    # e.g. <your-hf-username>/fine-print-data (private)
