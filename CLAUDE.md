@@ -23,3 +23,6 @@ The author must be able to explain every part of this project, so:
 - `uv run python -m fineprint.data.fetch_lexglue`
 - `uv run python -m fineprint.data.fetch_tosdr {points|documents|services}` (slow, resumable)
 - `uv run python -m fineprint.data.stats`
+- Dataset pipeline, in order: `fineprint.data.stats` → `fineprint.data.clean` → `fineprint.data.taxonomy`
+  → `fineprint.data.build_dataset` (all fast, local; rerun after any fetch or config change)
+- `chunk.py` and `prompt.py` are shared by data, training and inference: change them deliberately (D25, D27).

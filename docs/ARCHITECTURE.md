@@ -51,12 +51,15 @@ between them (JSONL datasets, model files, results JSON). Any layer can be re-ru
 
 ```json
 {"flags": [
-  {"case": "shares_data_with_third_parties",
+  {"category": "third_party_sharing",
    "severity": "bad",
-   "explanation": "They can share your personal data with advertisers.",
+   "explanation": "This service shares your personal data with third parties that are not essential to its operation",
    "quote": "share your personal information with third-party advertising partners"}
 ]}
 ```
+
+`category` is one of 24 (D24), `severity` comes from the specific ToS;DR case, and `explanation` is
+that case's curator-written title. The prompt and schema live in `src/fineprint/prompt.py` (D27).
 
 Harmless chunk → `{"flags": []}`. Most real chunks are harmless, so learning to say *nothing*
 is as important as learning to flag.
@@ -92,18 +95,18 @@ HTTP 429 on the first request, so the fetcher **must** be polite.
 
 | Stage | Module | Output | Notes |
 |---|---|---|---|
-| Fetch | `fetch_tosdr.py` | `data/raw/tosdr/*.json` | Disk cache = resumable; 1 req / N s; exponential backoff on 429 |
-| Fetch | `fetch_lexglue.py` | `data/raw/lexglue/` | One-shot download |
-| Clean | `clean.py` | `data/interim/points.parquet` | Keep approved points with quote text; normalise whitespace; drop duplicates |
-| Taxonomy | `configs/taxonomy.yaml` | case → category map | Collapse hundreds of ToS;DR cases into ~20–25 categories + `other` |
-| Negatives | `negatives.py` | harmless chunks | LexGLUE "fair" sentences + document text not covered by any point |
-| Split | `split.py` | train/val/test | **By service (company), never random** — see §7 |
-| Format | `format.py` | `data/processed/*.jsonl` | Chat-template messages: system · user(chunk) · assistant(JSON) |
+| Fetch | `fetch_tosdr.py points / documents / services` | `data/raw/tosdr/` | Disk cache = resumable; 2 s/request; exponential backoff on 429 (D08) |
+| Fetch | `fetch_lexglue.py` | `data/raw/lexglue/` | Evaluation only, never training (D28) |
+| Inspect | `stats.py` | `data/interim/points.parquet`, `results/data_stats.json` | One row per point, all statuses |
+| Clean | `clean.py` | `data/interim/points_clean.parquet` | Approved only, HTML stripped, English, 20–1,500 chars, deduped (D07, D30) |
+| Taxonomy | `taxonomy.py` + `configs/taxonomy.yaml` | `data/interim/points_labeled.parquet` | 222 cases → 24 categories; explanation = case title (D24) |
+| Build | `build_dataset.py` (uses `chunk.py`, `prompt.py`) | `data/processed/{train,val,test}.jsonl` | Document windows around quotes, hard + easy negatives, service hash split, chat messages (D25, D26, D29) |
 
 ### Processed example (one JSONL line)
 
 ```json
-{"id": "tosdr-pt-12345", "service": "example.com", "source": "tosdr",
+{"id": "train-000123", "kind": "positive | hard_negative | negative | bare",
+ "group": "service:182", "doc_id": 452,
  "messages": [
    {"role": "system", "content": "<task instructions>"},
    {"role": "user", "content": "<chunk text>"},

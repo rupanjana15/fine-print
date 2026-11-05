@@ -109,6 +109,28 @@ When information from the test set sneaks into training, scores look better than
 risk is boilerplate: the same company reuses near-identical clauses across documents. A **random**
 split would put twins in train and test. A **group split by service** prevents it. *Decision:* D14.
 
+### Label noise
+Some training labels are wrong. Here the main source is **missing labels**: volunteers don't annotate
+every sentence, so a risky clause can end up in a "harmless" chunk. Noise can't be fully removed, so you
+**reduce** it (negatives only from fully reviewed services, D26), **measure** it (manually review a sample),
+and **account for it** when reading metrics (precision on noisy test data is a lower bound).
+
+### Chunks, windows and overlap
+A long document is cut into **chunks** the model can read (~200 tokens), on sentence boundaries.
+Consecutive chunks **overlap** a little (~30 tokens) so a clause on a border appears whole in at least one.
+For training positives we build a **window** around a known quote instead, so the labelled clause is
+never cut. *Repo:* `src/fineprint/chunk.py` (shared with inference). *Decision:* D25.
+
+### Train/serve skew
+When the data a model sees in production differs from its training data (different prompt, different
+chunking, different cleaning), performance drops silently. Prevented by sharing the same code for both:
+`chunk.py`, `prompt.py`, `clean_text`. *Decisions:* D25, D27.
+
+### Group split with a stable hash
+Instead of shuffling, each company name is hashed (MD5) to a number that decides train/val/test. The same
+company always gets the same split, even when the dataset is rebuilt with more data, so results stay
+comparable over time. *Decision:* D29.
+
 ### Rate limiting, caching, backoff
 APIs limit requests per time window (HTTP **429** = "too many requests").
 - **Throttling:** wait between requests (2 s).

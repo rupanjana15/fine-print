@@ -1,0 +1,226 @@
+{
+  "input_points": 31520,
+  "removed_dropped_cases": 48,
+  "removed_rare_cases": {
+    "cases": 24,
+    "points": 110
+  },
+  "removed_unmapped_topic": 0,
+  "output_points": 31362,
+  "output_cases": 222,
+  "categories": {
+    "tracking_cookies": {
+      "points": 3030,
+      "cases": 17,
+      "severity": {
+        "bad": 1819,
+        "neutral": 923,
+        "good": 265,
+        "blocker": 23
+      }
+    },
+    "personal_data_use": {
+      "points": 2479,
+      "cases": 22,
+      "severity": {
+        "bad": 1009,
+        "good": 911,
+        "neutral": 388,
+        "blocker": 171
+      }
+    },
+    "acceptable_use": {
+      "points": 2279,
+      "cases": 16,
+      "severity": {
+        "neutral": 1954,
+        "bad": 187,
+        "good": 138
+      }
+    },
+    "account_termination_and_moderation": {
+      "points": 2128,
+      "cases": 12,
+      "severity": {
+        "neutral": 1093,
+        "bad": 443,
+        "blocker": 337,
+        "good": 255
+      }
+    },
+    "transparency": {
+      "points": 2103,
+      "cases": 19,
+      "severity": {
+        "good": 1277,
+        "neutral": 826
+      }
+    },
+    "warranty_and_availability": {
+      "points": 1940,
+      "cases": 10,
+      "severity": {
+        "neutral": 1707,
+        "bad": 207,
+        "good": 26
+      }
+    },
+    "changes_to_terms": {
+      "points": 1827,
+      "cases": 11,
+      "severity": {
+        "bad": 805,
+        "neutral": 740,
+        "good": 282
+      }
+    },
+    "liability_and_indemnity": {
+      "points": 1656,
+      "cases": 9,
+      "severity": {
+        "neutral": 1299,
+        "bad": 357
+      }
+    },
+    "third_party_sharing": {
+      "points": 1574,
+      "cases": 10,
+      "severity": {
+        "neutral": 707,
+        "bad": 515,
+        "good": 352
+      }
+    },
+    "jurisdiction_and_compliance": {
+      "points": 1347,
+      "cases": 7,
+      "severity": {
+        "good": 619,
+        "neutral": 516,
+        "bad": 212
+      }
+    },
+    "user_rights_and_control": {
+      "points": 1246,
+      "cases": 9,
+      "severity": {
+        "good": 1219,
+        "bad": 27
+      }
+    },
+    "data_retention_and_deletion": {
+      "points": 1210,
+      "cases": 12,
+      "severity": {
+        "good": 837,
+        "bad": 237,
+        "neutral": 96,
+        "blocker": 40
+      }
+    },
+    "security": {
+      "points": 1013,
+      "cases": 6,
+      "severity": {
+        "neutral": 690,
+        "good": 323
+      }
+    },
+    "eligibility": {
+      "points": 992,
+      "cases": 3,
+      "severity": {
+        "neutral": 992
+      }
+    },
+    "content_license": {
+      "points": 959,
+      "cases": 9,
+      "severity": {
+        "neutral": 386,
+        "good": 318,
+        "bad": 255
+      }
+    },
+    "advertising": {
+      "points": 807,
+      "cases": 7,
+      "severity": {
+        "bad": 601,
+        "good": 160,
+        "blocker": 46
+      }
+    },
+    "data_collection": {
+      "points": 759,
+      "cases": 5,
+      "severity": {
+        "neutral": 521,
+        "bad": 183,
+        "good": 37,
+        "blocker": 18
+      }
+    },
+    "general_legal_terms": {
+      "points": 756,
+      "cases": 4,
+      "severity": {
+        "neutral": 737,
+        "good": 19
+      }
+    },
+    "content_ownership": {
+      "points": 705,
+      "cases": 7,
+      "severity": {
+        "good": 340,
+        "bad": 202,
+        "blocker": 112,
+        "neutral": 51
+      }
+    },
+    "identity_and_accounts": {
+      "points": 637,
+      "cases": 9,
+      "severity": {
+        "bad": 434,
+        "neutral": 140,
+        "good": 63
+      }
+    },
+    "dispute_resolution": {
+      "points": 609,
+      "cases": 4,
+      "severity": {
+        "bad": 532,
+        "good": 77
+      }
+    },
+    "government_requests": {
+      "points": 482,
+      "cases": 6,
+      "severity": {
+        "bad": 246,
+        "good": 183,
+        "neutral": 53
+      }
+    },
+    "payments_and_refunds": {
+      "points": 446,
+      "cases": 6,
+      "severity": {
+        "neutral": 333,
+        "good": 62,
+        "bad": 51
+      }
+    },
+    "business_transfer": {
+      "points": 378,
+      "cases": 2,
+      "severity": {
+        "bad": 333,
+        "good": 45
+      }
+    }
+  }
+}

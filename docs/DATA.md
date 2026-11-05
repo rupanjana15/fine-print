@@ -14,7 +14,7 @@ fields. What actually works:
 | `/point/v1/?id=X` | One point | ✅ | Debugging only |
 | `/service/v3/?page=N` | Service list, 500/page, ~10.3k services | — | Names, URLs, ratings |
 | `/service/v3/?id=X` | Service + its approved points + document list | ❌ no quotes | Document → service mapping (v0.2, if needed) |
-| `/document/v2/?id=X` | Full document text + `service_id` | — | Negatives from uncovered text (v0.2) |
+| `/document/v1/?id=X` | Full document text (HTML) + `service_id`, wrapped in `parameters` | — | Service for the split + negatives. (`/document/v2` in the spec returns 404 Route Not Found) |
 
 Quirks:
 - **Rate limit:** headers say `X-RateLimit-Limit: 5` per 5 s, but short bursts still return

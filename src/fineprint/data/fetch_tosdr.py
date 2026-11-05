@@ -144,7 +144,9 @@ def fetch_documents(client: RateLimitedClient, points_dir: Path, out: Path) -> N
     ids = approved_document_ids(points_dir)
     print(f"{len(ids):,} documents referenced by approved points")
     for i, doc_id in enumerate(ids, 1):
-        cached_get(client, out / f"doc_{doc_id}.json", "/document/v2/", {"id": doc_id})
+        # /document/v2 returns "404 Route Not Found" despite the spec; v1 works and wraps the
+        # document (text, service_id, ...) in a "parameters" key.
+        cached_get(client, out / f"doc_{doc_id}.json", "/document/v1/", {"id": doc_id})
         if i % 50 == 0:
             print(f"documents {i:,}/{len(ids):,}")
 

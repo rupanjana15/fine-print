@@ -54,6 +54,7 @@ def load_points() -> pd.DataFrame:
                 "quote_text": p.get("quote_text"),
                 "quote_start": p.get("quote_start"),
                 "quote_end": p.get("quote_end"),
+                "ml_score": p.get("ml_score"),
                 "document_id": p.get("document_id"),
                 "source": p.get("source"),
                 "case_id": case.get("id"),

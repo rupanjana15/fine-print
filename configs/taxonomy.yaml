@@ -1,12 +1,100 @@
-# Maps ToS;DR case IDs to our ~20-25 categories. Filled in during v0.2,
-# after the v0.1 data spike shows which cases have enough examples.
+# Maps ToS;DR cases to our 23 categories (decision D24).
 #
-# Format:
-# categories:
-#   shares_data_with_third_parties:
-#     description: "They can share or sell your personal data."
-#     tosdr_case_ids: [ ... ]
-#     lexglue_labels: []
-categories: {}
+# Rule: a case's category = case_overrides[case_id] if present, else topics[topic_id].
+# Severity always comes from the individual case (good / neutral / bad / blocker), and the
+# explanation the model writes is the case title. So "category" is *what it's about*, the case says
+# *what exactly*, and severity says *how much it matters*.
+#
+# Topic ids come from ToS;DR (the API returns ids only; names below are ours, from reading the cases).
 
-fallback_category: other
+version: "tax-v1"
+
+min_examples_per_case: 10        # rarer cases are dropped: too few examples to learn their wording
+drop_cases: [278]                # [DEPRECATED] in ToS;DR itself
+
+categories:
+  tracking_cookies:            "Cookies, pixels, fingerprinting and other tracking"
+  identity_and_accounts:       "Real-name rules, identity checks, combined profiles"
+  content_ownership:           "Who owns what you post or suggest"
+  government_requests:         "Handing your data to governments or law enforcement"
+  content_license:             "Rights you grant the service over your content"
+  liability_and_indemnity:     "Limits on the service's liability; you covering their legal costs"
+  eligibility:                 "Who may use the service (age, personal/commercial use)"
+  acceptable_use:              "Rules on what you may and may not do or post"
+  general_legal_terms:         "Standard legal boilerplate (severability, no-waiver, other terms apply)"
+  warranty_and_availability:   "'As is' service, no guarantees of uptime, accuracy or quality"
+  user_rights_and_control:     "Your rights to access, export, correct, delete or opt out"
+  transparency:                "How clearly the service explains itself and its policies"
+  changes_to_terms:            "How and whether the terms can change, and how you're told"
+  business_transfer:           "What happens to your data in a merger, sale or bankruptcy"
+  personal_data_use:           "How your personal data is used, sold, stored or accessed"
+  dispute_resolution:          "Arbitration and class-action waivers"
+  jurisdiction_and_compliance: "Governing law, courts, GDPR/CCPA claims, country restrictions"
+  data_retention_and_deletion: "Leaving the service, deleting data, logs and retention periods"
+  account_termination_and_moderation: "Suspension, termination, content removal or editing"
+  third_party_sharing:         "Sharing data with or collecting it from third parties"
+  security:                    "Account security duties, security practices, breach notices"
+  payments_and_refunds:        "Charges, refunds and price changes"
+  data_collection:             "Collection of IP, location, biometric, voice or browsing data"
+  advertising:                 "Marketing and targeted advertising"
+
+topics:
+  25: tracking_cookies
+  26: identity_and_accounts
+  27: content_ownership
+  28: government_requests
+  30: content_license
+  31: acceptable_use                 # mixed topic, split with case_overrides below
+  32: warranty_and_availability
+  34: user_rights_and_control
+  35: changes_to_terms               # tiny topic: user involvement in changes
+  36: transparency
+  38: changes_to_terms               # tiny topic: date of last update
+  39: business_transfer
+  40: data_retention_and_deletion    # logs
+  41: personal_data_use
+  42: dispute_resolution
+  44: jurisdiction_and_compliance
+  45: data_retention_and_deletion
+  46: changes_to_terms
+  47: account_termination_and_moderation
+  48: third_party_sharing
+  50: security
+  52: acceptable_use
+  54: payments_and_refunds
+  56: data_collection
+  57: advertising
+
+case_overrides:
+  # topic 31 → liability & indemnity
+  293: liability_and_indemnity   # assumes no liability for damages
+  146: liability_and_indemnity   # defend, indemnify, hold harmless
+  149: liability_and_indemnity   # liability limited to fees paid
+  279: liability_and_indemnity   # no liability for linked websites
+  147: liability_and_indemnity   # indemnity survives termination
+  145: liability_and_indemnity   # indemnify and hold harmless
+  151: liability_and_indemnity   # reduced time to take legal action
+  154: liability_and_indemnity   # not responsible for disputes between users
+  276: liability_and_indemnity   # can intervene in user disputes
+  # topic 31 → eligibility
+  152: eligibility               # minimum age
+  486: eligibility               # minors need guardian authorisation
+  143: eligibility               # individual, non-commercial use only
+  495: eligibility               # commercial use only
+  # topic 31 → general legal boilerplate
+  294: general_legal_terms       # severability
+  295: general_legal_terms       # no waiver
+  144: general_legal_terms       # other rules may apply
+  332: general_legal_terms       # symbolic, non-binding statement
+
+# For external evaluation on LexGLUE unfair_tos (decision D09). Approximate: LexGLUE labels are
+# "unfair" clause types, our categories are topics.
+lexglue_labels:
+  "Limitation of liability": liability_and_indemnity
+  "Unilateral termination": account_termination_and_moderation
+  "Unilateral change": changes_to_terms
+  "Content removal": account_termination_and_moderation
+  "Contract by using": changes_to_terms     # closest: case 403 "consent assumed from use"
+  "Choice of law": jurisdiction_and_compliance
+  "Jurisdiction": jurisdiction_and_compliance
+  "Arbitration": dispute_resolution

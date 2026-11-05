@@ -31,6 +31,13 @@ New decisions are appended with the next number; superseded ones are marked, nev
 | [D21](#d21--versioning-git-tags-for-code-hf-hub-for-data-and-models) | Versioning: git tags + HF Hub | ✅ |
 | [D22](#d22--python-tooling-uv-python-312-config-in-yaml) | Tooling: uv, Python 3.12, YAML configs | ✅ |
 | [D23](#d23--how-claude-code-is-used) | How Claude Code is used | ✅ |
+| [D24](#d24--taxonomy-tosdr-topics--24-categories-severity-per-case) | Taxonomy: ToS;DR topics → 24 categories, severity per case | ✅ |
+| [D25](#d25--training-inputs-are-document-windows-not-bare-quotes) | Training inputs are document windows, not bare quotes | ✅ |
+| [D26](#d26--where-negatives-come-from-and-how-much-to-trust-them) | Where negatives come from, and how much to trust them | ✅ |
+| [D27](#d27--one-short-shared-prompt-and-a-fixed-output-schema) | One short shared prompt and a fixed output schema | ✅ |
+| [D28](#d28--lexglue-is-never-used-for-training) | LexGLUE is never used for training | ✅ (amends D09, D13) |
+| [D29](#d29--split-by-a-stable-hash-of-the-service) | Split by a stable hash of the service | ✅ (implements D14) |
+| [D30](#d30--cleaning-rules-and-language-detection) | Cleaning rules and language detection | ✅ (implements D15) |
 
 ---
 
@@ -217,8 +224,8 @@ fetcher that caches everything, so rate limits and interruptions never lose work
 
 ## D09 — External test set: LexGLUE unfair_tos
 
-**Decision.** Evaluate on LexGLUE `unfair_tos` (CLAUDETTE) in addition to the ToS;DR test split; also
-use its "fair" sentences as clean negatives.
+**Decision.** Evaluate on LexGLUE `unfair_tos` (CLAUDETTE) in addition to the ToS;DR test split.
+~~Also use its "fair" sentences as clean negatives.~~ *Amended by D28: LexGLUE is not used for training at all.*
 
 **Why.** A different dataset, annotated by different people with a different scheme, shows whether
 the model **generalises** or just memorised ToS;DR's style. Its 8 labels map onto some of our categories.
@@ -282,8 +289,9 @@ enough examples to learn from."*
 
 ## D13 — About half the training examples are negatives
 
-**Decision.** ~55% of examples have `{"flags": []}` (`configs/data.yaml`). Sources: LexGLUE fair
-sentences, document text not covered by any point, DocBot-declined clauses.
+**Decision.** ~55% of examples have `{"flags": []}` (`configs/data.yaml`). Sources: document text not
+covered by any point, and DocBot-declined clauses. *(LexGLUE fair sentences were dropped as a source
+by D28; how negatives are chosen and filtered is detailed in D26.)*
 
 **Why.** Real documents are mostly harmless boilerplate. A model trained only on positives learns to
 flag *everything*. The exact ratio is tuned in v0.5 against precision/recall.
@@ -438,3 +446,162 @@ better anyway. All design decisions are documented here so the author can explai
 
 **Explain it:** *"I used an AI coding assistant for engineering speed, but the data is human-labelled and
 every design decision is mine to explain."*
+
+---
+
+## D24 — Taxonomy: ToS;DR topics → 24 categories, severity per case
+
+**Context.** 247 usable cases (after cleaning). ToS;DR already groups cases into ~27 numbered
+*topics* (cookies, third parties, arbitration…). Topic 31 is a grab bag (3.7k examples mixing
+liability, age limits, boilerplate); topics 35, 38 and 40 are tiny.
+
+**Decision.** (`configs/taxonomy.yaml`, `src/fineprint/data/taxonomy.py`)
+- Category = ToS;DR topic by default, with **case overrides** that split topic 31 into
+  `liability_and_indemnity`, `eligibility`, `general_legal_terms`, `acceptable_use`;
+  tiny topics merged (35, 38 → `changes_to_terms`; 40 logs → `data_retention_and_deletion`).
+- **Severity stays per case**, not per category: "notified 30 days before changes" (good) and
+  "changed without notice" (bad) are both `changes_to_terms`.
+- **Explanation = the case title**, a plain-English sentence written by ToS;DR curators.
+- Drop cases with <10 examples (24 cases, 110 points) and the deprecated case 278.
+- Result: **31,362 points, 222 cases, 24 categories**, smallest 378 (business_transfer),
+  largest 3,030 (tracking_cookies). See `results/taxonomy_report.json`.
+
+**Alternatives considered.**
+
+| Option | Why not |
+|---|---|
+| My own categories from scratch | Harder to defend; ToS;DR's topics are curated by domain experts |
+| Topics exactly as-is | Topic 31 would be a meaningless "misc" class; tiny topics too small to learn |
+| Category = case (222 classes) | Many cases have <50 examples; macro-F1 over 222 classes would be noise. The case is still learned through the explanation text |
+| Severity per category | Loses the most useful signal: same topic, opposite meaning |
+| Keep neutral boilerplate out (e.g. severability) | Those clauses exist in every document; if unlabeled they'd become false "negatives". The UI can hide neutral flags instead |
+
+**Explain it:** *"I built on the expert topics ToS;DR already uses, split the one catch-all topic,
+and kept severity per clause, so a category says what it's about and severity says whether it's good or bad."*
+
+---
+
+## D25 — Training inputs are document windows, not bare quotes
+
+**Context.** At prediction time the model reads ~200-token chunks of a whole document. A ToS;DR quote is
+only the exact clause.
+
+**Decision.** For every approved quote, find it in the cleaned document text and take a ~200-token
+window of whole sentences around it (`window_around` in `src/fineprint/chunk.py`). The quote's position in
+the window is randomised. Every approved quote fully inside the window becomes a flag. If the quote isn't
+in the current document (the document changed since annotation), the bare quote is used instead.
+The **same chunking code** is used by inference later.
+
+**Measured.** On the first 186 documents, 99% of quotes were found in the document text (2,736 vs 30).
+
+**Alternatives considered.**
+
+| Option | Why not |
+|---|---|
+| Bare quotes as inputs | Train/test mismatch: the model would only see perfectly cut clauses, never surrounding noise |
+| Fixed chunks, label whatever falls inside | Quotes get cut at chunk borders and lose their label |
+| Quote always centred | The model could learn "flag the middle sentence" as a shortcut |
+| Use `quote_start`/`quote_end` offsets | They point into the raw HTML; string search on cleaned text is simpler and robust |
+
+**Explain it:** *"I train on the same kind of chunks the model sees in production, real document windows
+with the clause somewhere inside, so there's no gap between training and use."*
+
+---
+
+## D26 — Where negatives come from, and how much to trust them
+
+**Context.** "Not annotated" ≠ "harmless": volunteers don't annotate every sentence. A sample review
+in v0.2 found an "easy negative" that was arguably third-party sharing, and a DocBot-declined
+"hard negative" that clearly *was* a liability clause (declined because an approved point already covered it).
+
+**Decision.** (`src/fineprint/data/build_dataset.py`)
+- **Easy negatives:** chunks only from services ToS;DR marks **comprehensively reviewed** (494 of 10,301),
+  excluding any chunk that overlaps an approved quote **or a pending DocBot suggestion**.
+- **Hard negatives:** windows around DocBot suggestions a human declined, **only if the document has no
+  approved point for that case** (2,737 of 13,442 declined suggestions excluded by this rule).
+- At most half of negatives are hard; overall ~55% negatives (D13).
+- Remaining noise is **accepted, measured and documented**: a manual review of sampled negatives (v0.2)
+  and a note that test-set precision is a *lower bound* (some "false positives" are unannotated true flags).
+
+**Alternatives considered.**
+
+| Option | Why not |
+|---|---|
+| Negatives from any document | Far more unannotated risky clauses |
+| Filter negatives with risk keywords ("share", "liability"…) | Model would learn "keyword ⇒ flag", a shortcut that breaks on harmless mentions |
+| No hard negatives | Loses the examples that teach fine distinctions |
+| All declined suggestions as hard negatives | Many are duplicates of approved points → wrong labels |
+
+**Explain it:** *"Unlabelled text isn't automatically harmless, so I took negatives only from fully reviewed
+services, excluded anything near an unreviewed suggestion, and filtered out rejections that were really duplicates."*
+
+---
+
+## D27 — One short shared prompt and a fixed output schema
+
+**Decision.** `src/fineprint/prompt.py` defines the system prompt (~220 tokens: the task, the 24 category
+names, 4 severities, JSON rules) and the canonical answer format
+`{"flags":[{"category","severity","explanation","quote"}]}` with fixed key order. Dataset building,
+training and inference all import it.
+
+**Why.**
+- **Short:** the prompt is processed for every chunk. On a free CPU, prompt length is a big part of latency.
+  Category *meanings* are learned from 30k examples, not from descriptions in the prompt.
+- **Shared:** a mismatch between the training prompt and the inference prompt silently degrades a fine-tuned model.
+- **Fixed key order:** consistent targets are easier to learn and to parse.
+- `category` replaced the earlier `case` field: cases are too many to predict as labels (D24).
+
+**Alternatives.** Long prompt with category descriptions (slower, little gain after fine-tuning);
+no system prompt (works after fine-tuning, but the base-model baselines B1/B2 need the instructions,
+and keeping the same prompt makes the comparison fair).
+
+**Explain it:** *"One prompt file is shared by data building, training and inference, so they can never
+drift apart, and it's short because it's paid for on every chunk."*
+
+---
+
+## D28 — LexGLUE is never used for training
+
+**Context.** D09/D13 planned to use LexGLUE's "fair" sentences as negatives.
+
+**Decision.** LexGLUE is used **only** for evaluation.
+
+**Why.** Training on LexGLUE's train split, even just its negatives, means the model has seen that
+dataset's annotators, documents and sentence style, so the "external" test would no longer be fully
+external. ToS;DR documents already provide plenty of negatives.
+
+**Explain it:** *"I kept the external test set completely unseen, so it measures generalisation honestly."*
+
+---
+
+## D29 — Split by a stable hash of the service
+
+**Decision.** Group key = `service:<service_id>` (from the document); fallback `domain:<source domain>`,
+then `doc:<id>`. Split = MD5 hash of the group key → bucket: 10% test, 10% val, 80% train.
+
+**Why a hash, not a random shuffle:** a service always lands in the same split, even when the data is
+rebuilt with more documents. With a shuffle, adding data would move services between train and test,
+and old results would no longer be comparable.
+
+**Alternatives.** scikit-learn `GroupShuffleSplit` (correct grouping, but assignments change when the data
+changes); stratifying by category (hard with multi-label groups; the hash split is already close to proportional).
+
+**Explain it:** *"Hashing the company name decides its split, so a company never moves between train and test,
+even when I rebuild the dataset."*
+
+---
+
+## D30 — Cleaning rules and language detection
+
+**Decision.** (`src/fineprint/data/clean.py`)
+- Strip HTML tags (block tags → space), partial tags at quote edges, HTML entities; collapse whitespace.
+- Keep quotes of 20–1,500 characters (shorter: fragments; longer: whole sections, bigger than a chunk).
+- Language: `langdetect` (seeded for reproducibility); for text under 40 characters, where it's unreliable,
+  the stop-word heuristic.
+- Drop exact duplicates of (quote, case); keep the same quote under different cases as multiple flags.
+- Result: 301,107 → **31,520** clean points (`results/clean_report.json`).
+
+**Alternatives.** BeautifulSoup for HTML (heavier; quotes are fragments with broken tags, which regex handles
+fine); fastText language ID (needs a model download; langdetect is enough for a yes/no English check).
+
+**Explain it:** *"Cleaning is a few explicit, tested rules, each with a reason and a count of what it removed."*

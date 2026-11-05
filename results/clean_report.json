@@ -1,0 +1,18 @@
+{
+  "input_points": 301107,
+  "removed_not_approved": 263498,
+  "removed_no_quote": 2003,
+  "removed_too_short": 420,
+  "removed_too_long": 83,
+  "removed_not_english": 2638,
+  "removed_duplicate_quote_case": 945,
+  "output_points": 31520,
+  "output_cases": 247,
+  "quotes_shared_by_several_cases": 800,
+  "severity": {
+    "neutral": 14227,
+    "bad": 8662,
+    "good": 7869,
+    "blocker": 762
+  }
+}
