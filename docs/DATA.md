@@ -29,9 +29,34 @@ Quirks:
 - There is no public case list (edit.tosdr.org/cases needs a login), so case ids are scanned.
   Real ids start around 120.
 
+### Full fetch results (v0.1, 2026-11-05)
+
+Case ids 1–822 scanned (stopped after 300 empty ids in a row; last real case was 522).
+
+| Count | Value |
+|---|---|
+| Points fetched | **301,107** across 257 cases |
+| Status | pending 239,135 · approved 37,609 · declined 24,262 · other ~100 |
+| Approved with a quote | 35,606 |
+| **Usable** (approved + quote + English) | **32,349** across 247 cases |
+| Severity of usable | neutral 14,608 · bad 8,831 · good 8,142 · **blocker 768 (2.4%)** |
+| Quote length (chars) | median 189 · 10th pct 73 · 90th pct 487 · max 4,388 |
+| Cases with ≥20 / 50 / 100 / 200 / 500 examples | 201 / 156 / 111 / 62 / 5 |
+| Distinct source domains / documents | 2,320 / 4,328 (42% of usable points have no source URL) |
+| Most examples from one domain | 77 (khanacademy.org): no single company dominates |
+
+What this means for v0.2:
+- **Plenty of data.** 32k positives is ~3× the early estimate, so the ~20–25 category plan (D12) is comfortable.
+  111 cases already have ≥100 examples.
+- **`blocker` is rare (2.4%).** The most important severity has the fewest examples. Options for v0.2:
+  oversample blockers, or evaluate severity with a confusion matrix and per-class recall so this stays visible.
+- **Many cases are near-duplicates in meaning** (e.g. 286 "provided as is", 287 "no warranty…",
+  288 "no guarantee of accuracy"), which can be merged naturally into categories.
+- **Good diversity:** the largest domain contributes only 77 examples, so the company split won't be lopsided.
+
 ### Point statuses: who wrote the label?
 
-From the first ~103k points (cases up to 200):
+Measured on the first ~103k points (cases up to 200). The full fetch shows the same pattern (79% pending).
 
 | Status | Count | `ml_score` set? | What it is | Use |
 |---|---|---|---|---|

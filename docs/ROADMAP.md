@@ -11,12 +11,14 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] Repo, folder layout, `.gitignore`, `uv` project
 - [x] `docs/ARCHITECTURE.md`, this roadmap
 
-## v0.1 — Data spike (Week 1, days 1–2) · MVP
-- [ ] `fetch_lexglue.py` — download + print label stats
-- [ ] `fetch_tosdr.py` — throttled, cached, resumable fetcher
-- [ ] Notebook/script: inspect 100 raw points by hand
-- [ ] Stats: #points, #with quotes, case distribution, rating distribution, #services
-- [ ] Check ToS;DR data licence / attribution terms
+## v0.1 — Data spike (Week 1, days 1–2) · MVP ✅
+- [x] `fetch_lexglue.py` — download + print label stats
+- [x] `fetch_tosdr.py` — throttled, cached, resumable fetcher
+- [x] Notebook/script: inspect 100 raw points by hand
+- [x] Stats: #points, #with quotes, case distribution, rating distribution, #services
+- [x] Check ToS;DR data licence / attribution terms
+- [x] Decision log (`docs/DECISIONS.md`) and concepts guide (`docs/CONCEPTS.md`)
+- [ ] Documents fetch (`fetch_tosdr documents`) — running; needed by v0.2 split + negatives
 
 ## v0.2 — Dataset v1 (Week 1, days 3–7) · MVP
 - [ ] `configs/taxonomy.yaml` — cases → ~20–25 categories + `other`

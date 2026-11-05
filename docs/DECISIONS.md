@@ -265,8 +265,9 @@ filter: if the quote isn't in the text, the flag is dropped."*
 
 ## D12 — Merge cases into ~20–25 categories
 
-**Context.** ToS;DR has hundreds of cases; the long tail has very few approved examples
-(partial data: 76 cases, only 39 with ≥100 examples).
+**Context.** ToS;DR has hundreds of cases; the long tail has very few approved examples.
+Full v0.1 data: 247 usable cases, but only 111 with ≥100 examples and 46 with fewer than 20.
+Many cases overlap in meaning (e.g. "provided as is" / "no warranty" / "no guarantee of accuracy").
 
 **Decision.** Map cases to ~20–25 categories (+ `other`) in `configs/taxonomy.yaml`, choosing by
 example count and meaning (e.g. several "data shared with third parties" cases → one category).
