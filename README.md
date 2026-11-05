@@ -17,7 +17,8 @@ ToS text → chunks → fine-tuned 3B model → {"flags":[{case, severity, expla
 - **Model:** Qwen2.5-3B-Instruct, QLoRA fine-tuned on a free Kaggle GPU
 - **Serving:** 4-bit GGUF via llama.cpp — runs on a laptop and on a free Hugging Face Space
 
-Full design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+Full design: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · Why each choice: [docs/DECISIONS.md](docs/DECISIONS.md) ·
+ML concepts explained: [docs/CONCEPTS.md](docs/CONCEPTS.md) · All docs: [docs/README.md](docs/README.md)
 
 ## Repo layout
 

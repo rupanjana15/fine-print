@@ -196,6 +196,8 @@ flowchart LR
 
 ## 7. Key design decisions
 
+Summary only. Full reasoning and alternatives for every decision are in [DECISIONS.md](DECISIONS.md).
+
 | Decision | Alternative rejected | Reason |
 |---|---|---|
 | Split by **service** | Random split | Companies reuse boilerplate; random split leaks near-duplicates into test and inflates scores |
