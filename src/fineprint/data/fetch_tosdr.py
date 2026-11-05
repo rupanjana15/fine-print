@@ -12,6 +12,7 @@ Notes on the API (checked 2026-11-04; the published OpenAPI spec is incomplete):
 
 Usage:
   uv run python -m fineprint.data.fetch_tosdr points     # all points, by case (main data)
+  uv run python -m fineprint.data.fetch_tosdr documents  # full text + service_id (run after points)
   uv run python -m fineprint.data.fetch_tosdr services   # service list (names, urls, ratings)
   uv run python -m fineprint.data.fetch_tosdr all
 """
@@ -124,9 +125,33 @@ def fetch_services(client: RateLimitedClient, out: Path) -> None:
     print(f"Service list complete: {first['page']['total']:,} services")
 
 
+def approved_document_ids(points_dir: Path) -> list[int]:
+    """Document ids referenced by human-approved points in the points cache."""
+    ids = set()
+    for f in points_dir.glob("case_*_page_*.json"):
+        for p in json.loads(f.read_text()).get("points") or []:
+            if p.get("status") == "approved" and p.get("document_id"):
+                ids.add(p["document_id"])
+    return sorted(ids)
+
+
+def fetch_documents(client: RateLimitedClient, points_dir: Path, out: Path) -> None:
+    """Fetch full text + service_id for every document behind an approved point.
+
+    Needed because ~40% of points have no source URL: service_id is what lets us split by company,
+    and the full text is where harmless (negative) chunks come from.
+    """
+    ids = approved_document_ids(points_dir)
+    print(f"{len(ids):,} documents referenced by approved points")
+    for i, doc_id in enumerate(ids, 1):
+        cached_get(client, out / f"doc_{doc_id}.json", "/document/v2/", {"id": doc_id})
+        if i % 50 == 0:
+            print(f"documents {i:,}/{len(ids):,}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("what", choices=["points", "services", "all"])
+    parser.add_argument("what", choices=["points", "documents", "services", "all"])
     args = parser.parse_args()
 
     cfg = load_config("data")["tosdr"]
@@ -137,6 +162,8 @@ def main() -> None:
         fetch_services(client, raw / "services")
     if args.what in ("points", "all"):
         fetch_points_by_case(client, cfg, raw / "points_by_case")
+    if args.what in ("documents", "all"):
+        fetch_documents(client, raw / "points_by_case", raw / "documents")
 
 
 if __name__ == "__main__":

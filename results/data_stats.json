@@ -1,0 +1,420 @@
+{
+  "points_total": 102794,
+  "cases_total": 79,
+  "status": {
+    "pending": 81995,
+    "approved": 12485,
+    "declined": 8277,
+    "changes-requested": 27,
+    "pending-not-found": 8,
+    "disputed": 1,
+    "draft": 1
+  },
+  "approved_with_quote": 11796,
+  "usable_english_approved_with_quote": 11104,
+  "usable_classification": {
+    "neutral": 4780,
+    "bad": 3367,
+    "good": 2800,
+    "blocker": 157
+  },
+  "usable_quote_chars": {
+    "count": 11104.0,
+    "mean": 272.0,
+    "std": 229.0,
+    "min": 23.0,
+    "10%": 78.0,
+    "50%": 204.0,
+    "90%": 546.0,
+    "max": 3035.0
+  },
+  "usable_cases": 76,
+  "cases_with_at_least": {
+    "20": 67,
+    "50": 50,
+    "100": 39,
+    "200": 23,
+    "500": 2
+  },
+  "usable_domains": 1605,
+  "usable_documents": 3020,
+  "top_domains": {
+    "help.instagram.com": 26,
+    "ifunny.co": 26,
+    "merriam-webster.com": 25,
+    "speedtest.net": 25,
+    "khanacademy.org": 24,
+    "apple.com": 24,
+    "malwarebytes.com": 22,
+    "likee.video": 22,
+    "support.guilded.gg": 22,
+    "strava.com": 21,
+    "hidemyass.com": 21,
+    "soundcloud.com": 21,
+    "artspace.com": 20,
+    "lbry.com": 20,
+    "help.doordash.com": 20
+  },
+  "top_cases": [
+    {
+      "case_id": 152,
+      "title": "This service is only available to users over a certain age",
+      "classification": "neutral",
+      "n": 622
+    },
+    {
+      "case_id": 163,
+      "title": "The court of law governing the terms is in location X",
+      "classification": "neutral",
+      "n": 516
+    },
+    {
+      "case_id": 195,
+      "title": "You can request access, correction and/or deletion of your data",
+      "classification": "good",
+      "n": 458
+    },
+    {
+      "case_id": 148,
+      "title": "You are responsible for maintaining the security of your account and for the activities on your account",
+      "classification": "neutral",
+      "n": 451
+    },
+    {
+      "case_id": 188,
+      "title": "This service gives your personal data to third parties involved in its operation",
+      "classification": "neutral",
+      "n": 355
+    },
+    {
+      "case_id": 121,
+      "title": " Terms may be changed any time at their discretion, without notice to you ",
+      "classification": "bad",
+      "n": 341
+    },
+    {
+      "case_id": 170,
+      "title": "You have the right to leave this service at any time",
+      "classification": "good",
+      "n": 340
+    },
+    {
+      "case_id": 117,
+      "title": "You waive your right to a class action",
+      "classification": "bad",
+      "n": 335
+    },
+    {
+      "case_id": 193,
+      "title": "This service claims that your personal data is not being sold",
+      "classification": "good",
+      "n": 334
+    },
+    {
+      "case_id": 146,
+      "title": "You agree to defend, indemnify, and hold the service harmless in case of a claim related to your use of the service",
+      "classification": "neutral",
+      "n": 333
+    },
+    {
+      "case_id": 126,
+      "title": "First-party cookies are used",
+      "classification": "neutral",
+      "n": 328
+    },
+    {
+      "case_id": 190,
+      "title": "Your personal data may be aggregated into statistics",
+      "classification": "neutral",
+      "n": 316
+    },
+    {
+      "case_id": 128,
+      "title": "Third-party cookies are used for advertising",
+      "classification": "bad",
+      "n": 310
+    },
+    {
+      "case_id": 201,
+      "title": "Your account can be deleted or permanently suspended without prior notice and without a reason",
+      "classification": "bad",
+      "n": 287
+    },
+    {
+      "case_id": 183,
+      "title": "You maintain ownership of your content",
+      "classification": "good",
+      "n": 282
+    },
+    {
+      "case_id": 187,
+      "title": "Your data may be processed and stored anywhere in the world",
+      "classification": "bad",
+      "n": 263
+    },
+    {
+      "case_id": 164,
+      "title": "Your personal data may be disclosed to comply with government requests without notice to you",
+      "classification": "bad",
+      "n": 250
+    },
+    {
+      "case_id": 149,
+      "title": "Any liability on behalf of the service is only limited to the fees you paid as a user",
+      "classification": "bad",
+      "n": 247
+    },
+    {
+      "case_id": 150,
+      "title": "Spidering, crawling, or accessing the site through any automated means is not allowed",
+      "classification": "neutral",
+      "n": 240
+    },
+    {
+      "case_id": 140,
+      "title": "You can retrieve an archive of your data",
+      "classification": "good",
+      "n": 236
+    },
+    {
+      "case_id": 143,
+      "title": "This service is only available for use individually and non-commercially",
+      "classification": "neutral",
+      "n": 228
+    },
+    {
+      "case_id": 138,
+      "title": "Instructions are provided on how to submit a copyright claim",
+      "classification": "neutral",
+      "n": 209
+    },
+    {
+      "case_id": 122,
+      "title": "The terms may be changed at any time, but you will receive notification of the changes",
+      "classification": "neutral",
+      "n": 205
+    },
+    {
+      "case_id": 139,
+      "title": "Your content can be distributed through any media known now or in the future",
+      "classification": "neutral",
+      "n": 177
+    },
+    {
+      "case_id": 124,
+      "title": "When the service wants to make a material change to its terms, you are notified at least 30 days in advance",
+      "classification": "good",
+      "n": 173
+    },
+    {
+      "case_id": 166,
+      "title": "This service shares your personal data with third parties that are not essential to its operation",
+      "classification": "bad",
+      "n": 169
+    },
+    {
+      "case_id": 182,
+      "title": "If you offer suggestions to the service, they become the owner of the ideas that you give them",
+      "classification": "bad",
+      "n": 168
+    },
+    {
+      "case_id": 147,
+      "title": "Defend, indemnify, hold harmless; survives termination",
+      "classification": "neutral",
+      "n": 136
+    },
+    {
+      "case_id": 196,
+      "title": "Your personal data is used for limited purposes",
+      "classification": "good",
+      "n": 135
+    },
+    {
+      "case_id": 127,
+      "title": "Third-party cookies are employed, but with opt out instructions",
+      "classification": "bad",
+      "n": 130
+    },
+    {
+      "case_id": 134,
+      "title": "Your content can be licensed to third parties",
+      "classification": "bad",
+      "n": 128
+    },
+    {
+      "case_id": 145,
+      "title": "You agree to indemnify and hold the service harmless in case of a claim related to your use of the service",
+      "classification": "neutral",
+      "n": 126
+    },
+    {
+      "case_id": 151,
+      "title": "You have a reduced time period to take legal action against the service",
+      "classification": "bad",
+      "n": 124
+    },
+    {
+      "case_id": 130,
+      "title": "A license is kept on user-generated content even after you close your account",
+      "classification": "bad",
+      "n": 119
+    },
+    {
+      "case_id": 118,
+      "title": "You waive your moral rights",
+      "classification": "blocker",
+      "n": 116
+    },
+    {
+      "case_id": 186,
+      "title": "This service assumes no liability for unauthorized access to your personal information",
+      "classification": "bad",
+      "n": 110
+    },
+    {
+      "case_id": 162,
+      "title": "No refunds will be issued",
+      "classification": "neutral",
+      "n": 108
+    },
+    {
+      "case_id": 175,
+      "title": "You can delete your content from this service",
+      "classification": "good",
+      "n": 107
+    },
+    {
+      "case_id": 144,
+      "title": "Other rules, terms, conditions and/or guidelines may apply",
+      "classification": "neutral",
+      "n": 101
+    },
+    {
+      "case_id": 157,
+      "title": "Certain features may be throttled",
+      "classification": "bad",
+      "n": 95
+    },
+    {
+      "case_id": 177,
+      "title": "Logs are deleted after a finite period of time",
+      "classification": "good",
+      "n": 93
+    },
+    {
+      "case_id": 129,
+      "title": "You may be tracked on other websites",
+      "classification": "bad",
+      "n": 85
+    },
+    {
+      "case_id": 185,
+      "title": "Your personal information is used for many different purposes",
+      "classification": "bad",
+      "n": 77
+    },
+    {
+      "case_id": 197,
+      "title": "Archives of their agreements are provided so that changes can be viewed over time",
+      "classification": "good",
+      "n": 70
+    },
+    {
+      "case_id": 155,
+      "title": "If you are the target of a copyright holder's take down notice, this service gives you the opportunity to defend yourself",
+      "classification": "good",
+      "n": 68
+    },
+    {
+      "case_id": 160,
+      "title": "No guarantee is given regarding quality",
+      "classification": "neutral",
+      "n": 62
+    },
+    {
+      "case_id": 189,
+      "title": "Your private content may be accessed by people working for the service",
+      "classification": "neutral",
+      "n": 56
+    },
+    {
+      "case_id": 199,
+      "title": "The terms for this service are easy to read",
+      "classification": "good",
+      "n": 53
+    },
+    {
+      "case_id": 165,
+      "title": "The service will try to inform and/or notify you regarding government inquiries that may involve your personal information",
+      "classification": "good",
+      "n": 51
+    },
+    {
+      "case_id": 180,
+      "title": "Your content can be used by the service provider for all their existing and future services",
+      "classification": "neutral",
+      "n": 51
+    },
+    {
+      "case_id": 178,
+      "title": "Logs are kept for an undefined period of time",
+      "classification": "bad",
+      "n": 47
+    },
+    {
+      "case_id": 154,
+      "title": "This service cannot be held responsible for disputes that you may have with other users",
+      "classification": "neutral",
+      "n": 46
+    },
+    {
+      "case_id": 156,
+      "title": "Per the service's terms, you may not express negative opinions about them",
+      "classification": "bad",
+      "n": 44
+    },
+    {
+      "case_id": 198,
+      "title": "The terms for this service are translated into different languages",
+      "classification": "neutral",
+      "n": 41
+    },
+    {
+      "case_id": 135,
+      "title": "Copyright license limited for the purposes of that same service but transferable and sublicenseable",
+      "classification": "good",
+      "n": 41
+    },
+    {
+      "case_id": 174,
+      "title": "This service holds onto content that you've deleted",
+      "classification": "blocker",
+      "n": 40
+    },
+    {
+      "case_id": 176,
+      "title": "Only necessary logs are kept by the service to ensure quality",
+      "classification": "good",
+      "n": 40
+    },
+    {
+      "case_id": 123,
+      "title": "When the service wants to change its terms, you are notified a week or more in advance",
+      "classification": "good",
+      "n": 39
+    },
+    {
+      "case_id": 192,
+      "title": "IP addresses of website visitors are not tracked",
+      "classification": "good",
+      "n": 39
+    },
+    {
+      "case_id": 119,
+      "title": "Your feedback is invited regarding changes to the terms",
+      "classification": "good",
+      "n": 39
+    }
+  ]
+}

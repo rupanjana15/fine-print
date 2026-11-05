@@ -23,8 +23,26 @@ Quirks:
 - A case with no points returns **400** `"Invalid page number, must be 1 <= page <= 0"`, not an empty list.
 - `status` includes `approved`, `declined`, and others — **only `approved` points are used**.
 - Quotes can contain HTML fragments (e.g. `</li>\n</`) and non-English text → cleaned/filtered in v0.2.
-- Points don't include `service_id`; the source URL's domain stands in for the service when splitting.
+- Points don't include `service_id`, and ~40% of approved points have no `source` URL either.
+  Every point does have a `document_id`, so the service comes from `/document/v2` (`fetch_tosdr documents`).
 - Severity comes from `case.classification`: `good` / `neutral` / `bad` / `blocker`.
+- There is no public case list (edit.tosdr.org/cases needs a login), so case ids are scanned.
+  Real ids start around 120.
+
+### Point statuses: who wrote the label?
+
+From the first ~103k points (cases up to 200):
+
+| Status | Count | `ml_score` set? | What it is | Use |
+|---|---|---|---|---|
+| `pending` | ~82k | yes | **"Created by Docbot version v3"**: unreviewed ML suggestions | ❌ never train on these (another model's guesses) |
+| `approved` | ~12.5k | mostly no | Human-written or human-approved | ✅ training labels |
+| `declined` (DocBot) | ~4.7k | yes | DocBot suggestions a human **rejected** | 💡 hard negatives for that case (v0.2) |
+| `declined` (human) | ~3.6k | no | Rejected human submissions (often duplicates) | ❌ ambiguous, skip |
+
+Sample review of 100 approved quotes: labels match the quotes well. Cleaning needed: HTML tags and
+entities (`<p>`, `<li>`, `&nbsp;`), occasional fragments that start mid-sentence, mixed case
+("WE MAY TERMINATE…"). Median quote is ~200 characters, which fits the ~200-token chunk design.
 
 ToS;DR's own **DocBot** (github.com/tosdr/DocBot, GPL-3.0) trains 123 per-case binary classifiers
 from an internal DB dump that isn't public. It is related work, not a data source.

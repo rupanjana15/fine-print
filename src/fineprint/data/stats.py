@@ -31,9 +31,12 @@ def looks_english(text: str, threshold: float = 0.15) -> bool:
 
 def source_domain(url: str | None) -> str | None:
     """'https://www.facebook.com/policy' -> 'facebook.com' (used as a stand-in for the service)."""
-    if not url:
+    if not isinstance(url, str) or not url.strip():
         return None
-    host = urlparse(url if "://" in url else f"https://{url}").hostname or ""
+    try:
+        host = urlparse(url if "://" in url else f"https://{url.strip()}").hostname or ""
+    except ValueError:  # malformed URLs, e.g. broken IPv6 brackets
+        return None
     return host.removeprefix("www.") or None
 
 
