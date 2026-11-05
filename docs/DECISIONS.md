@@ -508,7 +508,7 @@ with the clause somewhere inside, so there's no gap between training and use."*
 
 ---
 
-## D26 — Where negatives come from, and how much to trust them
+## D26 — Where negatives come from, and how much to trust them (amended by D31)
 
 **Context.** "Not annotated" ≠ "harmless": volunteers don't annotate every sentence. A sample review
 in v0.2 found an "easy negative" that was arguably third-party sharing, and a DocBot-declined
@@ -605,3 +605,37 @@ even when I rebuild the dataset."*
 fine); fastText language ID (needs a model download; langdetect is enough for a yes/no English check).
 
 **Explain it:** *"Cleaning is a few explicit, tested rules, each with a reason and a count of what it removed."*
+
+---
+
+## D31 — Filter negatives by similarity to known risky quotes
+
+**Context.** The manual review of the first full build (DATA.md, "Manual review of negatives") found that
+22% of easy negatives and 50% of hard negatives contained a clearly flag-worthy clause. ToS;DR records a
+case about once per service, so repeats of a known clause are left unlabelled even on comprehensively
+reviewed services. Training on them as `{"flags": []}` teaches the model to stay silent on real risks.
+
+**Decision.** Before balancing, compute for every negative the highest TF-IDF cosine similarity between any
+of its sentences and any approved quote (from every service). Drop it if ≥ `max_quote_similarity` (0.6,
+`configs/data.yaml`). TF-IDF: word 1–2-grams, English stop words removed, sublinear term frequency.
+
+**Result.** 4,335 easy and 1,313 hard negatives removed; clearly noisy easy negatives 22% → ~10% on the
+review sample; negative share of train 48.6% → 42.5%.
+
+**Alternatives.**
+| Option | Why not (now) |
+|---|---|
+| Accept the noise | 1 in 5 "harmless" examples would teach the model to miss risks |
+| Drop all hard negatives | They're the noisiest, but the filter keeps the cleaner ~60% that still teach fine distinctions |
+| Embedding similarity (sentence-transformers) | Better at paraphrases, but a model download and slower; TF-IDF already separates the sample well. Possible upgrade in v0.5 |
+| Use the baseline/fine-tuned model to find missed flags and relabel | Good later step (v0.5), but relabelling by a model risks training on its own mistakes; would need manual checks |
+| Lower threshold (e.g. 0.45) | Removes more noise but also many clean negatives (on the sample, about as many clean as noisy below 0.6) |
+
+**Consequences.** Fewer negatives than the 55% target (D26). The filter uses labels from all splits, which is
+fine: it only *removes* doubtful negatives, it never adds information to the inputs. Remaining noise makes
+measured precision on our test set a lower bound and pushes the model towards under-flagging; check recall
+per category in v0.5.
+
+**Explain it:** *"Volunteers label each issue once per company, so a repeated risky clause looks 'harmless'.
+I found that by reading samples, then dropped negatives that look too much like known risky clauses, which
+halved the noise."*

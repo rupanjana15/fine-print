@@ -18,13 +18,14 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] Stats: #points, #with quotes, case distribution, rating distribution, #services
 - [x] Check ToS;DR data licence / attribution terms
 - [x] Decision log (`docs/DECISIONS.md`) and concepts guide (`docs/CONCEPTS.md`)
-- [ ] Documents fetch (`fetch_tosdr documents`) — running; needed by v0.2 split + negatives
+- [x] Documents fetch (`fetch_tosdr documents`): 4,655 docs, finished during v0.2
 
-## v0.2 — Dataset v1 (Week 1, days 3–7) · MVP
-- [ ] `configs/taxonomy.yaml` — cases → ~20–25 categories + `other`
-- [ ] `clean.py`, `negatives.py`, `split.py` (by service), `format.py`
-- [ ] Unit tests: no service appears in two splits; every assistant message is valid JSON
-- [ ] Push processed splits to private HF dataset repo, record version
+## v0.2 — Dataset v1 (Week 1, days 3–7) · MVP ✅
+- [x] `configs/taxonomy.yaml`: 222 cases → 24 categories (rare cases dropped instead of `other`, D24)
+- [x] `clean.py`, `taxonomy.py`, `chunk.py`, `prompt.py`, `build_dataset.py` (negatives + hash split inside)
+- [x] Unit tests, plus checks on the built files: no group in two splits, valid JSON, quotes inside chunks
+- [x] Manual review of negatives → similarity filter (D31)
+- [ ] Push processed splits to private HF dataset repo (moved to v0.4: needs an HF account; only Kaggle needs it)
 
 ## v0.3 — Baselines + eval harness (Week 2) · MVP
 - [ ] `eval/` harness: one predictions format → all metrics → `results/<run>.json`
@@ -33,7 +34,9 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [ ] B3 DeBERTa-v3-small classifier (Kaggle)
 
 ## v0.4 — First fine-tune (Week 2–3) · MVP
+- [ ] Push processed splits to a private HF dataset repo (set `hf_dataset_repo`)
 - [ ] `notebooks/train_kaggle.ipynb` (QLoRA, Unsloth, completion-only loss)
+- [ ] Budget: ~18M tokens/epoch. Time a 200-step run first; if one epoch is over ~5 h, train on a subsample
 - [ ] Adapter + checkpoints pushed to HF Hub
 - [ ] Evaluate → first full results table
 

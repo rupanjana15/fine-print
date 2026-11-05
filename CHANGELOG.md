@@ -2,6 +2,15 @@
 
 One entry per tagged milestone (see `docs/ROADMAP.md`).
 
+## v0.2 — 2026-11-06 · Dataset v1
+- Documents fetch finished: 4,655 docs via `/document/v1` (`/document/v2` returns 404), none missing
+- `clean`: 301,107 points → 31,520 clean (D30); `taxonomy`: 222 cases → 24 categories (D24)
+- `chunk.py` + `prompt.py` shared with inference (D25, D27); LexGLUE is evaluation-only (D28)
+- `build_dataset`: windows around quotes, hard + easy negatives, service hash split (D26, D29)
+- Manual review found missing labels in negatives (22% easy, 50% hard) → TF-IDF similarity filter (D31)
+- Dataset v1: **38,143 / 4,773 / 4,024** train/val/test examples, ~42% negatives, ~18M train tokens/epoch
+- Tests: 22, including checks on the built files
+
 ## v0.1 — 2026-11-05 · Data spike
 - `fetch_lexglue`: LexGLUE unfair_tos downloaded (5,532 / 2,275 / 1,607; ~89% fair)
 - `fetch_tosdr`: polite cached fetcher; found the undocumented quote fields and the 400-for-empty-case quirk

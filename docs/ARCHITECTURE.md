@@ -86,7 +86,7 @@ example short, trainable, and lets us point at exact spans in the UI.
 | Source | What it gives | Role | Access |
 |---|---|---|---|
 | **ToS;DR** (`api.tosdr.org`) | *Points*: quoted clause + *case* (e.g. "This service can sell your data") + rating + service | Main training data; case titles are already plain-English explanations | Public REST API, **rate-limited** |
-| **LexGLUE `unfair_tos`** (CLAUDETTE) | ~9.4k sentences from 50 ToS, 8 unfair-clause labels | External test set + clean negatives | `datasets.load_dataset("coastalcph/lex_glue", "unfair_tos")` |
+| **LexGLUE `unfair_tos`** (CLAUDETTE) | ~9.4k sentences from 50 ToS, 8 unfair-clause labels | External test set only (D28) | `datasets.load_dataset("coastalcph/lex_glue", "unfair_tos")` |
 
 Verified 2026-11-04: LexGLUE loads (5,532 / 2,275 / 1,607 train/val/test). The ToS;DR API returned
 HTTP 429 on the first request, so the fetcher **must** be polite.
@@ -100,7 +100,7 @@ HTTP 429 on the first request, so the fetcher **must** be polite.
 | Inspect | `stats.py` | `data/interim/points.parquet`, `results/data_stats.json` | One row per point, all statuses |
 | Clean | `clean.py` | `data/interim/points_clean.parquet` | Approved only, HTML stripped, English, 20–1,500 chars, deduped (D07, D30) |
 | Taxonomy | `taxonomy.py` + `configs/taxonomy.yaml` | `data/interim/points_labeled.parquet` | 222 cases → 24 categories; explanation = case title (D24) |
-| Build | `build_dataset.py` (uses `chunk.py`, `prompt.py`) | `data/processed/{train,val,test}.jsonl` | Document windows around quotes, hard + easy negatives, service hash split, chat messages (D25, D26, D29) |
+| Build | `build_dataset.py` (uses `chunk.py`, `prompt.py`) | `data/processed/{train,val,test}.jsonl` | Document windows around quotes, hard + easy negatives filtered by TF-IDF similarity to known quotes, service hash split, chat messages (D25, D26, D29, D31) |
 
 ### Processed example (one JSONL line)
 

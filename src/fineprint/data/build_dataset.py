@@ -7,6 +7,10 @@ Example types (decisions D13, D25, D26):
                  quote inside → {"flags": []}
 - negative       a regular chunk from a *comprehensively reviewed* service's document that overlaps
                  no approved and no pending (unreviewed) quote → {"flags": []}
+
+Both negative kinds are dropped if any sentence is too similar (TF-IDF) to a known approved quote
+from *any* service: ToS;DR records a case about once per service, so a repeat of a known risky
+clause is usually just unlabelled, not harmless (decision D31).
 - bare           approved quote not found in the current document text (document changed since it
                  was annotated) → the quote alone is the input
 
@@ -23,8 +27,9 @@ import random
 from collections import Counter, defaultdict
 
 import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
 
-from fineprint.chunk import chunk_text, window_around
+from fineprint.chunk import chunk_text, split_sentences, window_around
 from fineprint.config import RESULTS, data_path, load_config
 from fineprint.data.clean import MAX_CHARS, MIN_CHARS, clean_text
 from fineprint.prompt import build_messages
@@ -52,6 +57,23 @@ def load_comprehensive_services() -> set[int]:
             if s.get("is_comprehensively_reviewed"):
                 ids.add(s["id"])
     return ids
+
+
+def max_quote_similarity(texts: list[str], quotes: list[str], batch: int = 5000) -> list[float]:
+    """For each text, the highest TF-IDF cosine between any of its sentences and any quote."""
+    vec = TfidfVectorizer(ngram_range=(1, 2), sublinear_tf=True, min_df=2, stop_words="english")
+    q = vec.fit_transform(quotes).T.tocsc()
+    owner, sents = [], []
+    for i, t in enumerate(texts):
+        for s, e in split_sentences(t, 800):
+            owner.append(i)
+            sents.append(t[s:e])
+    best = [0.0] * len(texts)
+    for b in range(0, len(sents), batch):
+        scores = (vec.transform(sents[b:b + batch]) @ q).max(axis=1).toarray().ravel()
+        for i, v in zip(owner[b:b + batch], scores):
+            best[i] = max(best[i], float(v))
+    return best
 
 
 def split_of(group: str, val_fraction: float, test_fraction: float) -> str:
@@ -186,6 +208,14 @@ def main() -> None:
         for s, e in chunk_text(text, chunk_cfg["target_tokens"], chunk_cfg["overlap_tokens"]):
             if e - s >= 200 and not overlaps((s, e), blocked):
                 add("negative", text[s:e], [], f"service:{doc['service_id']}", doc_id)
+
+    neg = [ex for ex in examples if not ex["flags"] and ex["kind"] != "bare"]
+    limit = cfg["negatives"]["max_quote_similarity"]
+    for ex, sim in zip(neg, max_quote_similarity([ex["text"] for ex in neg], labeled["quote"].tolist())):
+        if sim >= limit:
+            ex["drop"] = True
+            report[f"{ex['kind']}_dropped_similar_to_known_quote"] += 1
+    examples = [ex for ex in examples if not ex.get("drop")]
 
     for ex in examples:
         ex["split"] = split_of(ex["group"], split_cfg["val_fraction"], split_cfg["test_fraction"])

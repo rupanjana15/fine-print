@@ -115,6 +115,14 @@ every sentence, so a risky clause can end up in a "harmless" chunk. Noise can't 
 **reduce** it (negatives only from fully reviewed services, D26), **measure** it (manually review a sample),
 and **account for it** when reading metrics (precision on noisy test data is a lower bound).
 
+### TF-IDF and cosine similarity
+**TF-IDF** turns text into a vector of word (and word-pair) weights: a word counts more if it's frequent in
+this text but rare across all texts, so "arbitration" matters and "the" doesn't. **Cosine similarity**
+compares two such vectors: 1 = same words in the same proportions, 0 = nothing in common. It's a cheap,
+model-free way to ask "does this sentence look like a known risky clause?". We use it to throw out
+negatives that are probably just unlabelled positives. *Repo:* `max_quote_similarity` in
+`build_dataset.py`. *Decision:* D31.
+
 ### Chunks, windows and overlap
 A long document is cut into **chunks** the model can read (~200 tokens), on sentence boundaries.
 Consecutive chunks **overlap** a little (~30 tokens) so a clause on a border appears whole in at least one.

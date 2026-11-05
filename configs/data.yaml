@@ -34,6 +34,7 @@ split:
   seed: 42
 
 negatives:
-  target_fraction: 0.55  # share of examples with {"flags": []}
+  target_fraction: 0.55  # share of examples with {"flags": []} (an upper bound: see D31)
+  max_quote_similarity: 0.6  # drop negatives with a sentence this close (TF-IDF cosine) to a known risky quote (D31)
 
 hf_dataset_repo: null    # e.g. <your-hf-username>/fine-print-data (private)

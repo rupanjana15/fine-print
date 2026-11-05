@@ -72,12 +72,54 @@ entities (`<p>`, `<li>`, `&nbsp;`), occasional fragments that start mid-sentence
 ToS;DR's own **DocBot** (github.com/tosdr/DocBot, GPL-3.0) trains 123 per-case binary classifiers
 from an internal DB dump that isn't public. It is related work, not a data source.
 
+## Dataset v1 (v0.2, 2026-11-06)
+
+Built by `build_dataset.py` from all 4,655 approved-point documents (4,641 with text; 0 failed fetches).
+Full numbers: `results/dataset_report.json`.
+
+| Split | Examples | With flags | Hard negatives | Easy negatives | Negative share | Services/groups |
+|---|---|---|---|---|---|---|
+| train | 38,143 | 21,933 | 1,067 | 15,143 | 42.5% | 2,053 |
+| val | 4,773 | 2,967 | 142 | 1,664 | 37.8% | 249 |
+| test | 4,024 | 2,604 | 96 | 1,324 | 35.3% | 276 |
+
+- 30,966 of 31,362 labelled quotes (98.7%) were found in their document; 331 weren't (document changed),
+  65 had no document → "bare" examples.
+- 1.52 flags per positive example (a window often contains neighbouring approved quotes).
+- Flags per category (train): largest `tracking_cookies` 3,219, smallest `business_transfer` 361.
+- Size: ~470 tokens per example incl. the ~220-token prompt → **~18M tokens per epoch**.
+  Rough estimate at ~2k tokens/s for QLoRA on one T4: ~2.5 h per epoch, which fits a 12 h Kaggle session.
+- The 55% negative target is **not reached**: easy negatives can only come from the documents we have,
+  and the similarity filter (below) removes a quarter of them. We accept ~40% rather than pad with
+  lower-quality negatives.
+
+### Manual review of negatives: missing labels (2026-11-06)
+
+Read 40 random easy negatives and 20 hard negatives from the first build and judged whether each contains
+a clause ToS;DR has a case for.
+
+| Sample | Clearly flag-worthy | Arguably | Before filter | After TF-IDF filter (≥ 0.6 dropped) |
+|---|---|---|---|---|
+| Easy negatives | 9 / 40 | 6 / 40 | **22%** clearly noisy | 3 / 29 kept = **10%** |
+| Hard negatives | 10 / 20 | — | **50%** | 4 / 12 kept = **33%** |
+
+**Cause:** ToS;DR records a case roughly **once per service**. If a service's privacy policy already has
+a "governed by German law" point, the same clause in its terms is left unannotated. So "comprehensively
+reviewed" means *every case was checked*, not *every sentence was labelled*. Hard-negative windows also
+often contain *other* risky clauses next to the declined suggestion.
+
+**Mitigation (D31):** drop negatives where any sentence has TF-IDF cosine ≥ 0.6 to any approved quote
+(4,335 easy and 1,313 hard negatives removed). Remaining noise (~10% of easy, ~1/3 of hard negatives)
+is a known limitation: it pushes the model towards **under-flagging**, so expect recall to be lower than
+precision. The threshold was chosen on a 60-example sample, so it is a rough estimate, to be revisited in
+v0.5 error analysis.
+
 ## LexGLUE `unfair_tos` (CLAUDETTE)
 
 `coastalcph/lex_glue`, config `unfair_tos`: 5,532 / 2,275 / 1,607 sentences (train / val / test),
 ~89% have no label ("fair"), median ~26 words. 8 labels: Limitation of liability, Unilateral
 termination, Unilateral change, Content removal, Contract by using, Choice of law, Jurisdiction,
-Arbitration. Used as the external test set and as a source of negatives.
+Arbitration. Used **only** as the external test set, never for training (D28).
 
 ## Licensing & obligations
 

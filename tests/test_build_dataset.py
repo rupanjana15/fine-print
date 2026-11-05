@@ -25,3 +25,14 @@ def test_flags_inside_only_full_quotes_in_order_deduped():
     flags = flags_inside((0, 100), labeled)
     assert [x["quote"] for x in flags] == ["A", "B"]
     assert "span" not in flags[0]
+
+
+def test_max_quote_similarity_flags_repeated_clause():
+    from fineprint.data.build_dataset import max_quote_similarity
+    quotes = ["These terms are governed by the laws of Germany.",
+              "We may share your data with advertising partners.",
+              "You can delete your account at any time."]
+    texts = ["Welcome to our site. These terms are governed by the laws of Germany.",
+             "Our office is open on weekdays. Contact support by email."]
+    sims = max_quote_similarity(texts, quotes * 2)  # min_df=2 needs each term twice
+    assert sims[0] > 0.6 > sims[1]
