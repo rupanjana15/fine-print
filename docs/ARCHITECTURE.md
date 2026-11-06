@@ -145,13 +145,20 @@ activations comfortably. The Mac is used for everything else.
 ## 5. Evaluation — `src/fineprint/eval/`, `src/fineprint/baselines/`
 
 Every system — baseline or fine-tuned — writes predictions in the **same JSON format**, and one
-harness scores them all into `results/<run_id>.json`. That makes the comparison table automatic.
+harness scores them all into `results/eval/<system>__<set>.json`; `results/RESULTS.md` is generated from
+those (D32). Eval sets: `test`, `test-500` (for slow systems), `lexglue`.
+
+**Where things run (D35):** cheap systems and all scoring on the Mac; LLM baselines, DeBERTa and later
+fine-tuning on Kaggle's two T4 GPUs via `notebooks/kaggle_baselines.ipynb`, with code + data shipped as one
+zip (`fineprint.kaggle_bundle`) and results re-imported with `fineprint.kaggle_results`.
 
 ### Systems compared
 
 | # | System | Question it answers |
 |---|---|---|
+| ref | Always flag (most common category) | What do the metrics give for free? (D32) |
 | B0 | Keyword / regex rules | Is this task trivially solvable? |
+| B0b | TF-IDF + logistic regression | What does the best *cheap* classifier get? (D33) |
 | B1 | Base 3B, zero-shot | What does the model know before training? |
 | B2 | Base 3B, few-shot | How far does prompting alone get? |
 | B3 | DeBERTa-v3-small multi-label classifier | Is a generative LLM even needed for *detection*? |

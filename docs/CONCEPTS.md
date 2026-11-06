@@ -166,6 +166,26 @@ fine-tuning wasn't worth it.
 A smaller model (~140M parameters for "small") that reads text and outputs label probabilities. It can't
 write, but it's fast and strong at classification, which makes it the toughest baseline for *detection*.
 
+### Reference row ("always flag")
+A deliberately dumb system included to calibrate the metrics. When 65% of test chunks are risky, a system
+that flags *everything* gets recall 1.0 and F1 ≈ 0.79 without reading anything. Any real system must
+clearly beat that, especially on precision and on how often it flags harmless text. *Decision:* D32.
+
+### Logistic regression, one-vs-rest
+A linear classifier: it gives each TF-IDF feature a weight and turns the weighted sum into a probability
+(0–1). **One-vs-rest** trains one such classifier per category ("is this about arbitration: yes/no?"), so a
+chunk can get several categories at once (**multi-label**). Fast, strong, and easy to inspect.
+*Repo:* `src/fineprint/baselines/tfidf.py`. *Decision:* D33.
+
+### Decision threshold, tuned on validation
+A classifier outputs probabilities; you still choose the cut-off ("flag if ≥ 0.2"). Lower → more flags
+(higher recall, lower precision). We pick the threshold that maximises macro-F1 on **val**, never on test,
+because choosing anything by looking at test makes the test score optimistic.
+
+### Greedy decoding
+At each step the LLM picks the single most likely next token, with no randomness. The same input always
+gives the same output, which makes evaluations repeatable. *Decision:* D34.
+
 ### Precision, recall, F1
 For "is this chunk risky?":
 - **Precision** = of the chunks we flagged, how many really were risky? (low → crying wolf)
@@ -191,6 +211,16 @@ half…). It tells you *what to fix next*, which aggregate numbers can't.
 ---
 
 ## Part 5 — Serving
+
+### fp16 vs 4-bit, GPU batching
+**fp16** stores each weight in 16 bits (the model's normal quality, ~6 GB for 3B). The 4-bit GGUF (~2 GB)
+is for running on small machines. On a GPU we run fp16 and process ~8 chunks at once (**batching**),
+which uses the GPU's parallelism, so it's far faster than one chunk at a time on the Mac. *Decision:* D35.
+
+### Parallel jobs on two GPUs
+Kaggle gives two T4 GPUs. Rather than splitting one model across both (complex), we run **two independent
+job queues**, one per GPU (`CUDA_VISIBLE_DEVICES=0` / `=1`). Total time ≈ the longer queue, not the sum.
+*Repo:* `notebooks/kaggle_baselines.ipynb`. *Decision:* D35.
 
 ### GGUF and llama.cpp
 **llama.cpp** is a C/C++ engine for running LLMs efficiently on CPUs and Apple Silicon.

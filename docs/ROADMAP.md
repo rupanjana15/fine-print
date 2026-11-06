@@ -28,10 +28,12 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [ ] Push processed splits to private HF dataset repo (moved to v0.4: needs an HF account; only Kaggle needs it)
 
 ## v0.3 — Baselines + eval harness (Week 2) · MVP
-- [ ] `eval/` harness: one predictions format → all metrics → `results/<run>.json`
-- [ ] B0 keyword baseline
-- [ ] B1/B2 base model zero/few-shot (run on Kaggle or Mac via llama.cpp)
-- [ ] B3 DeBERTa-v3-small classifier (Kaggle)
+- [x] `eval/` harness: one predictions format → all metrics → `results/eval/*.json` + `results/RESULTS.md`
+- [x] B0 keyword baseline, B0b TF-IDF + logistic regression, `ref_always_flag` reference
+- [x] Kaggle notebook + bundle/import scripts (Mac can't run the heavy jobs, D35)
+- [ ] B1/B2 base model zero/few-shot: run `notebooks/kaggle_baselines.ipynb` on Kaggle
+- [ ] B3 DeBERTa-v3-small classifier: same notebook
+- [ ] Import results, write up findings, tag v0.3
 
 ## v0.4 — First fine-tune (Week 2–3) · MVP
 - [ ] Push processed splits to a private HF dataset repo (set `hf_dataset_repo`)

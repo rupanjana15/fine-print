@@ -327,7 +327,7 @@ complicates evaluation. Multilingual is a possible later extension.
 
 ---
 
-## D16 — Four baselines before claiming anything
+## D16 — Four baselines before claiming anything (extended by D33)
 
 **Decision.** Compare the fine-tuned model against:
 B0 keyword rules · B1 base model zero-shot · B2 base model few-shot · B3 DeBERTa-v3-small classifier.
@@ -347,7 +347,7 @@ not assumed."*
 
 ---
 
-## D17 — Metrics
+## D17 — Metrics (implemented in D32)
 
 | Metric | Why this one |
 |---|---|
@@ -639,3 +639,118 @@ per category in v0.5.
 **Explain it:** *"Volunteers label each issue once per company, so a repeated risky clause looks 'harmless'.
 I found that by reading samples, then dropped negatives that look too much like known risky clauses, which
 halved the noise."*
+
+---
+
+## D32 — One evaluation harness, fixed eval sets, an "always flag" reference
+
+**Context.** v0.3 compares several very different systems (regexes, a linear classifier, DeBERTa, a
+prompted LLM, later the fine-tuned LLM). The comparison is only fair if they're scored identically.
+
+**Decision.**
+- Every system writes the **same output**: the model's JSON string per example, saved as
+  `data/predictions/<system>/<set>.jsonl`. One scorer (`src/fineprint/eval/metrics.py`) produces
+  `results/eval/<system>__<set>.json`, and `results/RESULTS.md` is regenerated from those files.
+- **Eval sets** (`src/fineprint/eval/sets.py`): `test` (4,024), `test-500` (fixed random 500 of test, seed 0,
+  for slow systems), `lexglue` (1,607, labels mapped to 5 of our categories). Each result stores a
+  fingerprint of the set, so a rebuilt dataset can't be silently compared with old numbers.
+- **Parsing:** `json_valid` is strict (what the app needs); every other metric uses a lenient parse
+  (finds a `{"flags": [...]}` object anywhere), so a stray code fence doesn't zero a system's quality scores.
+  Unknown categories are dropped and counted.
+- **On LexGLUE** only the 5 mapped categories count; flags in other categories (e.g. cookies) are ignored,
+  since LexGLUE simply has no labels for them.
+- **Reference row `ref_always_flag`:** flags every chunk. On our test set, 65% of chunks have flags, so it
+  gets detection **F1 0.786** for free. Detection F1 alone is therefore not a useful headline, and the table
+  also shows precision and the **flag rate on harmless chunks** (easy and hard negatives).
+
+**Alternatives.** Per-system ad-hoc scripts (easy to make subtly different); scoring only on `test`
+(LLMs on a CPU or free GPU are too slow for 4k examples × several systems); an experiment tracker
+like W&B (unnecessary: JSON files in git are versioned with the code, D21).
+
+**Consequences.** `test-500` numbers have more noise than full `test` (±~3 points on F1). Compare systems
+on the same set only; the table groups rows by set.
+
+**Explain it:** *"Every system produces the same JSON and goes through one scorer, and I include a dumb
+'always flag' row, which showed that detection F1 alone would have flattered weak systems."*
+
+---
+
+## D33 — Baseline line-up, as built
+
+| System | What it is | Where it runs |
+|---|---|---|
+| `ref_always_flag` | Flags every chunk with the most common category | Mac, instant |
+| `b0_keywords` | Hand-written regex per category, written from general ToS knowledge, not tuned on our data | Mac, instant |
+| `b0b_tfidf_logreg` | TF-IDF 1–2-grams → one logistic regression per category; threshold tuned on val | Mac, ~1.5 min |
+| `b1_qwen3b_zeroshot` | Base Qwen2.5-3B-Instruct, our prompt only | Kaggle GPU (D35) |
+| `b2_qwen3b_fewshot` | Same + 3 fixed train examples (D34) | Kaggle GPU |
+| `b3_deberta_small` | DeBERTa-v3-small, sigmoid per category, threshold tuned on val | Kaggle GPU |
+
+**Added beyond D16: B0b TF-IDF + logistic regression.** It's the standard cheap text classifier and costs
+nothing to run, and it turned out to be strong (test detection F1 0.838, category macro-F1 0.617,
+LexGLUE F1 0.615). Without it we'd only know the LLM beats regexes, which is a low bar.
+
+**Shared post-processing for classifiers (B0b, B3):** severity = the category's most common severity in
+train; explanation = the category description; quote = the chunk sentence with the highest score for that
+category. So classifier vs LLM differences come from the model, not the output wrapper. Their quotes are
+always faithful by construction; it's the LLMs whose quotes need checking.
+
+**Explain it:** *"I added a TF-IDF classifier because a baseline should be the best cheap thing, not the
+easiest thing to beat."*
+
+---
+
+## D34 — How the base model is prompted (B1/B2)
+
+**Decision.**
+- Same system prompt as training and inference (`prompt.py`, D27): the base model gets exactly what the
+  fine-tuned model will get.
+- **Greedy decoding** (no sampling), so runs are repeatable.
+- **No JSON grammar** for baselines: we measure whether the model *produces* valid JSON on its own. (A
+  grammar can be switched on for the app later: `--json-grammar` in the Mac runner.)
+- **Few-shot (B2):** 3 fixed train examples of 300–700 characters, one with no flags, one with one flag, one
+  with two, picked with seed 0 (`run_gguf.pick_shots`), placed as earlier chat turns. From train only, so no
+  eval data leaks into the prompt.
+- Base model licence: Qwen2.5-3B uses the **Qwen Research License** (free for non-commercial use, which
+  covers this portfolio project). If the project ever became commercial, Llama-3.2-3B is the swap (D03).
+
+**First observations (Mac smoke test, 10 chunks):** the model often wraps its answer in a list, invents
+categories (`account_ownership`), flags almost every chunk, and writes long pretty-printed JSON
+(~10 s per chunk on the M1). That's exactly what fine-tuning should fix: format, taxonomy, and when to stay quiet.
+
+**Explain it:** *"The baseline sees the same prompt as my fine-tuned model, decoded greedily and without
+help, so the comparison isolates what fine-tuning adds."*
+
+---
+
+## D35 — Heavy jobs run on Kaggle (two GPUs in parallel); the Mac does light work only
+
+**Context.** On the M1 / 8 GB, the base model takes ~10 s per chunk (≈7 h for B1 + B2) and DeBERTa training
+was killed by memory pressure. The Mac couldn't be used for anything else meanwhile.
+
+**Decision.**
+- **Mac:** data pipeline, cheap baselines, scoring, docs. Nothing that needs a GPU or > a few GB of RAM.
+- **Kaggle (free, 2×T4):** one notebook, `notebooks/kaggle_baselines.ipynb`, runs two job queues at once,
+  one per GPU: GPU 0 = B1; GPU 1 = DeBERTa then B2. This is **job-level parallelism** (two independent
+  jobs), simpler and more robust than splitting one model across GPUs.
+- LLM baselines on Kaggle use **Hugging Face transformers in fp16, batched** (`eval/run_hf.py`) instead of
+  the 4-bit GGUF: much faster on a GPU, and fp16 is the model's full quality, which is the fairer baseline.
+- **Moving data:** `python -m fineprint.kaggle_bundle` zips code + processed data (16 MB) → uploaded once as a
+  *private* Kaggle dataset. Results come back as `fine-print-results.zip`; `python -m fineprint.kaggle_results`
+  re-scores them on the Mac and checks the eval-set fingerprints match.
+
+**Alternatives.**
+| Option | Why not |
+|---|---|
+| Run overnight on the Mac | Blocks the laptop for ~7 h; DeBERTa doesn't fit in memory alongside other work |
+| Smaller eval subsets on the Mac | Noisier numbers, still slow |
+| HF Hub dataset + GitHub clone in the notebook | Needs tokens stored as Kaggle secrets (private repo); a zip upload is simpler for now. Revisit in v0.4 for training |
+| Colab | Single GPU, session limits less predictable; Kaggle gives 2 GPUs and background "commit" runs |
+| Paid APIs / cloud GPUs | Not free |
+
+**Consequences.** B1/B2 latency on Kaggle is not demo latency; demo latency is measured on the Mac/Space with
+the GGUF in v0.6. Kaggle's fp16 vs the shipped Q4 GGUF may differ slightly; the fine-tuned model will be
+scored both ways in v0.6 to quantify that.
+
+**Explain it:** *"My laptop couldn't handle it, so I split the work: the Mac does data and scoring, and one
+Kaggle notebook runs the heavy jobs on two free GPUs at the same time."*

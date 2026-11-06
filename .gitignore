@@ -25,3 +25,7 @@ checkpoints/
 .ipynb_checkpoints/
 .DS_Store
 .env
+
+# Upload/download bundles
+dist/
+fine-print-results.zip
