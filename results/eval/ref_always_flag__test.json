@@ -1,0 +1,245 @@
+{
+  "system": "ref_always_flag",
+  "eval_set": "test",
+  "date": "2026-11-06",
+  "dataset_version": "ds-v1",
+  "set_fingerprint": "3ba428097af5",
+  "seconds_per_example": null,
+  "notes": "always flags tracking_cookies",
+  "n_examples": 4024,
+  "missing_outputs": 0,
+  "json_valid": 1.0,
+  "json_recovered": 1.0,
+  "invalid_flags": 0,
+  "detection": {
+    "precision": 0.6471,
+    "recall": 1.0,
+    "f1": 0.7858,
+    "tp": 2604,
+    "fp": 1420,
+    "fn": 0
+  },
+  "category_macro_f1": 0.0059,
+  "category_micro": {
+    "precision": 0.076,
+    "recall": 0.0934,
+    "f1": 0.0838,
+    "tp": 306,
+    "fp": 3718,
+    "fn": 2971
+  },
+  "severity_accuracy": 0.5836,
+  "severity_confusion": {
+    "good": {
+      "bad": 49
+    },
+    "neutral": {
+      "bad": 103
+    },
+    "bad": {
+      "bad": 213
+    }
+  },
+  "quote_faithfulness": 1.0,
+  "predicted_flags": 4024,
+  "flag_rate_by_kind": {
+    "bare": 1.0,
+    "hard_negative": 1.0,
+    "negative": 1.0,
+    "positive": 1.0
+  },
+  "per_category": {
+    "acceptable_use": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 187
+    },
+    "account_termination_and_moderation": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 214
+    },
+    "advertising": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 90
+    },
+    "business_transfer": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 44
+    },
+    "changes_to_terms": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 194
+    },
+    "content_license": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 68
+    },
+    "content_ownership": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 69
+    },
+    "data_collection": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 108
+    },
+    "data_retention_and_deletion": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 140
+    },
+    "dispute_resolution": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 51
+    },
+    "eligibility": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 115
+    },
+    "general_legal_terms": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 74
+    },
+    "government_requests": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 54
+    },
+    "identity_and_accounts": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 76
+    },
+    "jurisdiction_and_compliance": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 152
+    },
+    "liability_and_indemnity": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 168
+    },
+    "payments_and_refunds": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 39
+    },
+    "personal_data_use": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 276
+    },
+    "security": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 105
+    },
+    "third_party_sharing": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 197
+    },
+    "tracking_cookies": {
+      "precision": 0.076,
+      "recall": 1.0,
+      "f1": 0.1413,
+      "tp": 306,
+      "fp": 3718,
+      "fn": 0
+    },
+    "transparency": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 231
+    },
+    "user_rights_and_control": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 136
+    },
+    "warranty_and_availability": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 183
+    }
+  }
+}

@@ -617,6 +617,16 @@ app = [
     { name = "gradio" },
     { name = "llama-cpp-python" },
 ]
+deberta = [
+    { name = "protobuf" },
+    { name = "sentencepiece" },
+    { name = "torch" },
+    { name = "transformers" },
+]
+eval = [
+    { name = "huggingface-hub" },
+    { name = "llama-cpp-python" },
+]
 train = [
     { name = "accelerate" },
     { name = "bitsandbytes" },
@@ -639,20 +649,26 @@ requires-dist = [
     { name = "bitsandbytes", marker = "extra == 'train'" },
     { name = "datasets", specifier = ">=3.0" },
     { name = "gradio", marker = "extra == 'app'", specifier = ">=5" },
+    { name = "huggingface-hub", marker = "extra == 'eval'", specifier = ">=0.26" },
     { name = "langdetect", specifier = ">=1.0.9" },
     { name = "llama-cpp-python", marker = "extra == 'app'", specifier = ">=0.3" },
+    { name = "llama-cpp-python", marker = "extra == 'eval'", specifier = ">=0.3" },
     { name = "pandas", specifier = ">=2.2" },
     { name = "peft", marker = "extra == 'train'" },
+    { name = "protobuf", marker = "extra == 'deberta'", specifier = ">=5" },
     { name = "pyarrow", specifier = ">=17" },
     { name = "pyyaml", specifier = ">=6.0" },
     { name = "requests", specifier = ">=2.32" },
     { name = "scikit-learn", specifier = ">=1.5" },
+    { name = "sentencepiece", marker = "extra == 'deberta'", specifier = ">=0.2" },
+    { name = "torch", marker = "extra == 'deberta'", specifier = ">=2.4" },
     { name = "tqdm", specifier = ">=4.66" },
+    { name = "transformers", marker = "extra == 'deberta'", specifier = ">=4.45" },
     { name = "transformers", marker = "extra == 'train'" },
     { name = "trl", marker = "extra == 'train'" },
     { name = "unsloth", marker = "extra == 'train'" },
 ]
-provides-extras = ["app", "train"]
+provides-extras = ["app", "eval", "deberta", "train"]
 
 [package.metadata.requires-dev]
 dev = [

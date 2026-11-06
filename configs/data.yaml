@@ -1,10 +1,12 @@
 # Data pipeline settings. Bump `version` whenever processed data changes.
-version: "v0-unbuilt"
+version: "ds-v1"  # v0.2 build: windows + negatives filtered by similarity (D31)
 
 paths:
   raw: data/raw
   interim: data/interim
   processed: data/processed
+  predictions: data/predictions   # model outputs per eval set (contain ToS text, so not in git)
+  models: data/models             # downloaded GGUF / baseline models
 
 tosdr:
   base_url: https://api.tosdr.org

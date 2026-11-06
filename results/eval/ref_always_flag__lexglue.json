@@ -1,0 +1,81 @@
+{
+  "system": "ref_always_flag",
+  "eval_set": "lexglue",
+  "date": "2026-11-06",
+  "dataset_version": "ds-v1",
+  "set_fingerprint": "f3d2b3306d21",
+  "seconds_per_example": null,
+  "notes": "always flags tracking_cookies",
+  "n_examples": 1607,
+  "missing_outputs": 0,
+  "json_valid": 1.0,
+  "json_recovered": 1.0,
+  "invalid_flags": 0,
+  "detection": {
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 172
+  },
+  "category_macro_f1": 0.0,
+  "category_micro": {
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "tp": 0,
+    "fp": 0,
+    "fn": 181
+  },
+  "severity_accuracy": null,
+  "severity_confusion": {},
+  "quote_faithfulness": null,
+  "predicted_flags": 0,
+  "flag_rate_by_kind": {
+    "negative": 0.0,
+    "positive": 0.0
+  },
+  "per_category": {
+    "account_termination_and_moderation": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 47
+    },
+    "changes_to_terms": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 61
+    },
+    "dispute_resolution": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 7
+    },
+    "jurisdiction_and_compliance": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 28
+    },
+    "liability_and_indemnity": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 38
+    }
+  }
+}

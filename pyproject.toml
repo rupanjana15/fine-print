@@ -18,6 +18,10 @@ dependencies = [
 [project.optional-dependencies]
 # Installed later, when each milestone needs it.
 app = ["gradio>=5", "llama-cpp-python>=0.3"]
+# Running the base / fine-tuned GGUF model on the Mac for evaluation (v0.3+).
+eval = ["llama-cpp-python>=0.3", "huggingface-hub>=0.26"]
+# B3 DeBERTa baseline (runs on the Mac's GPU via mps, or on Kaggle).
+deberta = ["torch>=2.4", "transformers>=4.45", "sentencepiece>=0.2", "protobuf>=5"]
 # Training runs on Kaggle; these are installed there, not on the Mac.
 train = ["unsloth", "trl", "peft", "transformers", "accelerate", "bitsandbytes"]
 

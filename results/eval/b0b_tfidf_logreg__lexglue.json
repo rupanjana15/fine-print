@@ -1,0 +1,81 @@
+{
+  "system": "b0b_tfidf_logreg",
+  "eval_set": "lexglue",
+  "date": "2026-11-06",
+  "dataset_version": "ds-v1",
+  "set_fingerprint": "f3d2b3306d21",
+  "seconds_per_example": 0.0,
+  "notes": "threshold 0.2 tuned on val macro-F1",
+  "n_examples": 1607,
+  "missing_outputs": 0,
+  "json_valid": 1.0,
+  "json_recovered": 1.0,
+  "invalid_flags": 0,
+  "detection": {
+    "precision": 0.5873,
+    "recall": 0.6453,
+    "f1": 0.615,
+    "tp": 111,
+    "fp": 78,
+    "fn": 61
+  },
+  "category_macro_f1": 0.5358,
+  "category_micro": {
+    "precision": 0.544,
+    "recall": 0.5801,
+    "f1": 0.5615,
+    "tp": 105,
+    "fp": 88,
+    "fn": 76
+  },
+  "severity_accuracy": null,
+  "severity_confusion": {},
+  "quote_faithfulness": 1.0,
+  "predicted_flags": 193,
+  "flag_rate_by_kind": {
+    "negative": 0.0544,
+    "positive": 0.6453
+  },
+  "per_category": {
+    "account_termination_and_moderation": {
+      "precision": 0.7091,
+      "recall": 0.8298,
+      "f1": 0.7647,
+      "tp": 39,
+      "fp": 16,
+      "fn": 8
+    },
+    "changes_to_terms": {
+      "precision": 0.5192,
+      "recall": 0.4426,
+      "f1": 0.4779,
+      "tp": 27,
+      "fp": 25,
+      "fn": 34
+    },
+    "dispute_resolution": {
+      "precision": 0.2609,
+      "recall": 0.8571,
+      "f1": 0.4,
+      "tp": 6,
+      "fp": 17,
+      "fn": 1
+    },
+    "jurisdiction_and_compliance": {
+      "precision": 0.6087,
+      "recall": 0.5,
+      "f1": 0.549,
+      "tp": 14,
+      "fp": 9,
+      "fn": 14
+    },
+    "liability_and_indemnity": {
+      "precision": 0.475,
+      "recall": 0.5,
+      "f1": 0.4872,
+      "tp": 19,
+      "fp": 21,
+      "fn": 19
+    }
+  }
+}
