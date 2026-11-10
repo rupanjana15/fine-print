@@ -11,3 +11,4 @@ Read in this order if you're new to the project (or preparing to explain it):
 | [ROADMAP.md](ROADMAP.md) | What's done, what's next, milestone by milestone |
 | [../CHANGELOG.md](../CHANGELOG.md) | What changed in each tagged version |
 | [../results/](../results/) | The numbers (stats, metrics, error analyses) |
+- [KAGGLE.md](KAGGLE.md) — step-by-step: running the heavy jobs on Kaggle's free GPUs

@@ -5,12 +5,31 @@ in plain English, with severity and the exact quote.** Runs locally; built entir
 
 > ⚠️ Not legal advice.
 
-**Status:** v0.0 — architecture & repo set up. See [docs/ROADMAP.md](docs/ROADMAP.md).
+## Status (2026-11-10)
+
+| Milestone | State |
+|---|---|
+| v0.0 Repo + architecture | ✅ done |
+| v0.1 Data spike: 301k ToS;DR points fetched, 32k usable | ✅ done |
+| v0.2 Dataset v1: 38,143 / 4,773 / 4,024 train/val/test, split by company | ✅ done |
+| v0.3 Baselines + eval harness | 🟡 cheap baselines scored; GPU baselines ready to run on Kaggle ([guide](docs/KAGGLE.md)) |
+| v0.4 First fine-tune (QLoRA on Kaggle) | ⏳ next |
+
+**Baselines so far** (full test set; [all results](results/RESULTS.md)):
+
+| System | Detection F1 | Category macro-F1 | Flags harmless chunks |
+|---|---|---|---|
+| Always flag (reference) | 0.786 | 0.006 | 100% |
+| Keyword rules | 0.790 | 0.371 | 74% |
+| TF-IDF + logistic regression | **0.838** | **0.617** | 21% |
+
+Base Qwen 3B (zero/few-shot) and DeBERTa run next on Kaggle's free GPUs. The fine-tuned model has to beat
+TF-IDF, not just keywords. Full plan: [docs/ROADMAP.md](docs/ROADMAP.md) · changes: [CHANGELOG.md](CHANGELOG.md).
 
 ## How it works
 
 ```
-ToS text → chunks → fine-tuned 3B model → {"flags":[{case, severity, explanation, quote}]} → highlighted doc + A–E grade
+ToS text → chunks → fine-tuned 3B model → {"flags":[{category, severity, explanation, quote}]} → highlighted doc + A–E grade
 ```
 
 - **Data:** human-labelled clauses from [ToS;DR](https://tosdr.org) + [LexGLUE unfair_tos](https://huggingface.co/datasets/coastalcph/lex_glue) as an external test set
@@ -25,12 +44,12 @@ ML concepts explained: [docs/CONCEPTS.md](docs/CONCEPTS.md) · All docs: [docs/R
 ```
 configs/            data, taxonomy and training settings
 src/fineprint/
-  data/             fetch → clean → taxonomy → negatives → split → format
-  baselines/        keyword, zero/few-shot, DeBERTa
+  data/             fetch → stats → clean → taxonomy → build_dataset
+  baselines/        always-flag, keywords, TF-IDF, DeBERTa
   training/         helpers used by the Kaggle notebook
-  eval/             one harness, all metrics
+  eval/             eval sets, one scorer, Mac (GGUF) and GPU (HF) runners
   inference/        chunk → predict → validate → aggregate → grade
-notebooks/          Kaggle/Colab training notebooks
+notebooks/          Kaggle notebooks (baselines now, training next)
 app/                Gradio demo
 data/               (gitignored) raw / interim / processed
 results/            metrics JSON + error analyses (committed)
