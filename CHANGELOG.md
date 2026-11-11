@@ -2,6 +2,16 @@
 
 One entry per tagged milestone (see `docs/ROADMAP.md`).
 
+## v0.3 — 2026-11-11 · Baselines + eval harness
+- `eval/`: one predictions format → JSON validity, detection P/R/F1, category macro-F1, severity, quote
+  faithfulness, flag rate per example kind → `results/eval/*.json` + generated `results/RESULTS.md` (D32)
+- Baselines (D33): always-flag reference, keywords, TF-IDF + LR, Qwen2.5-3B zero-/3-shot, DeBERTa-v3-small
+- Heavy jobs on Kaggle's free 2×T4, driven from the Mac with the Kaggle CLI (D35, D36)
+- DeBERTa first run went NaN (transformers v5 loads fp16 weights; AdamW breaks) → fp32 + NaN guard (D36)
+- Results (test-500, cat macro-F1): DeBERTa **0.634**, TF-IDF 0.601, keywords 0.365, Qwen 3-shot 0.331,
+  Qwen zero-shot 0.224. Base Qwen's severity accuracy (0.29–0.30) is below the majority guess (0.575).
+  Bar for the fine-tune: DeBERTa's ≈0.63 plus explanations and faithful quotes. Findings: `results/baselines_v0.3.md`
+
 ## v0.2 — 2026-11-06 · Dataset v1
 - Documents fetch finished: 4,655 docs via `/document/v1` (`/document/v2` returns 404), none missing
 - `clean`: 301,107 points → 31,520 clean (D30); `taxonomy`: 222 cases → 24 categories (D24)

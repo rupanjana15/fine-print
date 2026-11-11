@@ -1,0 +1,81 @@
+{
+  "system": "b1_qwen3b_zeroshot",
+  "eval_set": "lexglue",
+  "date": "2026-11-11",
+  "dataset_version": "ds-v1",
+  "set_fingerprint": "f3d2b3306d21",
+  "seconds_per_example": 0.78,
+  "notes": "0-shot, fp16 on GPU, batch 8 (s/example is per GPU batch slot)",
+  "n_examples": 1607,
+  "missing_outputs": 0,
+  "json_valid": 0.9919,
+  "json_recovered": 0.9932,
+  "invalid_flags": 52,
+  "detection": {
+    "precision": 0.2088,
+    "recall": 0.6919,
+    "f1": 0.3208,
+    "tp": 119,
+    "fp": 451,
+    "fn": 53
+  },
+  "category_macro_f1": 0.339,
+  "category_micro": {
+    "precision": 0.1909,
+    "recall": 0.6022,
+    "f1": 0.2899,
+    "tp": 109,
+    "fp": 462,
+    "fn": 72
+  },
+  "severity_accuracy": null,
+  "severity_confusion": {},
+  "quote_faithfulness": 0.0451,
+  "predicted_flags": 577,
+  "flag_rate_by_kind": {
+    "negative": 0.3143,
+    "positive": 0.6919
+  },
+  "per_category": {
+    "account_termination_and_moderation": {
+      "precision": 0.2012,
+      "recall": 0.7021,
+      "f1": 0.3128,
+      "tp": 33,
+      "fp": 131,
+      "fn": 14
+    },
+    "changes_to_terms": {
+      "precision": 0.5556,
+      "recall": 0.3279,
+      "f1": 0.4124,
+      "tp": 20,
+      "fp": 16,
+      "fn": 41
+    },
+    "dispute_resolution": {
+      "precision": 0.0504,
+      "recall": 0.8571,
+      "f1": 0.0952,
+      "tp": 6,
+      "fp": 113,
+      "fn": 1
+    },
+    "jurisdiction_and_compliance": {
+      "precision": 0.5306,
+      "recall": 0.9286,
+      "f1": 0.6753,
+      "tp": 26,
+      "fp": 23,
+      "fn": 2
+    },
+    "liability_and_indemnity": {
+      "precision": 0.1182,
+      "recall": 0.6316,
+      "f1": 0.1992,
+      "tp": 24,
+      "fp": 179,
+      "fn": 14
+    }
+  }
+}

@@ -217,6 +217,13 @@ half…). It tells you *what to fix next*, which aggregate numbers can't.
 is for running on small machines. On a GPU we run fp16 and process ~8 chunks at once (**batching**),
 which uses the GPU's parallelism, so it's far faster than one chunk at a time on the Mac. *Decision:* D35.
 
+### Why training needs fp32 (or mixed precision)
+fp16 can only hold numbers down to ~6e-8 and has ~3 significant digits. Inference is fine in fp16, but
+**training** adds tiny updates to weights and divides by small numbers (AdamW's ε = 1e-8, which becomes 0 in
+fp16). Result: NaN after one step. So training keeps weights in **fp32**, or uses **mixed precision** (fp32
+master copy, fp16 maths, a loss scaler) — and QLoRA keeps its trainable adapters in higher precision for the
+same reason. *Repo:* `baselines/deberta.py`. *Decision:* D36.
+
 ### Parallel jobs on two GPUs
 Kaggle gives two T4 GPUs. Rather than splitting one model across both (complex), we run **two independent
 job queues**, one per GPU (`CUDA_VISIBLE_DEVICES=0` / `=1`). Total time ≈ the longer queue, not the sum.

@@ -33,7 +33,11 @@ THRESHOLDS = np.arange(0.1, 0.75, 0.05)
 
 def main() -> None:
     import torch
-    from transformers import AutoModelForSequenceClassification, AutoTokenizer, get_linear_schedule_with_warmup
+    from transformers import (
+        AutoModelForSequenceClassification,
+        AutoTokenizer,
+        get_linear_schedule_with_warmup,
+    )
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--epochs", type=int, default=2)
@@ -50,8 +54,11 @@ def main() -> None:
     index = {c: i for i, c in enumerate(categories)}
 
     tok = AutoTokenizer.from_pretrained(MODEL)
+    # fp32 on purpose: transformers v5 loads weights in the checkpoint's dtype (fp16 for deberta-v3),
+    # and AdamW in pure fp16 turns every weight into NaN after one step (eps 1e-8 underflows to 0).
     model = AutoModelForSequenceClassification.from_pretrained(
-        MODEL, num_labels=len(categories), problem_type="multi_label_classification").to(device)
+        MODEL, num_labels=len(categories), problem_type="multi_label_classification",
+        dtype=torch.float32).to(device)
 
     train = _processed("train")[: args.limit]
 
@@ -84,6 +91,8 @@ def main() -> None:
             enc = tok([e["input"] for e in part], truncation=True, max_length=args.max_len,
                       padding=True, return_tensors="pt").to(device)
             loss = model(**enc, labels=torch.stack([target(e) for e in part]).to(device)).loss
+            if not torch.isfinite(loss):  # fail loudly instead of saving an empty model
+                raise SystemExit(f"non-finite loss at epoch {epoch} step {i // args.batch}")
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             opt.step()

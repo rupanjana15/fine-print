@@ -3,12 +3,23 @@
 The Mac (M1, 8 GB) can't run 3B-model inference or DeBERTa training at a useful speed, so these run on
 Kaggle's free GPUs (decision D35). One notebook uses **both T4 GPUs at once**:
 
-| GPU | Jobs, in order | Rough time |
+| GPU | Jobs, in order | Measured time |
 |---|---|---|
-| 0 | B1 Qwen2.5-3B zero-shot on `test-500`, then `lexglue` | ~1–2 h |
-| 1 | B3 DeBERTa-v3-small train + eval, then B2 Qwen 3-shot on `test-500`, then `lexglue` | ~2–3 h |
+| 0 | B1 Qwen2.5-3B zero-shot on `test-500`, then `lexglue` | ~40 min |
+| 1 | B3 DeBERTa-v3-small train + eval, then B2 Qwen 3-shot on `test-500`, then `lexglue` | ~1.5 h |
 
-Times are estimates; the first run will tell.
+## Fastest route: Claude Code drives it with the Kaggle CLI (D36)
+Once `~/.kaggle/access_token` exists on the Mac (Kaggle → Settings → API → *Generate New Token*, then run the
+save command it shows, in Terminal), no clicking is needed:
+```bash
+uv run python -m fineprint.kaggle_bundle            # dist/kaggle/fine-print-bundle.zip
+uv run kaggle datasets version -p dist/kaggle/dataset -m "what changed"   # folder: zip + dataset-metadata.json
+uv run kaggle kernels push -p dist/kaggle/kernel --accelerator NvidiaTeslaT4  # folder: notebook + kernel-metadata.json
+uv run kaggle kernels status rupanjanachoudhury/fine-print-baselines
+uv run kaggle kernels output rupanjanachoudhury/fine-print-baselines -p dist/kaggle/output --file-pattern 'fine-print-results\.zip$'
+```
+`kernel-metadata.json` sets the notebook private, GPU + internet on, and attaches the `fine-print` dataset.
+The run continues on Kaggle if the Mac sleeps. The manual web route below does the same thing.
 
 ## One-time account setup
 1. Sign in at kaggle.com.

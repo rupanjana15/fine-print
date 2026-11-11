@@ -31,9 +31,9 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] `eval/` harness: one predictions format → all metrics → `results/eval/*.json` + `results/RESULTS.md`
 - [x] B0 keyword baseline, B0b TF-IDF + logistic regression, `ref_always_flag` reference
 - [x] Kaggle notebook + bundle/import scripts (Mac can't run the heavy jobs, D35)
-- [ ] B1/B2 base model zero/few-shot: run `notebooks/kaggle_baselines.ipynb` on Kaggle
-- [ ] B3 DeBERTa-v3-small classifier: same notebook
-- [ ] Import results, write up findings, tag v0.3
+- [x] B1/B2 base model zero/few-shot: run `notebooks/kaggle_baselines.ipynb` on Kaggle
+- [x] B3 DeBERTa-v3-small classifier: same notebook (first run NaN → fp32 fix and rerun, D36)
+- [x] Import results, write up findings (`results/baselines_v0.3.md`), tag v0.3
 
 ## v0.4 — First fine-tune (Week 2–3) · MVP
 - [ ] Push processed splits to a private HF dataset repo (set `hf_dataset_repo`)

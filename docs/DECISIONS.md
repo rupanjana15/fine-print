@@ -754,3 +754,35 @@ scored both ways in v0.6 to quantify that.
 
 **Explain it:** *"My laptop couldn't handle it, so I split the work: the Mac does data and scoring, and one
 Kaggle notebook runs the heavy jobs on two free GPUs at the same time."*
+
+## D36 — DeBERTa trains in fp32; Kaggle is driven from the Mac with the Kaggle CLI
+
+**Context.** First Kaggle run (2026-11-10): B1/B2 finished, but B3 DeBERTa scored 0 everywhere. Its loss was 0.73
+at step 0 and `nan` from then on, so it predicted no flags. Reproduced on the Mac's CPU in 2 steps: transformers
+v5 loads weights in the **checkpoint's** dtype by default, and deberta-v3's checkpoint is fp16. Training pure fp16
+weights with AdamW breaks on the first update (its ε = 1e-8 rounds to 0 in fp16 → divide by zero → NaN).
+Also, the run was launched by hand-holding through the Kaggle web UI, which was slow and error-prone.
+
+**Decision.**
+- `baselines/deberta.py` loads the model with `dtype=torch.float32`, and stops with an error on any
+  non-finite loss instead of saving a broken model and writing empty predictions.
+- Inference-only LLM runs (`run_hf.py`) stay fp16 on purpose (D35): no optimizer, no underflow problem.
+- Kaggle is driven with the official **Kaggle CLI** (dev dependency) from the Mac: `kaggle datasets version`
+  uploads the bundle, `kaggle kernels push --accelerator NvidiaTeslaT4` starts the notebook on 2×T4,
+  `kaggle kernels status/output` fetch the result. Staging folders live in `dist/kaggle/` (gitignored).
+  The API token sits in `~/.kaggle/access_token` on the Mac only.
+
+**Alternatives.**
+| Option | Why not |
+|---|---|
+| Mixed precision (fp32 master weights + fp16 compute, `torch.autocast` + `GradScaler`) | Faster on T4, but more code; DeBERTa-small in fp32 trains in ~10 min, so not worth it here. Will matter for the LLM fine-tune (QLoRA handles it) |
+| Pin transformers < 5 | Hides the cause, blocks upgrades |
+| Raise AdamW ε | Still fp16 weights: tiny updates round away; a hack |
+| A Kaggle MCP connector | None exists; the CLI already does upload / run / download |
+| Keep using the web UI | Manual steps for every rerun |
+
+**Consequences.** One extra Kaggle run (DeBERTa only, ~15 min). Any future training script must set its dtype
+explicitly rather than rely on library defaults. Reruns are a few commands, no clicking.
+
+**Explain it:** *"DeBERTa came out at zero because the new library loaded it in half precision, and training in
+half precision divides by zero on the first step; I force full precision and make NaN losses crash loudly."*

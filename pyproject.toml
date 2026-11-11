@@ -26,7 +26,12 @@ deberta = ["torch>=2.4", "transformers>=4.45", "sentencepiece>=0.2", "protobuf>=
 train = ["unsloth", "trl", "peft", "transformers", "accelerate", "bitsandbytes"]
 
 [dependency-groups]
-dev = ["pytest>=8", "ruff>=0.6", "ipykernel>=6"]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "ipykernel>=6",
+    "kaggle>=2.2.5",
+]
 
 [build-system]
 requires = ["hatchling"]
