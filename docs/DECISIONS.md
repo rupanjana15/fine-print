@@ -831,7 +831,11 @@ data + checkpoints on the HF Hub.
 **Consequences.** One run ≈ 6 h of the weekly GPU quota. First full run (2026-11-11) ran out of GPU memory at
 step 200, the first validation-loss check: with an eval batch of 8, the loss over Qwen's 151k-token vocabulary
 needed 3.6 GB at once on top of training memory. Fixed with eval batch 2 and
-`PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True`; ~25 min of GPU time lost (no checkpoint yet at that point). The fine-tuned model is scored on exactly the same sets
+`PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True`; ~25 min of GPU time lost (no checkpoint yet at that point). The
+rerun trained fine (4.3 h; val loss 0.129 → 0.049), but evaluation failed at start: PEFT refuses to put an adapter
+on an fp16 model when an old `torchao` is installed (Kaggle ships 0.10). We don't use torchao, so the notebook
+uninstalls it, and a new `MODE = 'eval'` reruns only the evaluation, taking the adapter from the training
+notebook's output (attached as a `kernel_sources` input) instead of retraining. The fine-tuned model is scored on exactly the same sets
 and metrics as the baselines (`ft_qwen3b_v1`). The 4-bit GGUF used for serving is scored separately in v0.6.
 
 **Explain it:** *"I wrote a small QLoRA training script, timed it against Unsloth on Kaggle, and used plain
