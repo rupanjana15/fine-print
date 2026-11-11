@@ -36,10 +36,11 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] Import results, write up findings (`results/baselines_v0.3.md`), tag v0.3
 
 ## v0.4 — First fine-tune (Week 2–3) · MVP
-- [ ] Push processed splits to a private HF dataset repo (set `hf_dataset_repo`)
-- [ ] `notebooks/train_kaggle.ipynb` (QLoRA, Unsloth, completion-only loss)
-- [ ] Budget: ~18M tokens/epoch. Time a 200-step run first; if one epoch is over ~5 h, train on a subsample
-- [ ] Adapter + checkpoints pushed to HF Hub
+- [x] ~~Push processed splits to a private HF dataset repo~~ → data comes from the private Kaggle dataset (D37)
+- [x] `training/train.py` (QLoRA, transformers + peft, completion-only loss, unit-tested masking) +
+      `notebooks/kaggle_train.ipynb` (timing / full modes)
+- [x] Budget: timing run → 4.6 h/epoch on 2×T4 with DDP vs 6.9 h with Unsloth on one → 1 epoch, all data (D37)
+- [ ] Full run on Kaggle; adapter comes back as `fine-print-adapter.zip` (HF Hub push moves to v0.7)
 - [ ] Evaluate → first full results table
 
 ## v0.5 — Error analysis + iteration (Week 3)

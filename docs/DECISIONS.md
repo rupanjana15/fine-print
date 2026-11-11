@@ -132,7 +132,7 @@ model fine-tunes on a free 16 GB GPU with almost the same quality as full fine-t
 
 ---
 
-## D05 — Compute: Kaggle for training, Mac for everything else
+## D05 — Compute: Kaggle for training, Mac for everything else (amended by D37)
 
 **Context.** Hardware is a MacBook Air M1 with 8 GB unified memory. Budget: free.
 
@@ -409,7 +409,7 @@ point to the human-reviewed one."*
 
 ---
 
-## D21 — Versioning: git tags for code, HF Hub for data and models
+## D21 — Versioning: git tags for code, HF Hub for data and models (amended by D37)
 
 **Decision.** Each milestone = git tag (`v0.1`…) + `CHANGELOG.md` entry, pushed to a private GitHub repo.
 Raw/processed data and model weights go to private Hugging Face repos, with the version recorded in
@@ -786,3 +786,51 @@ explicitly rather than rely on library defaults. Reruns are a few commands, no c
 
 **Explain it:** *"DeBERTa came out at zero because the new library loaded it in half precision, and training in
 half precision divides by zero on the first step; I force full precision and make NaN losses crash loudly."*
+
+---
+
+## D37 — First fine-tune: plain transformers + peft on both T4s, 1 epoch, data from the Kaggle dataset
+
+**Context.** v0.4 trains the first adapter. Dataset v1 has 38,143 train examples, mean 418 tokens (p99 717;
+18 examples over 1,024 tokens), ~16M tokens per epoch, of which the answer is ~18%. Kaggle gives 2×T4 for at most
+12 h per session and ~30 GPU-hours a week. The plan (D04, configs/train.yaml) said Unsloth + TRL, 2 epochs, and
+data + checkpoints on the HF Hub.
+
+**Decision.**
+- **Our own small script** `training/train.py` on the Hugging Face `Trainer` + PEFT + bitsandbytes (QLoRA: NF4
+  base, LoRA r 16 / α 32 on all linear layers, lr 2e-4 cosine, 3% warmup, effective batch 16, fp16 mixed
+  precision, gradient checkpointing, length-grouped batches). Completion-only masking is done by us
+  (`tokenize_example`, unit-tested), not by TRL's `SFTTrainer`. Over-long examples are dropped, never cut.
+- **Backend chosen by measurement:** a 30-step timing run on Kaggle (`results/training/timing-*.json`):
+  | Backend | GPUs | s/step | tokens/s | h/epoch |
+  |---|---|---|---|---|
+  | transformers + peft, DDP (`torchrun`) | 2 | 6.96 | 965 | **4.6** |
+  | Unsloth | 1 | 10.35 | 649 | 6.9 |
+  Unsloth is faster per GPU, but its free version uses one GPU; plain DDP on both wins. Unsloth stays as a
+  `--backend` option.
+- **1 epoch on all the data** (not 2): 2 epochs ≈ 9.2 h + evaluation would brush the 12 h session limit. The
+  roadmap rule was to subsample only if an epoch took > ~5 h. Whether a 2nd epoch helps is a v0.5 experiment.
+- **Data comes from the private Kaggle dataset** (the same bundle as the baselines) instead of an HF dataset
+  repo, and the adapter comes back as a notebook output (`fine-print-adapter.zip`, kept in `data/models/`,
+  gitignored). This avoids storing an HF write token in Kaggle for now. A time budget (`max_hours: 10.5`) stops
+  and saves before the session limit, so a long run still returns an adapter. *Amends D05's "checkpoints to the
+  HF Hub" and D21 for now; the HF push comes with the demo (v0.7), which needs an HF token anyway.*
+- **Evaluation in the same notebook**, with the same runner and prompt as B1 (`run_hf.py --adapter`, fp16 base
+  + merged LoRA, greedy): `test-500` + full `test` on GPU 0, `lexglue` on GPU 1.
+
+**Alternatives.**
+| Option | Why not |
+|---|---|
+| Unsloth on one GPU (the original plan) | Measured 1.5× slower here than DDP on two GPUs |
+| TRL `SFTTrainer` | Its completion-only options changed across versions; 20 lines of our own masking are explicit and tested |
+| 2 epochs in one session | ~10.5 h with eval; no margin for a slow node |
+| 2 epochs over two sessions (resume from checkpoint) | Works, but doubles the bookkeeping before we know a 2nd epoch helps |
+| Subsample to ~20k examples | Not needed at 4.6 h/epoch; less data = less coverage of rare categories |
+| Truncate long examples | Would teach cut-off JSON; dropping 18 of 38k costs nothing |
+
+**Consequences.** One run ≈ 6 h of the weekly GPU quota. The fine-tuned model is scored on exactly the same sets
+and metrics as the baselines (`ft_qwen3b_v1`). The 4-bit GGUF used for serving is scored separately in v0.6.
+
+**Explain it:** *"I wrote a small QLoRA training script, timed it against Unsloth on Kaggle, and used plain
+data-parallel training on both free GPUs because it was faster; one epoch of all 38k examples takes about
+4.6 hours, and the prompt tokens are masked so the model only learns to write the answer."*

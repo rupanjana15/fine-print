@@ -25,6 +25,11 @@ def main() -> None:
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(z.read(name))
                 runs.append((system, file.removesuffix(".jsonl")))
+            elif name.startswith("results/training/"):  # train_summary.json per run (D37), committed
+                target = ROOT / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(z.read(name))
+                print("training summary →", name)
             elif name.startswith("logs/"):
                 target = data_path("predictions") / name
                 target.parent.mkdir(parents=True, exist_ok=True)

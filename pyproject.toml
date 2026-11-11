@@ -23,7 +23,8 @@ eval = ["llama-cpp-python>=0.3", "huggingface-hub>=0.26"]
 # B3 DeBERTa baseline (runs on the Mac's GPU via mps, or on Kaggle).
 deberta = ["torch>=2.4", "transformers>=4.45", "sentencepiece>=0.2", "protobuf>=5"]
 # Training runs on Kaggle; these are installed there, not on the Mac.
-train = ["unsloth", "trl", "peft", "transformers", "accelerate", "bitsandbytes"]
+# Unsloth and bitsandbytes need CUDA: installed in the Kaggle notebook, not here (D37).
+train = ["torch>=2.4", "transformers>=5", "peft>=0.17", "accelerate>=1.0", "sentencepiece>=0.2", "protobuf>=4"]
 
 [dependency-groups]
 dev = [

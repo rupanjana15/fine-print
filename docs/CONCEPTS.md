@@ -43,7 +43,9 @@ output, one token at a time. It's what we do: input = chunk, output = the JSON w
 **Loss** measures how wrong the model's predictions are; training adjusts weights to reduce it.
 By default the loss covers every token, including the prompt. **Completion-only loss** masks the
 system and user tokens so only the assistant's answer counts. Then the model learns to *answer*,
-not to memorise legal text. *Repo:* `configs/train.yaml` → `completion_only_loss: true`.
+not to memorise legal text. How: each prompt token gets the label **-100**, which the loss function
+skips. In our data the answer is only ~18% of the tokens, so this matters. *Repo:*
+`training/train.py` → `tokenize_example`, checked by `tests/test_training.py`.
 
 ### Epoch, learning rate, batch size
 - **Epoch:** one pass over all training data. We use ~2; more risks memorising (overfitting).
@@ -76,10 +78,38 @@ is why a 3B model trains on a free 16 GB T4 GPU. *Decision:* D04.
 - **TRL** (Hugging Face): provides `SFTTrainer`, the training loop for supervised fine-tuning.
 - **PEFT**: the library implementing LoRA adapters.
 - **Unsloth**: optimised kernels that make LoRA/QLoRA ~2× faster with less memory, which is ideal for free GPUs.
+- **bitsandbytes**: the library that stores the frozen base model in 4-bit (NF4) on the GPU.
+- We use the plain Hugging Face `Trainer` with our own masking instead of TRL's `SFTTrainer`: fewer moving
+  parts, and the masking is ours to test (D37).
 
 ### Merging the adapter
 After training you can add the LoRA update into the base weights permanently ("merge"), producing one
 normal model file, which is needed before converting to GGUF.
+
+### Gradient checkpointing
+Training normally keeps every layer's intermediate results ("activations") in memory for the backward pass.
+**Gradient checkpointing** keeps only some and recomputes the rest when needed: ~30% slower, much less
+memory, so longer chunks and bigger batches fit on a 16 GB T4.
+
+### Data-parallel training on two GPUs (DDP)
+Each GPU holds a full copy of the (4-bit) model and trains on different examples; after every step the
+GPUs average their gradients so both copies stay identical. Twice the examples per second, same result as
+one GPU with a doubled batch. We keep the *effective* batch at 16 by halving gradient accumulation.
+Started with `torchrun --nproc_per_node 2`. *Decision:* D37.
+
+### Warmup and cosine schedule
+The learning rate starts near 0 and rises over the first ~3% of steps (**warmup**: early gradients are noisy,
+big steps then can wreck the pre-trained weights), then falls along a cosine curve to ~0 at the end, so the
+last updates are small refinements.
+
+### Length-grouped batches and padding
+Examples in a batch must be the same length, so short ones are **padded**. Grouping examples of similar
+length into the same batch cuts the padding (wasted compute). Padding tokens are masked from the loss.
+
+### Validation loss and checkpoints
+Every 200 steps the loss is measured on a fixed slice of validation data the model never trains on. Falling
+train loss + rising validation loss = overfitting. A **checkpoint** (adapter + optimizer state) is saved at the
+same time, so a stopped run can resume. A time budget stops training before Kaggle's 12 h limit.
 
 ---
 

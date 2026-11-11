@@ -9,6 +9,7 @@ Predictions are appended per batch, so a run that's interrupted resumes where it
 Usage (on a GPU machine):
     python -m fineprint.eval.run_hf --system b1_qwen3b_zeroshot --set test-500
     python -m fineprint.eval.run_hf --system b2_qwen3b_fewshot --set test-500 --shots 3
+    python -m fineprint.eval.run_hf --system ft_qwen3b_v1 --set test-500 --adapter /kaggle/working/ft/adapter
 """
 
 import argparse
@@ -31,6 +32,7 @@ def main() -> None:
     ap.add_argument("--system", required=True)
     ap.add_argument("--set", dest="eval_set", required=True, choices=SETS)
     ap.add_argument("--model", default=DEFAULT_MODEL)
+    ap.add_argument("--adapter", help="LoRA adapter folder from training/train.py (merged into fp16 weights)")
     ap.add_argument("--shots", type=int, default=0)
     ap.add_argument("--batch", type=int, default=8)
     ap.add_argument("--max-new-tokens", type=int, default=512)
@@ -49,6 +51,10 @@ def main() -> None:
 
     tok = AutoTokenizer.from_pretrained(args.model, padding_side="left")
     model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=torch.float16, device_map="cuda")
+    if args.adapter:  # fine-tuned run: same fp16 base + our LoRA weights, merged for speed (D37)
+        from peft import PeftModel
+
+        model = PeftModel.from_pretrained(model, args.adapter).merge_and_unload()
     model.eval()
     shots = pick_shots(args.shots) if args.shots else []
 
@@ -75,7 +81,8 @@ def main() -> None:
             print(f"{i + len(part)}/{len(todo)} {time.perf_counter() - t0:.0f}s", flush=True)
 
     if args.limit is None:
-        notes = f"{args.shots}-shot, fp16 on GPU, batch {args.batch} (s/example is per GPU batch slot)"
+        notes = ((f"adapter {args.adapter}, " if args.adapter else "")
+                 + f"{args.shots}-shot, fp16 on GPU, batch {args.batch} (s/example is per GPU batch slot)")
         r = score_run(args.system, args.eval_set, notes=notes)
         print(json.dumps({k: v for k, v in r.items() if k != "per_category"}, indent=2))
         print(build_table())
