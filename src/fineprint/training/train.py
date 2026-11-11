@@ -142,7 +142,8 @@ def main() -> None:
     targs = TrainingArguments(
         output_dir=args.out, seed=tr["seed"], report_to="none",
         num_train_epochs=args.epochs, max_steps=args.max_steps,
-        per_device_train_batch_size=tr["per_device_batch_size"], per_device_eval_batch_size=8,
+        per_device_train_batch_size=tr["per_device_batch_size"],
+        per_device_eval_batch_size=2,  # val loss needs logits over the 151k vocab: batch 8 ran out of memory (D37)
         gradient_accumulation_steps=accum, learning_rate=tr["learning_rate"],
         lr_scheduler_type=tr["lr_scheduler"], weight_decay=0.0, **compat,
         fp16=cuda, bf16=False,  # T4 has no bf16: fp16 mixed precision (LoRA weights stay fp32)

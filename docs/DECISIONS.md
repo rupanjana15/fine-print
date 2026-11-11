@@ -828,7 +828,10 @@ data + checkpoints on the HF Hub.
 | Subsample to ~20k examples | Not needed at 4.6 h/epoch; less data = less coverage of rare categories |
 | Truncate long examples | Would teach cut-off JSON; dropping 18 of 38k costs nothing |
 
-**Consequences.** One run ≈ 6 h of the weekly GPU quota. The fine-tuned model is scored on exactly the same sets
+**Consequences.** One run ≈ 6 h of the weekly GPU quota. First full run (2026-11-11) ran out of GPU memory at
+step 200, the first validation-loss check: with an eval batch of 8, the loss over Qwen's 151k-token vocabulary
+needed 3.6 GB at once on top of training memory. Fixed with eval batch 2 and
+`PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True`; ~25 min of GPU time lost (no checkpoint yet at that point). The fine-tuned model is scored on exactly the same sets
 and metrics as the baselines (`ft_qwen3b_v1`). The 4-bit GGUF used for serving is scored separately in v0.6.
 
 **Explain it:** *"I wrote a small QLoRA training script, timed it against Unsloth on Kaggle, and used plain
