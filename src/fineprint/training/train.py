@@ -80,6 +80,10 @@ def load_model(args, cfg, local_rank: int):
                                                      device_map={"": local_rank})
         model = prepare_model_for_kbit_training(
             model, use_gradient_checkpointing=True, gradient_checkpointing_kwargs={"use_reentrant": False})
+    if args.init_adapter:  # continue training an existing adapter (2nd epoch, D39)
+        from peft import PeftModel
+
+        return PeftModel.from_pretrained(model, args.init_adapter, is_trainable=True), tok
     model = get_peft_model(model, LoraConfig(
         r=lora["r"], lora_alpha=lora["alpha"], lora_dropout=lora["dropout"],
         target_modules=lora["target_modules"], task_type="CAUSAL_LM"))
@@ -98,10 +102,15 @@ def main() -> None:
     ap.add_argument("--max-hours", type=float, default=tr["max_hours"], help="stop + save after this long")
     ap.add_argument("--limit", type=int, help="only the first N train examples (smoke test / subsample)")
     ap.add_argument("--val-size", type=int, default=tr["val_size"])
-    ap.add_argument("--resume", help="checkpoint folder to resume from")
+    ap.add_argument("--resume", help="checkpoint folder to resume from (same run, same schedule)")
+    ap.add_argument("--init-adapter", help="start from this trained adapter instead of a fresh LoRA (hf backend, D39)")
+    ap.add_argument("--lr", type=float, default=tr["learning_rate"], help="peak learning rate")
+    ap.add_argument("--seed", type=int, default=tr["seed"], help="also sets the data order")
     ap.add_argument("--no-4bit", action="store_true", help="CPU smoke test without bitsandbytes")
     args = ap.parse_args()
 
+    if args.init_adapter and args.backend != "hf":
+        raise SystemExit("--init-adapter is implemented for the hf backend only")
     if args.backend == "unsloth":
         import unsloth  # noqa: F401  (must be imported before transformers so its patches apply)
     import torch
@@ -140,11 +149,11 @@ def main() -> None:
     compat |= ({"warmup_steps": tr["warmup_ratio"]} if "warmup_ratio" not in params
                else {"warmup_ratio": tr["warmup_ratio"]})
     targs = TrainingArguments(
-        output_dir=args.out, seed=tr["seed"], report_to="none",
+        output_dir=args.out, seed=args.seed, report_to="none",
         num_train_epochs=args.epochs, max_steps=args.max_steps,
         per_device_train_batch_size=tr["per_device_batch_size"],
         per_device_eval_batch_size=2,  # val loss needs logits over the 151k vocab: batch 8 ran out of memory (D37)
-        gradient_accumulation_steps=accum, learning_rate=tr["learning_rate"],
+        gradient_accumulation_steps=accum, learning_rate=args.lr,
         lr_scheduler_type=tr["lr_scheduler"], weight_decay=0.0, **compat,
         fp16=cuda, bf16=False,  # T4 has no bf16: fp16 mixed precision (LoRA weights stay fp32)
         logging_steps=10, eval_strategy="steps", eval_steps=tr["save_steps"],
@@ -173,6 +182,7 @@ def main() -> None:
         mean_len = sum(len(r["input_ids"]) for r in train) / len(train)
         summary = {
             "backend": args.backend, "model": args.model, "gpus": world, "steps": steps,
+            "init_adapter": args.init_adapter, "learning_rate": args.lr, "seed": args.seed,
             "epochs_done": round(examples / len(train), 3), "train_examples": len(train), "dropped_long": dropped,
             "seconds": round(secs), "seconds_per_step": round(secs / max(steps, 1), 2),
             "tokens_per_second": round(examples * mean_len / secs),

@@ -894,3 +894,42 @@ so the model is too quiet. DeBERTa and TF-IDF have a threshold tuned on val; the
 it was to answer 'nothing here' and tuned a cutoff on validation data, like a classifier threshold. That took
 recall from 68% to 87% and nearly closed the gap to DeBERTa, at zero training cost. Checking it, I found the
 model library had been silently applying a repetition penalty, so I made that setting explicit everywhere."*
+
+---
+
+## D39 — A second epoch, continued from the v1 adapter
+
+**Context.** After the threshold (D38), the fine-tune is at test macro-F1 0.626 vs DeBERTa 0.635. The gap sits
+in a few neighbouring privacy/legal categories (advertising, data collection, dispute resolution, liability), so
+it's a discrimination problem more than a silence problem. v1 trained one epoch for budget reasons (D37), not
+because one epoch was shown to be enough; val loss was still creeping down (0.0501 → 0.0493 over the last 380
+steps, while the learning rate was already near zero). The author asked for the better model, not the faster
+finish, and ~14 GPU hours of the week's 30 were left.
+
+**Decision.**
+- Continue from the v1 adapter for **one more epoch** over the same data (`train.py --init-adapter`), instead of
+  retraining from scratch for two.
+- **Peak learning rate 1e-4** with the same 3% warmup and cosine decay to 0. In a single 2-epoch cosine schedule
+  from 2e-4, epoch 2 would start at ~1e-4 and decay to 0, so this approximates that run. The short warmup is
+  kept because the optimizer state (Adam's running averages) starts fresh.
+- **Seed 43**: a new shuffle, as a real second epoch would see the data in a different order.
+- Everything else identical to v1 (QLoRA, DDP on 2×T4, completion-only loss, same data and val slice).
+- Then the same empty-answer threshold procedure (D38): `run_knob` on val/test/LexGLUE, t tuned on val.
+  System names `ft_qwen3b_v2` (adapter) and `ft_qwen3b_v2_tuned`. **v2 replaces v1 only if it scores higher on
+  val**; test is reported either way.
+
+**Alternatives.**
+| Option | Why not |
+|---|---|
+| Retrain from scratch for 2 epochs | ~9 h of training instead of ~4.5 h, to reach roughly the same place |
+| Resume the v1 checkpoint | Checkpoints were deleted to keep notebook output small; only the adapter was kept |
+| Dataset v2 first (merge `transparency`, D24 style) | Changes the label set, so scores stop being comparable with every baseline; and transparency is only 1 of 24 categories |
+| Class weights for the weak categories | Needs a custom loss; a second epoch is the cheaper first test of "more training helps" |
+| Stop here | Leaves a known, cheap improvement untried |
+
+**Consequences.** ~7 GPU hours (training ~4.5 h + threshold run ~2 h). If v2 doesn't beat v1 on val, v1 stays
+the model and the result is still reported. Overfitting risk is watched through val loss every 200 steps.
+
+**Explain it:** *"My first fine-tune got one epoch because of the GPU budget. I continued it for a second epoch
+at half the learning rate, which mimics a two-epoch schedule, then re-tuned the threshold and kept whichever
+version did better on validation."*
