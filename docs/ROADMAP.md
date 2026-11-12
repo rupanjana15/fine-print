@@ -40,11 +40,14 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] `training/train.py` (QLoRA, transformers + peft, completion-only loss, unit-tested masking) +
       `notebooks/kaggle_train.ipynb` (timing / full modes)
 - [x] Budget: timing run → 4.6 h/epoch on 2×T4 with DDP vs 6.9 h with Unsloth on one → 1 epoch, all data (D37)
-- [ ] Full run on Kaggle; adapter comes back as `fine-print-adapter.zip` (HF Hub push moves to v0.7)
-- [ ] Evaluate → first full results table
+- [x] Full run on Kaggle (4.3 h; val loss 0.129 → 0.049); adapter comes back as `fine-print-adapter.zip`
+      (HF Hub push moves to v0.7). Two failed starts fixed: eval OOM, torchao (D37)
+- [x] Evaluate → first full results table (`results/finetune_v0.4.md`): macro-F1 0.571 vs DeBERTa 0.635,
+      precision 0.93, recall 0.68, severity 0.85
 
 ## v0.5 — Error analysis + iteration (Week 3)
-- [ ] Read ≥50 errors, group them, write `results/error_analysis_v1.md`
+- [ ] Read ≥50 errors (start with missed positives: model miss vs missing label), write `results/error_analysis_v1.md`
+- [ ] Cheapest recall fix first: threshold on the probability of the empty answer, tuned on val
 - [ ] Fix the largest error group (rebalance / more negatives / prompt / threshold)
 - [ ] Retrain (1–2 runs) and compare
 - [ ] LexGLUE external evaluation

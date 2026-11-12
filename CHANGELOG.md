@@ -2,6 +2,15 @@
 
 One entry per tagged milestone (see `docs/ROADMAP.md`).
 
+## v0.4 — 2026-11-12 · First fine-tune
+- `training/train.py`: QLoRA (NF4 + LoRA r 16), completion-only masking (unit-tested), DDP on both T4s, time budget
+- `notebooks/kaggle_train.ipynb`: timing / full / eval modes; timing run picked DDP 2×T4 (4.6 h/epoch) over
+  Unsloth 1×T4 (6.9 h) → 1 epoch on all data (D37)
+- Training: 2,383 steps, 4.3 h, val loss 0.129 → 0.049. Fixed on the way: eval OOM (batch 2), torchao vs PEFT
+- `ft_qwen3b_v1` on full test: precision **0.933**, recall 0.681, cat macro-F1 0.571 (DeBERTa 0.635), severity
+  **0.851** (best), flags 7% of harmless chunks (DeBERTa 27%), 99.95% valid JSON, 99.2% faithful quotes.
+  Findings: `results/finetune_v0.4.md`. Data from the Kaggle dataset; HF Hub push deferred to v0.7
+
 ## v0.3 — 2026-11-11 · Baselines + eval harness
 - `eval/`: one predictions format → JSON validity, detection P/R/F1, category macro-F1, severity, quote
   faithfulness, flag rate per example kind → `results/eval/*.json` + generated `results/RESULTS.md` (D32)

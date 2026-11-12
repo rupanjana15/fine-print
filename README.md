@@ -5,7 +5,7 @@ in plain English, with severity and the exact quote.** Runs locally; built entir
 
 > ⚠️ Not legal advice.
 
-## Status (2026-11-11)
+## Status (2026-11-12)
 
 | Milestone | State |
 |---|---|
@@ -13,22 +13,25 @@ in plain English, with severity and the exact quote.** Runs locally; built entir
 | v0.1 Data spike: 301k ToS;DR points fetched, 32k usable | ✅ done |
 | v0.2 Dataset v1: 38,143 / 4,773 / 4,024 train/val/test, split by company | ✅ done |
 | v0.3 Baselines + eval harness (heavy runs on Kaggle's free GPUs) | ✅ done |
-| v0.4 First fine-tune (QLoRA on Kaggle) | ⏳ next |
+| v0.4 First fine-tune: QLoRA, 1 epoch, 4.3 h on 2×T4 | ✅ done |
+| v0.5 Error analysis + iteration | ⏳ next |
 
-**Baselines** (500 random test chunks; [all results](results/RESULTS.md) · [findings](results/baselines_v0.3.md)):
+**Results** (full test set, 4,024 chunks; [all results](results/RESULTS.md) ·
+[fine-tune findings](results/finetune_v0.4.md) · [baseline findings](results/baselines_v0.3.md)):
 
-| System | Detection F1 | Category macro-F1 | Severity acc | Flags harmless chunks |
-|---|---|---|---|---|
-| Always flag (reference) | 0.750 | 0.005 | 0.575 | 100% |
-| Keyword rules | 0.758 | 0.365 | 0.673 | 77% |
-| TF-IDF + logistic regression | 0.812 | 0.601 | 0.649 | 27% |
-| Qwen2.5-3B, zero-shot | 0.669 | 0.224 | 0.290 | 79% |
-| Qwen2.5-3B, 3 examples in prompt | 0.784 | 0.331 | 0.302 | 71% |
-| DeBERTa-v3-small classifier | **0.843** | **0.634** | 0.652 | 26% |
+| System | Precision | Recall | Category macro-F1 | Severity acc | Flags harmless chunks |
+|---|---|---|---|---|---|
+| Always flag (reference) | 0.647 | 1.000 | 0.006 | 0.584 | 100% |
+| Keyword rules | 0.693 | 0.919 | 0.371 | 0.664 | 74% |
+| TF-IDF + logistic regression | 0.862 | 0.815 | 0.617 | 0.675 | 21% |
+| DeBERTa-v3-small classifier | 0.846 | **0.881** | **0.635** | 0.678 | 27% |
+| **Fine-tuned Qwen2.5-3B (ours)** | **0.933** | 0.681 | 0.571 | **0.851** | **7%** |
 
-The base 3B model doesn't know the categories or the severity scale; the fine-tune has to beat DeBERTa's
-≈0.63 *and* explain each flag with a faithful quote. Full plan: [docs/ROADMAP.md](docs/ROADMAP.md) ·
-changes: [CHANGELOG.md](CHANGELOG.md).
+Base Qwen 3B (500-chunk subset) → fine-tuned: category macro-F1 0.33 → 0.58, severity 0.30 → 0.82, harmless chunks
+flagged 71% → 5%, valid JSON 100%, quotes copied exactly 99.6%. The fine-tune is the most precise and best at
+severity, and every flag comes with an explanation and a quote, but it is conservative: it misses about a third of
+risky chunks and doesn't yet beat DeBERTa on categories. v0.5 works on that recall gap.
+Plan: [docs/ROADMAP.md](docs/ROADMAP.md) · changes: [CHANGELOG.md](CHANGELOG.md).
 
 ## How it works
 
@@ -69,7 +72,7 @@ uv sync
 
 ## Results
 
-Baselines above; fine-tuned model in v0.4.
+See the status table above and `results/`.
 
 ## Acknowledgements
 
