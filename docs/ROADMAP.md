@@ -46,11 +46,13 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
       precision 0.93, recall 0.68, severity 0.85
 
 ## v0.5 — Error analysis + iteration (Week 3)
-- [ ] Read ≥50 errors (start with missed positives: model miss vs missing label), write `results/error_analysis_v1.md`
-- [ ] Cheapest recall fix first: threshold on the probability of the empty answer, tuned on val
+- [x] Read ≥50 errors (start with missed positives: model miss vs missing label), write `results/error_analysis_v1.md`
+- [x] Cheapest recall fix first: threshold on the probability of the empty answer, tuned on val
+  (t = 0.9: macro-F1 0.571 → 0.626, recall 0.68 → 0.87; `results/finetune_v0.5.md`, D38)
+- [x] Parity check found a hidden repetition penalty (1.05); now explicit in every runner (D38)
 - [ ] Fix the largest error group (rebalance / more negatives / prompt / threshold)
 - [ ] Retrain (1–2 runs) and compare
-- [ ] LexGLUE external evaluation
+- [x] LexGLUE external evaluation (tuned 0.589 vs DeBERTa 0.559)
 
 ## v0.6 — Inference pipeline (Week 4) · MVP
 - [ ] Merge adapter → GGUF Q4_K_M; run on Mac with `llama-cpp-python`

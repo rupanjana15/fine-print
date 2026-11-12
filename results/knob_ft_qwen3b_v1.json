@@ -1,0 +1,188 @@
+{
+  "chosen_t": 0.9,
+  "parity_with_greedy": 0.7937,
+  "val_curve": [
+    {
+      "t": 0.5,
+      "category_macro_f1": 0.4012,
+      "precision": 0.9476,
+      "recall": 0.4021,
+      "f1": 0.5646,
+      "flag_rate_by_kind": {
+        "bare": 0.2857,
+        "hard_negative": 0.1901,
+        "negative": 0.0234,
+        "positive": 0.404
+      }
+    },
+    {
+      "t": 0.6,
+      "category_macro_f1": 0.5048,
+      "precision": 0.9335,
+      "recall": 0.5538,
+      "f1": 0.6952,
+      "flag_rate_by_kind": {
+        "bare": 0.4694,
+        "hard_negative": 0.2324,
+        "negative": 0.0505,
+        "positive": 0.5552
+      }
+    },
+    {
+      "t": 0.7,
+      "category_macro_f1": 0.5633,
+      "precision": 0.9111,
+      "recall": 0.6704,
+      "f1": 0.7724,
+      "flag_rate_by_kind": {
+        "bare": 0.5714,
+        "hard_negative": 0.3521,
+        "negative": 0.0865,
+        "positive": 0.672
+      }
+    },
+    {
+      "t": 0.8,
+      "category_macro_f1": 0.6048,
+      "precision": 0.8835,
+      "recall": 0.7823,
+      "f1": 0.8298,
+      "flag_rate_by_kind": {
+        "bare": 0.7551,
+        "hard_negative": 0.4859,
+        "negative": 0.1424,
+        "positive": 0.7827
+      }
+    },
+    {
+      "t": 0.85,
+      "category_macro_f1": 0.6177,
+      "precision": 0.8576,
+      "recall": 0.8402,
+      "f1": 0.8488,
+      "flag_rate_by_kind": {
+        "bare": 0.8163,
+        "hard_negative": 0.5563,
+        "negative": 0.2013,
+        "positive": 0.8406
+      }
+    },
+    {
+      "t": 0.9,
+      "category_macro_f1": 0.6247,
+      "precision": 0.8268,
+      "recall": 0.8979,
+      "f1": 0.8609,
+      "flag_rate_by_kind": {
+        "bare": 0.9184,
+        "hard_negative": 0.7042,
+        "negative": 0.2752,
+        "positive": 0.8975
+      }
+    },
+    {
+      "t": 0.93,
+      "category_macro_f1": 0.6221,
+      "precision": 0.7956,
+      "recall": 0.9289,
+      "f1": 0.8571,
+      "flag_rate_by_kind": {
+        "bare": 0.9796,
+        "hard_negative": 0.8099,
+        "negative": 0.3564,
+        "positive": 0.928
+      }
+    },
+    {
+      "t": 0.95,
+      "category_macro_f1": 0.6213,
+      "precision": 0.7677,
+      "recall": 0.9545,
+      "f1": 0.851,
+      "flag_rate_by_kind": {
+        "bare": 0.9796,
+        "hard_negative": 0.8451,
+        "negative": 0.4429,
+        "positive": 0.9541
+      }
+    },
+    {
+      "t": 0.97,
+      "category_macro_f1": 0.609,
+      "precision": 0.7225,
+      "recall": 0.9757,
+      "f1": 0.8302,
+      "flag_rate_by_kind": {
+        "bare": 1.0,
+        "hard_negative": 0.9085,
+        "negative": 0.5907,
+        "positive": 0.9753
+      }
+    },
+    {
+      "t": 0.98,
+      "category_macro_f1": 0.6024,
+      "precision": 0.6918,
+      "recall": 0.9889,
+      "f1": 0.8141,
+      "flag_rate_by_kind": {
+        "bare": 1.0,
+        "hard_negative": 0.9437,
+        "negative": 0.7049,
+        "positive": 0.9887
+      }
+    },
+    {
+      "t": 0.99,
+      "category_macro_f1": 0.5885,
+      "precision": 0.6547,
+      "recall": 0.9956,
+      "f1": 0.7899,
+      "flag_rate_by_kind": {
+        "bare": 1.0,
+        "hard_negative": 0.9859,
+        "negative": 0.8522,
+        "positive": 0.9955
+      }
+    },
+    {
+      "t": 0.995,
+      "category_macro_f1": 0.578,
+      "precision": 0.6337,
+      "recall": 0.9987,
+      "f1": 0.7753,
+      "flag_rate_by_kind": {
+        "bare": 1.0,
+        "hard_negative": 0.993,
+        "negative": 0.9447,
+        "positive": 0.9986
+      }
+    },
+    {
+      "t": 0.999,
+      "category_macro_f1": 0.5719,
+      "precision": 0.6216,
+      "recall": 0.9987,
+      "f1": 0.7662,
+      "flag_rate_by_kind": {
+        "bare": 1.0,
+        "hard_negative": 1.0,
+        "negative": 0.9988,
+        "positive": 0.9986
+      }
+    },
+    {
+      "t": 1.0,
+      "category_macro_f1": 0.5719,
+      "precision": 0.6216,
+      "recall": 0.9987,
+      "f1": 0.7662,
+      "flag_rate_by_kind": {
+        "bare": 1.0,
+        "hard_negative": 1.0,
+        "negative": 0.9988,
+        "positive": 0.9986
+      }
+    }
+  ]
+}

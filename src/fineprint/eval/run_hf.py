@@ -19,7 +19,7 @@ import time
 from fineprint.eval.run_gguf import pick_shots
 from fineprint.eval.score import build_table, predictions_path, score_run
 from fineprint.eval.sets import SETS, load_eval_set
-from fineprint.prompt import build_messages
+from fineprint.prompt import REPETITION_PENALTY, build_messages
 
 DEFAULT_MODEL = "Qwen/Qwen2.5-3B-Instruct"
 
@@ -36,6 +36,7 @@ def main() -> None:
     ap.add_argument("--shots", type=int, default=0)
     ap.add_argument("--batch", type=int, default=8)
     ap.add_argument("--max-new-tokens", type=int, default=512)
+    ap.add_argument("--repetition-penalty", type=float, default=REPETITION_PENALTY)
     ap.add_argument("--limit", type=int, help="only the first N examples (smoke test)")
     args = ap.parse_args()
 
@@ -71,7 +72,7 @@ def main() -> None:
             t = time.perf_counter()
             with torch.no_grad():
                 out = model.generate(**enc, max_new_tokens=args.max_new_tokens, do_sample=False,
-                                     pad_token_id=tok.pad_token_id)
+                                     repetition_penalty=args.repetition_penalty, pad_token_id=tok.pad_token_id)
             per = (time.perf_counter() - t) / len(part)
             texts = tok.batch_decode(out[:, enc["input_ids"].shape[1]:], skip_special_tokens=True)
             for e, text in zip(part, texts):
@@ -82,7 +83,8 @@ def main() -> None:
 
     if args.limit is None:
         notes = ((f"adapter {args.adapter}, " if args.adapter else "")
-                 + f"{args.shots}-shot, fp16 on GPU, batch {args.batch} (s/example is per GPU batch slot)")
+                 + f"{args.shots}-shot, fp16 on GPU, batch {args.batch}, repetition penalty {args.repetition_penalty} "
+                 "(s/example is per GPU batch slot)")
         r = score_run(args.system, args.eval_set, notes=notes)
         print(json.dumps({k: v for k, v in r.items() if k != "per_category"}, indent=2))
         print(build_table())

@@ -841,3 +841,56 @@ and metrics as the baselines (`ft_qwen3b_v1`). The 4-bit GGUF used for serving i
 **Explain it:** *"I wrote a small QLoRA training script, timed it against Unsloth on Kaggle, and used plain
 data-parallel training on both free GPUs because it was faster; one epoch of all 38k examples takes about
 4.6 hours, and the prompt tokens are masked so the model only learns to write the answer."*
+
+---
+
+## D38 — Empty-answer threshold for the fine-tune, tuned on val; decoding settings made explicit
+
+**Context.** Error analysis v1 (`results/error_analysis_v1.md`) found that 56% of the fine-tune's misses are
+empty answers (`{"flags": []}`) on chunks that have a labelled clause. Precision was 0.93 but recall only 0.68,
+so the model is too quiet. DeBERTa and TF-IDF have a threshold tuned on val; the fine-tune had none.
+
+**Decision.**
+- Every answer starts `{"flags":`, and the next token is ` []` (no flags) or ` [{"` (a flag follows). A
+  forward pass gives **p_empty = P(` []`) / (P(` []`) + P(` [{"`))**; the two tokens hold ~99.8% of the
+  probability there. A second pass forces ` [{"` and decodes greedily: the model's best non-empty answer.
+  (`eval/run_knob.py`, GPU, one Kaggle run of 2.2 h on 2×T4 for val + test + LexGLUE.)
+- Answer = the forced answer if p_empty < t, else empty. **t is chosen on val for category macro-F1** over a fixed
+  grid (`eval/knob.py`, Mac, seconds), the same procedure as DeBERTa's threshold. Chosen: **t = 0.9**. New
+  system name `ft_qwen3b_v1_tuned`; the untuned `ft_qwen3b_v1` row stays in the table.
+- **The repetition penalty is now explicit** (`prompt.REPETITION_PENALTY = 1.05`, passed by `run_hf`, `run_knob`
+  and the llama.cpp runner). See "Consequences" for why.
+
+**Alternatives.**
+| Option | Why not (now) |
+|---|---|
+| Retrain with more negatives down-weighted / class weights | ~6 h GPU per try, and it moves the same trade-off a threshold moves for free |
+| A second epoch | Val loss had flattened (0.0501 → 0.0493 over the last 380 steps); may help, but it doesn't address silence by itself. Kept as an option for v0.5's retrain decision |
+| Sampling several answers and taking the union | Several× slower per chunk, not repeatable |
+| Changing the prompt ("flag when in doubt") | The prompt is shared with training (D27); changing it means retraining |
+| Tune t on test | Leaks test into the choice; numbers would be optimistic |
+
+**Consequences.**
+- Test macro-F1 0.571 → **0.626** (DeBERTa 0.635); detection recall 0.68 → 0.87, precision 0.93 → 0.87;
+  severity accuracy 0.84 (DeBERTa 0.68). Without `transparency` (label noise, error analysis v1): 0.642 vs
+  DeBERTa 0.649. On LexGLUE, data from a different source: **0.589 vs DeBERTa 0.559**. Ties or beats DeBERTa
+  on 12 of 24 categories; the remaining gap is in advertising, data collection, dispute resolution and liability.
+- False alarms on harmless chunks rise from 7% to 21% (DeBERTa: 27%).
+- Cost: ~1.3 s per chunk on a T4 instead of 1.1 s (a forward pass plus the forced answer).
+- **Parity finding.** At t = 0.5 the threshold should have reproduced the v0.4 greedy answers, but agreed on
+  only 79% of test chunks, always in the direction "greedy flags, threshold stays quiet". A diagnostic run
+  (`eval/diag_knob.py`, 15 min GPU, `results/knob_parity_diag.json`) measured P(empty) four ways on 128 chunks:
+  `generate()` at batch 8 and 1 agrees with v0.4 100%; the forward pass at batch 8 and 1 agrees 88%; dtype and
+  batching make no difference. Cause: Qwen2.5 ships `repetition_penalty: 1.05` in its generation config, which
+  `generate()` applies even with `do_sample=False`. ` []` appears in our prompt, so it gets penalised and greedy
+  decoding flags more often (mean p_empty 0.71 with the penalty vs 0.82 raw). Every generated result so far (B1,
+  B2, v0.4) used the penalty; it was simply never written down. The tuned result is unaffected in fairness: val
+  and test both use the raw p_empty, and the forced answers use the same penalty as v0.4.
+- Serving (v0.6) has to reproduce this: llama.cpp gives the next-token log-probabilities needed for p_empty.
+- The 60-case reading in error analysis v1 was done by Claude; it guided what to try, and nothing from it is
+  used as a label.
+
+**Explain it:** *"My fine-tuned model was precise but too quiet, so instead of retraining I measured how likely
+it was to answer 'nothing here' and tuned a cutoff on validation data, like a classifier threshold. That took
+recall from 68% to 87% and nearly closed the gap to DeBERTa, at zero training cost. Checking it, I found the
+model library had been silently applying a repetition penalty, so I made that setting explicit everywhere."*

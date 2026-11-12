@@ -14,10 +14,10 @@ in plain English, with severity and the exact quote.** Runs locally; built entir
 | v0.2 Dataset v1: 38,143 / 4,773 / 4,024 train/val/test, split by company | ✅ done |
 | v0.3 Baselines + eval harness (heavy runs on Kaggle's free GPUs) | ✅ done |
 | v0.4 First fine-tune: QLoRA, 1 epoch, 4.3 h on 2×T4 | ✅ done |
-| v0.5 Error analysis + iteration | ⏳ next |
+| v0.5 Error analysis + iteration | ⏳ threshold done (macro-F1 0.626); retrain decision open |
 
 **Results** (full test set, 4,024 chunks; [all results](results/RESULTS.md) ·
-[fine-tune findings](results/finetune_v0.4.md) · [baseline findings](results/baselines_v0.3.md)):
+[v0.5 findings](results/finetune_v0.5.md) · [fine-tune findings](results/finetune_v0.4.md) · [baseline findings](results/baselines_v0.3.md)):
 
 | System | Precision | Recall | Category macro-F1 | Severity acc | Flags harmless chunks |
 |---|---|---|---|---|---|
@@ -25,12 +25,14 @@ in plain English, with severity and the exact quote.** Runs locally; built entir
 | Keyword rules | 0.693 | 0.919 | 0.371 | 0.664 | 74% |
 | TF-IDF + logistic regression | 0.862 | 0.815 | 0.617 | 0.675 | 21% |
 | DeBERTa-v3-small classifier | 0.846 | **0.881** | **0.635** | 0.678 | 27% |
-| **Fine-tuned Qwen2.5-3B (ours)** | **0.933** | 0.681 | 0.571 | **0.851** | **7%** |
+| Fine-tuned Qwen2.5-3B, greedy (v0.4) | **0.933** | 0.681 | 0.571 | **0.851** | **7%** |
+| **+ empty-answer threshold (v0.5, ours)** | 0.869 | 0.871 | 0.626 | 0.842 | 21% |
 
 Base Qwen 3B (500-chunk subset) → fine-tuned: category macro-F1 0.33 → 0.58, severity 0.30 → 0.82, harmless chunks
 flagged 71% → 5%, valid JSON 100%, quotes copied exactly 99.6%. The fine-tune is the most precise and best at
 severity, and every flag comes with an explanation and a quote, but it is conservative: it misses about a third of
-risky chunks and doesn't yet beat DeBERTa on categories. v0.5 works on that recall gap.
+risky chunks. v0.5's empty-answer threshold (tuned on validation, no retraining) lifts recall to 0.87 and
+macro-F1 to 0.626, within 0.01 of DeBERTa, and beats it on LexGLUE (0.589 vs 0.559).
 Plan: [docs/ROADMAP.md](docs/ROADMAP.md) · changes: [CHANGELOG.md](CHANGELOG.md).
 
 ## How it works

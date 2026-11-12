@@ -216,9 +216,16 @@ because choosing anything by looking at test makes the test score optimistic.
 A classifier outputs a probability per category, so you pick a threshold. An LLM writes text, so it seems to
 have no threshold, but it does have one hidden inside. Our answer always starts `{"flags":`, and the next token
 is either ` []` (nothing to flag) or ` [{"` (a flag follows). Greedy decoding takes whichever is more likely,
-which is the same as a threshold of 0.5 on P(empty). We measure P(empty) directly and accept the model's best
+which is roughly a threshold of 0.5 on P(empty) (not exactly: see "Repetition penalty"). We measure P(empty)
+directly and accept the model's best
 non-empty answer whenever P(empty) is below a threshold **tuned on validation**, like the baselines' thresholds.
 It trades precision for recall without retraining. *Repo:* `eval/run_knob.py`, `eval/knob.py`. *Decision:* D38.
+
+### Repetition penalty
+A decoding setting that divides the score of every token already present in the text (prompt included) by a
+factor, here 1.05, so the model repeats itself less. Qwen2.5 turns it on by default, and Hugging Face applies it
+even in greedy decoding. Because ` []` appears in our prompt, it made the model flag slightly more often. A
+small hidden setting can move results, so we now set it explicitly in every runner. *Decision:* D38.
 
 ### Greedy decoding
 At each step the LLM picks the single most likely next token, with no randomness. The same input always

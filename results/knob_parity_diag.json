@@ -1,0 +1,60 @@
+{
+  "what": "P(empty) at the decision point, measured 4 ways on the 128 shortest test chunks (eval/diag_knob.py, D38)",
+  "runs": {
+    "hf": {
+      "meta": {
+        "load": "hf",
+        "loaded_dtype": "torch.float16",
+        "merged_dtype": "torch.float16",
+        "transformers": "5.20.2",
+        "attn": "sdpa"
+      },
+      "n": 128,
+      "gen_b8": {
+        "agree_with_v0.4_greedy_at_0.5": 1.0,
+        "mean_p_empty": 0.7076
+      },
+      "gen_b1": {
+        "agree_with_v0.4_greedy_at_0.5": 1.0,
+        "mean_p_empty": 0.7078
+      },
+      "fwd_b8": {
+        "agree_with_v0.4_greedy_at_0.5": 0.875,
+        "mean_p_empty": 0.8187
+      },
+      "fwd_b1": {
+        "agree_with_v0.4_greedy_at_0.5": 0.875,
+        "mean_p_empty": 0.8188
+      },
+      "fwd_b8_max_abs_diff_vs_knob_run": 0.0
+    },
+    "knob": {
+      "meta": {
+        "load": "knob",
+        "loaded_dtype": "torch.float16",
+        "merged_dtype": "torch.float16",
+        "transformers": "5.20.2",
+        "attn": "sdpa"
+      },
+      "n": 128,
+      "gen_b8": {
+        "agree_with_v0.4_greedy_at_0.5": 1.0,
+        "mean_p_empty": 0.7076
+      },
+      "gen_b1": {
+        "agree_with_v0.4_greedy_at_0.5": 1.0,
+        "mean_p_empty": 0.7078
+      },
+      "fwd_b8": {
+        "agree_with_v0.4_greedy_at_0.5": 0.875,
+        "mean_p_empty": 0.8187
+      },
+      "fwd_b1": {
+        "agree_with_v0.4_greedy_at_0.5": 0.875,
+        "mean_p_empty": 0.8188
+      },
+      "fwd_b8_max_abs_diff_vs_knob_run": 0.0
+    }
+  },
+  "cause": "generate() applies Qwen2.5's default repetition_penalty 1.05; ' []' appears in the prompt, so greedy decoding is pushed toward flagging. The forward pass reads the raw probability."
+}

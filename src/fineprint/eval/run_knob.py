@@ -1,15 +1,19 @@
 """Empty-answer threshold for the fine-tuned model, step 1 of 2: the GPU part (decision D38).
 
 The fine-tuned model's answer always starts `{"flags":` and the next token decides everything: ` []` (no flags)
-or ` [{"` (at least one flag). Greedy decoding picks whichever is more likely, so the model stays silent whenever
-P(empty) > ~0.5. That is an implicit threshold of 0.5, never tuned.
+or ` [{"` (at least one flag). Greedy decoding picks whichever is more likely: an implicit threshold, never tuned.
 
 For every chunk this script saves:
 - p_empty: P(` []`) / (P(` []`) + P(` [{"`)) at that decision point (one forward pass)
 - forced:  the greedy answer *given* the model starts a flag (prefix `{"flags": [{"` forced, then greedy)
 
 With both saved, any threshold t can be applied later on the Mac without a GPU: answer = forced if p_empty < t,
-else `{"flags": []}`. t = 0.5 reproduces plain greedy decoding. Step 2 (`eval/knob.py`) tunes t on val.
+else `{"flags": []}`. Step 2 (`eval/knob.py`) tunes t on val.
+
+p_empty is the model's raw probability. Plain `generate()` also applies the repetition penalty (1.05, Qwen's
+default, now explicit as prompt.REPETITION_PENALTY), which lowers ` []` because that token appears in the
+prompt. So t = 0.5 here is *not* the same as greedy decoding: greedy flags ~11 points more often (measured by
+`eval/diag_knob.py`, D38). The forced continuation below uses the same penalty as greedy decoding.
 
 Usage (GPU):
     python -m fineprint.eval.run_knob --adapter /kaggle/working/ft/adapter --set val
@@ -24,7 +28,7 @@ import time
 
 from fineprint.eval.score import predictions_path
 from fineprint.eval.sets import SETS, load_eval_set
-from fineprint.prompt import build_messages
+from fineprint.prompt import REPETITION_PENALTY, build_messages
 
 DEFAULT_MODEL = "Qwen/Qwen2.5-3B-Instruct"
 PREFIX = '{"flags":'          # tokens shared by every answer
@@ -90,7 +94,7 @@ def main() -> None:
             # 2) the best non-empty answer: force `{"flags": [{"` and continue greedily
             enc = batch([b + prefix + [f_id] for b in base])
             out = model.generate(**enc, max_new_tokens=args.max_new_tokens, do_sample=False,
-                                 pad_token_id=tok.pad_token_id)
+                                 repetition_penalty=REPETITION_PENALTY, pad_token_id=tok.pad_token_id)
             cont = tok.batch_decode(out[:, enc["input_ids"].shape[1]:], skip_special_tokens=True)
             per = (time.perf_counter() - t) / len(part)
             f.writelines(json.dumps({"id": e["id"], "p_empty": round(p, 6), "p_two_way": round(float(a + b), 6),

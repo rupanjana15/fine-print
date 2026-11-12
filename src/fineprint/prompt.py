@@ -9,6 +9,10 @@ from fineprint.config import load_config
 
 SEVERITIES = ("good", "neutral", "bad", "blocker")
 
+# Decoding setting shared by every runner (HF on Kaggle, llama.cpp on the Mac). 1.05 is Qwen2.5's built-in default,
+# which `generate()` applied silently to every result up to v0.5; written down so all paths decode alike (D38).
+REPETITION_PENALTY = 1.05
+
 
 @lru_cache(maxsize=1)  # constant per run; re-reading the YAML per example was the builder's bottleneck
 def system_prompt() -> str:

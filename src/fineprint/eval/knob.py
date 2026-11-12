@@ -39,13 +39,14 @@ def main() -> None:
     t = best["t"]
     print(f"best on val: t = {t}")
 
-    # Parity check: t = 0.5 should reproduce plain greedy decoding (the original ft_qwen3b_v1 predictions).
+    # Parity check. p_empty is the raw probability; greedy decoding also applies the repetition penalty, which
+    # pushes it toward flagging, so agreement at t = 0.5 is ~79-88%, not 100% (explained in D38, eval/diag_knob.py).
     tp = read_predictions(SOURCE, "test")
     greedy = read_predictions("ft_qwen3b_v1", "test")
     cats = set(load_config("taxonomy")["categories"])
     same = sum((tp[i]["p_empty"] < 0.5) == bool(parse_output(g["output"], cats)["flags"])
                for i, g in greedy.items() if i in tp) / len(greedy)
-    print(f"parity: t=0.5 empty/non-empty decision matches greedy on {same:.1%} of test chunks")
+    print(f"parity: raw t=0.5 matches penalised greedy decoding on {same:.1%} of test chunks (not 100%, see D38)")
 
     notes = f"empty-answer threshold t={t} tuned on val (D38)"
     for name, src in (("test", "test"), ("test-500", "test"), ("lexglue", "lexglue")):

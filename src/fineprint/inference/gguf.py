@@ -2,7 +2,7 @@
 fine-tuned model and the demo later, so all of them go through the same code path (D25, D27).
 """
 
-from fineprint.prompt import build_messages
+from fineprint.prompt import REPETITION_PENALTY, build_messages
 
 
 class GGUFModel:
@@ -22,6 +22,6 @@ class GGUFModel:
         if shots:
             messages = messages[:1] + [m for pair in shots for m in pair] + messages[1:]
         out = self.llm.create_chat_completion(
-            messages=messages, temperature=0.0, max_tokens=max_tokens,
+            messages=messages, temperature=0.0, max_tokens=max_tokens, repeat_penalty=REPETITION_PENALTY,
             response_format={"type": "json_object"} if self.json_grammar else None)
         return out["choices"][0]["message"]["content"]

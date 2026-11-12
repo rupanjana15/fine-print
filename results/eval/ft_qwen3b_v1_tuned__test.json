@@ -1,0 +1,260 @@
+{
+  "system": "ft_qwen3b_v1_tuned",
+  "eval_set": "test",
+  "date": "2026-11-12",
+  "dataset_version": "ds-v1",
+  "set_fingerprint": "3ba428097af5",
+  "seconds_per_example": 1.374,
+  "notes": "empty-answer threshold t=0.9 tuned on val (D38)",
+  "n_examples": 4024,
+  "missing_outputs": 0,
+  "json_valid": 0.9995,
+  "json_recovered": 0.9995,
+  "invalid_flags": 0,
+  "detection": {
+    "precision": 0.8692,
+    "recall": 0.8706,
+    "f1": 0.8699,
+    "tp": 2267,
+    "fp": 341,
+    "fn": 337
+  },
+  "category_macro_f1": 0.6265,
+  "category_micro": {
+    "precision": 0.6872,
+    "recall": 0.5966,
+    "f1": 0.6387,
+    "tp": 1955,
+    "fp": 890,
+    "fn": 1322
+  },
+  "severity_accuracy": 0.8417,
+  "severity_confusion": {
+    "good": {
+      "good": 423,
+      "neutral": 53,
+      "bad": 34,
+      "blocker": 1
+    },
+    "neutral": {
+      "bad": 65,
+      "neutral": 1091,
+      "good": 45,
+      "blocker": 7
+    },
+    "bad": {
+      "bad": 444,
+      "good": 42,
+      "neutral": 114,
+      "blocker": 2
+    },
+    "blocker": {
+      "good": 1,
+      "bad": 7,
+      "blocker": 52,
+      "neutral": 7
+    }
+  },
+  "quote_faithfulness": 0.9928,
+  "predicted_flags": 3044,
+  "flag_rate_by_kind": {
+    "bare": 0.8718,
+    "hard_negative": 0.5938,
+    "negative": 0.2145,
+    "positive": 0.8706
+  },
+  "per_category": {
+    "acceptable_use": {
+      "precision": 0.7158,
+      "recall": 0.7005,
+      "f1": 0.7081,
+      "tp": 131,
+      "fp": 52,
+      "fn": 56
+    },
+    "account_termination_and_moderation": {
+      "precision": 0.7512,
+      "recall": 0.7477,
+      "f1": 0.7494,
+      "tp": 160,
+      "fp": 53,
+      "fn": 54
+    },
+    "advertising": {
+      "precision": 0.4634,
+      "recall": 0.2111,
+      "f1": 0.2901,
+      "tp": 19,
+      "fp": 22,
+      "fn": 71
+    },
+    "business_transfer": {
+      "precision": 0.766,
+      "recall": 0.8182,
+      "f1": 0.7912,
+      "tp": 36,
+      "fp": 11,
+      "fn": 8
+    },
+    "changes_to_terms": {
+      "precision": 0.7853,
+      "recall": 0.7732,
+      "f1": 0.7792,
+      "tp": 150,
+      "fp": 41,
+      "fn": 44
+    },
+    "content_license": {
+      "precision": 0.7778,
+      "recall": 0.6176,
+      "f1": 0.6885,
+      "tp": 42,
+      "fp": 12,
+      "fn": 26
+    },
+    "content_ownership": {
+      "precision": 0.7121,
+      "recall": 0.6812,
+      "f1": 0.6963,
+      "tp": 47,
+      "fp": 19,
+      "fn": 22
+    },
+    "data_collection": {
+      "precision": 0.5333,
+      "recall": 0.5185,
+      "f1": 0.5258,
+      "tp": 56,
+      "fp": 49,
+      "fn": 52
+    },
+    "data_retention_and_deletion": {
+      "precision": 0.5489,
+      "recall": 0.5214,
+      "f1": 0.5348,
+      "tp": 73,
+      "fp": 60,
+      "fn": 67
+    },
+    "dispute_resolution": {
+      "precision": 0.7949,
+      "recall": 0.6078,
+      "f1": 0.6889,
+      "tp": 31,
+      "fp": 8,
+      "fn": 20
+    },
+    "eligibility": {
+      "precision": 0.7632,
+      "recall": 0.7565,
+      "f1": 0.7598,
+      "tp": 87,
+      "fp": 27,
+      "fn": 28
+    },
+    "general_legal_terms": {
+      "precision": 0.8182,
+      "recall": 0.7297,
+      "f1": 0.7714,
+      "tp": 54,
+      "fp": 12,
+      "fn": 20
+    },
+    "government_requests": {
+      "precision": 0.575,
+      "recall": 0.4259,
+      "f1": 0.4894,
+      "tp": 23,
+      "fp": 17,
+      "fn": 31
+    },
+    "identity_and_accounts": {
+      "precision": 0.5625,
+      "recall": 0.3553,
+      "f1": 0.4355,
+      "tp": 27,
+      "fp": 21,
+      "fn": 49
+    },
+    "jurisdiction_and_compliance": {
+      "precision": 0.7095,
+      "recall": 0.6908,
+      "f1": 0.7,
+      "tp": 105,
+      "fp": 43,
+      "fn": 47
+    },
+    "liability_and_indemnity": {
+      "precision": 0.7806,
+      "recall": 0.7202,
+      "f1": 0.7492,
+      "tp": 121,
+      "fp": 34,
+      "fn": 47
+    },
+    "payments_and_refunds": {
+      "precision": 0.6452,
+      "recall": 0.5128,
+      "f1": 0.5714,
+      "tp": 20,
+      "fp": 11,
+      "fn": 19
+    },
+    "personal_data_use": {
+      "precision": 0.4741,
+      "recall": 0.3986,
+      "f1": 0.4331,
+      "tp": 110,
+      "fp": 122,
+      "fn": 166
+    },
+    "security": {
+      "precision": 0.6545,
+      "recall": 0.6857,
+      "f1": 0.6698,
+      "tp": 72,
+      "fp": 38,
+      "fn": 33
+    },
+    "third_party_sharing": {
+      "precision": 0.6557,
+      "recall": 0.4061,
+      "f1": 0.5016,
+      "tp": 80,
+      "fp": 42,
+      "fn": 117
+    },
+    "tracking_cookies": {
+      "precision": 0.7378,
+      "recall": 0.7908,
+      "f1": 0.7634,
+      "tp": 242,
+      "fp": 86,
+      "fn": 64
+    },
+    "transparency": {
+      "precision": 0.4245,
+      "recall": 0.1948,
+      "f1": 0.2671,
+      "tp": 45,
+      "fp": 61,
+      "fn": 186
+    },
+    "user_rights_and_control": {
+      "precision": 0.7708,
+      "recall": 0.5441,
+      "f1": 0.6379,
+      "tp": 74,
+      "fp": 22,
+      "fn": 62
+    },
+    "warranty_and_availability": {
+      "precision": 0.8475,
+      "recall": 0.8197,
+      "f1": 0.8333,
+      "tp": 150,
+      "fp": 27,
+      "fn": 33
+    }
+  }
+}
