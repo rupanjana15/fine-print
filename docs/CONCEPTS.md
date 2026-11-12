@@ -212,6 +212,14 @@ A classifier outputs probabilities; you still choose the cut-off ("flag if ≥ 0
 (higher recall, lower precision). We pick the threshold that maximises macro-F1 on **val**, never on test,
 because choosing anything by looking at test makes the test score optimistic.
 
+### A threshold for a generative model
+A classifier outputs a probability per category, so you pick a threshold. An LLM writes text, so it seems to
+have no threshold, but it does have one hidden inside. Our answer always starts `{"flags":`, and the next token
+is either ` []` (nothing to flag) or ` [{"` (a flag follows). Greedy decoding takes whichever is more likely,
+which is the same as a threshold of 0.5 on P(empty). We measure P(empty) directly and accept the model's best
+non-empty answer whenever P(empty) is below a threshold **tuned on validation**, like the baselines' thresholds.
+It trades precision for recall without retraining. *Repo:* `eval/run_knob.py`, `eval/knob.py`. *Decision:* D38.
+
 ### Greedy decoding
 At each step the LLM picks the single most likely next token, with no randomness. The same input always
 gives the same output, which makes evaluations repeatable. *Decision:* D34.
