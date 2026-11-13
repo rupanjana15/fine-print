@@ -2,6 +2,17 @@
 
 One entry per tagged milestone (see `docs/ROADMAP.md`).
 
+## v0.6 — 2026-11-13 · Inference pipeline (MVP)
+- Merged v2 adapter → GGUF Q4_K_M, 1.93 GB, on a free Kaggle CPU kernel (`notebooks/kaggle_gguf.py`, D40)
+- Empty-answer threshold inside llama.cpp via logits (`inference/gguf.py`); repeat penalty over the full context,
+  hand-built ChatML tested against HF's template
+- **`ft_qwen3b_v2_gguf` test-500 macro-F1 0.652** (full model 0.658), recall 0.91, severity 0.857, quotes 99.5%;
+  scored on Kaggle CPU (`notebooks/kaggle_gguf_eval.py`) after the Mac overheated. Mac vs Kaggle: 76/82 identical
+- `inference/pipeline.py`: document → chunks → flags with document spans → merged → A–E grade
+- Grade rule fitted on ToS;DR grades (`eval/grade_fit.py`, D41): good − bad − 2·blocker, exact 0.58 / within one
+  grade 1.00 on 45 test services (majority guess 0.33)
+- Latency (M1): 1.5 s empty chunk, 5.4 s flagged chunk, ~45 s–2.5 min per median document. DeBERTa pre-filter skipped
+
 ## v0.5 — 2026-11-13 · Error analysis + iteration
 - Error analysis v1 (`results/error_analysis_v1.md`): 56% of misses are empty answers; `transparency` labels are
   noisy (35% headings); LexGLUE quote gap is a lowercasing artefact, not hallucination

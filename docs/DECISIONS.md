@@ -952,3 +952,95 @@ above **v2 is the model** (author's choice, after seeing both sides below).
   scheme, so it is a weak proxy for real ToS text; the drop is reported as a known limitation. v1 stays saved
   (`data/models/ft_qwen3b_v1/`) for comparison. Switching back to v1 on the strength of a test-time number would
   have meant choosing the model on test data.
+
+## D40 — Shipping format: merged 4-bit GGUF on llama.cpp, with the same empty-answer threshold
+
+**Context.** The model has to run on the author's 8 GB M1 Mac and later on a free 2-vCPU HF Space (D18). The
+trained artefact is a LoRA adapter on top of Qwen2.5-3B-Instruct, run so far with transformers on Kaggle GPUs.
+Two things had to survive the move to llama.cpp: the quality, and the empty-answer threshold (D38), which needs
+the model's probabilities at one specific token, not only its generated text.
+
+**Decision.**
+- **Merge, then quantize.** Kaggle CPU kernel `notebooks/kaggle_gguf.py`: load the base in fp32, apply the v2
+  adapter and merge it into the weights (`merge_and_unload`), save in fp16, convert with llama.cpp's
+  `convert_hf_to_gguf.py` (pinned commit `ae93877`), then `llama-quantize` to **Q4_K_M** (1.93 GB; v1 too, for
+  comparison). Details: `results/gguf_info.json`.
+- **Threshold in llama.cpp** (`inference/gguf.py`, `GGUFModel.analyse`): evaluate prompt + `{"flags":`, read the
+  logits of the last position with `llama_get_logits_ith` (llama-cpp-python 0.3.36 no longer fills `scores`),
+  compute p_empty from the ` []` vs ` [{"` logits exactly as on the GPU, then either answer `{"flags": []}` or
+  continue greedily after `{"flags": [{"`. t = 0.9, unchanged from D38.
+- **Same decoding as on the GPU:** repeat penalty 1.05 (`prompt.REPETITION_PENALTY`) over the **whole context**
+  (`last_n_tokens_size = n_ctx`; llama.cpp's default window is the last 64 tokens, transformers uses all of
+  them). The ChatML prompt is built by hand (`chatml()`), unit-tested equal to the HF chat template; tokenization
+  matched HF on 20/20 prompts.
+- **Scored on Kaggle CPU** (`notebooks/kaggle_gguf_eval.py`, free, no GPU quota) after the Mac overheated during
+  a long run: same file, same `eval/run_gguf.py`.
+
+**Result (test-500).**
+| System | Detect P | Detect R | Cat macro-F1 | Severity | Quote faithful | s/chunk |
+|---|---|---|---|---|---|---|
+| `ft_qwen3b_v2_tuned` (transformers on T4, base + adapter) | 0.837 | 0.910 | 0.658 | 0.845 | 0.992 | 1.5 (T4, batch) |
+| **`ft_qwen3b_v2_gguf`** (Q4_K_M, llama.cpp) | 0.835 | 0.910 | **0.652** | 0.857 | 0.995 | 4.6 (M1) / 27 (Kaggle CPU) |
+
+Flag / no-flag answers agree on 487 of 500 chunks. **Mac vs Kaggle CPU** (82 chunks scored on both): 76 outputs
+identical; p_empty differs by 0.008 on average (max 0.04). Of the 6 differences, one is a chunk sitting right at
+the threshold (0.899 vs 0.905), the other 5 keep the same decision but generate a slightly different set of flags.
+Cause: floating-point maths differs between Apple's Metal GPU and x86 CPU, and greedy decoding follows a
+different path when two tokens are nearly tied. So "same file" means the same model, not bit-identical outputs.
+
+**Alternatives.**
+| Option | Why not |
+|---|---|
+| Ship the adapter + transformers on CPU | ~6 GB fp16 or bitsandbytes (CUDA only); far slower on the Mac and a 2-vCPU Space |
+| Q8_0 / f16 GGUF | 3.3 / 6.2 GB; the 4-bit file loses 0.006 macro-F1, not worth 2–3× the size on 8 GB RAM |
+| Quantize without merging (LoRA as a separate GGUF adapter) | One more moving part at runtime, and merging is exact |
+| Drop the threshold in llama.cpp (plain greedy) | Gives back the v0.4 recall problem (0.68), D38 |
+| Score test-500 on the Mac | Did 82 chunks; ~40 more minutes of full load overheated the laptop |
+
+**Consequences.** `data/models/fine-print-v2-q4_k_m.gguf` is the shipped model (weights on HF Hub, not git).
+Answers can differ slightly between machines (above). A median document is ~28 chunks; at 1.5 s for a chunk the
+model leaves empty and 5.4 s for one it flags (M1 medians), that is roughly 45 s–2.5 min per document on the Mac,
+and several times longer on a 2-vCPU Space, hence precomputed examples for the demo (v0.7).
+
+**Explain it:** *"I folded the adapter into the base model, compressed it to 4 bits with llama.cpp, and re-implemented
+the 'should I answer nothing?' threshold by reading the logits directly. The 2 GB file scores 0.652 against 0.658
+for the full model, and runs on a laptop at a few seconds per chunk."*
+
+## D41 — The A–E grade: a counting rule fitted on ToS;DR's human grades
+
+**Context.** The demo shows a document grade (ARCHITECTURE §6). ToS;DR grades services A–E by human review; the
+early plan was a hand-written rule ("any blocker → E"). A hand rule can't be checked; a fitted one can.
+
+**Decision.**
+- `inference/grade.py`: **score = w_good·#good − #bad − w_blocker·#blocker**, counting distinct
+  (category, severity) pairs, so the same issue found in several chunks counts once. Neutral flags don't count.
+  Four cut-points turn the score into A–E.
+- **Fitted** by `eval/grade_fit.py` on comprehensively reviewed services with a rating, using their approved
+  ToS;DR points mapped to our taxonomy (perfect flags). Fit on **train** services only (same service hash as the
+  dataset, D14), report on val and test services. Weights from a small grid; for each, the best cut-points are
+  found **exactly** by dynamic programming (see CONCEPTS "Ordinal cut-points"), since brute force was too slow.
+- Fitted: **w_good 1, w_blocker 2, cuts A ≥ 7, B ≥ 2, C ≥ 0, D ≥ −6, else E** (`configs/grade.yaml`).
+
+| Services | n | Exact | Within one grade | Majority guess |
+|---|---|---|---|---|
+| train | 344 | 0.674 | 0.997 | 0.302 |
+| val | 55 | 0.618 | 1.000 | 0.291 |
+| test | 45 | 0.578 | 1.000 | 0.333 |
+
+- Always shown as a **"Fine Print estimate"**, never as ToS;DR's grade (D20).
+
+**Alternatives.**
+| Option | Why not |
+|---|---|
+| Hand-written rule (any blocker → E) | Never checked against human grades; a fitted rule comes with an accuracy figure |
+| Ordinal / logistic regression | Similar accuracy expected on 344 services, harder to explain in the UI than "points" |
+| Fit on all services | Leaves no honest check; val/test services are the check |
+
+**Consequences.** The rule is measured with ToS;DR's own (complete, human) flags. With the model's flags the
+grade inherits the model's misses and false alarms; that end-to-end grade accuracy is not measured yet (it needs
+full documents of graded test services run through the pipeline, a v0.7/v1.0 item). It is never more than one
+grade off on held-out services, and the error is mostly C ↔ B/D, the middle grades.
+
+**Explain it:** *"Each flag adds or removes points: good +1, bad −1, blocker −2. Four cut-offs turn points into
+A–E. I fitted the cut-offs on ToS;DR's human grades for training companies; on unseen companies it gets the exact
+grade 58–62% of the time and is never more than one grade off."*

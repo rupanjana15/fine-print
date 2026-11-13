@@ -279,9 +279,34 @@ job queues**, one per GPU (`CUDA_VISIBLE_DEVICES=0` / `=1`). Total time ≈ the 
 **GGUF** is its model file format. **Q4_K_M** is a 4-bit quantization scheme with a good
 quality/size balance (~2 GB for 3B). *Decision:* D18.
 
+### Merging a LoRA adapter
+A LoRA adapter is two small matrices per layer whose product is a correction to the original weight. **Merging**
+adds that product into the weight once (W' = W + B·A·scale), so the result is an ordinary model with no adapter
+and no extra cost at runtime. It is exact, so it is done in full precision (fp32) before compressing to 4 bits.
+*Repo:* `notebooks/kaggle_gguf.py`. *Decision:* D40.
+
+### Logits at one position (the threshold outside transformers)
+The empty-answer threshold needs the model's scores for two candidate next tokens, not its text. In llama.cpp we
+run the prompt plus `{"flags":` and read the **logits** (raw scores before softmax) of the last position; the
+softmax over just the two tokens gives p_empty. *Repo:* `inference/gguf.py`. *Decision:* D38, D40.
+
+### Why the same model file gives slightly different answers on two machines
+Floating-point additions done in a different order give slightly different results, and a Mac GPU and an x86 CPU
+order them differently. Usually that doesn't matter, but when two next tokens are almost tied, greedy decoding
+can pick a different one and the rest of the answer follows another path. On 82 chunks, 76 answers were identical.
+*Decision:* D40.
+
+### Ordinal cut-points (and finding them exactly)
+Grades A–E are **ordinal**: ordered, but not evenly spaced. One score plus four cut-points ("A if score ≥ 7, …")
+turns a number into a grade. The best cut-points are found by **dynamic programming**: sort the distinct scores
+from high to low and decide, for each, which grade it gets, under the rule that grades can only get worse as the
+score drops; keeping the best total for each "grade so far" makes the search exact and fast instead of trying
+every combination. *Repo:* `eval/grade_fit.py`. *Decision:* D41.
+
 ### Inference pipeline
 Everything that happens at prediction time: clean text → split into chunks → run the model on each →
 validate the JSON and quotes → merge duplicate flags across chunks → compute a grade → show in the UI.
+*Repo:* `inference/pipeline.py` (`analyse_document`).
 
 ### Latency
 Time to get an answer. On CPU, a 3B model generates roughly a few to ~20 tokens/second depending on

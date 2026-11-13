@@ -193,13 +193,17 @@ flowchart LR
     S --> UI[highlighted document<br/>+ flag list]
 ```
 
-- **Runtime:** `llama-cpp-python` with the GGUF Q4_K_M file (~2 GB). Same file on the Mac and on
-  HF Spaces — what you test is what you ship.
-- **Speed plan for the free CPU Space** (2 vCPU): precomputed results for ~10 well-known services
-  (instant), cap on pasted length, and (optional, v0.6) a DeBERTa pre-filter so the LLM only runs
-  on chunks likely to be risky.
-- **Grade:** simple, transparent rule (e.g. any `blocker` → E; count of `bad` thresholds) — documented
-  in the UI so it is not a black box.
+- **Runtime:** `llama-cpp-python` with the merged GGUF Q4_K_M file (1.93 GB, D40), `inference/gguf.py`. The
+  empty-answer threshold (D38) runs inside it by reading logits. Same file on the Mac and on HF Spaces; outputs
+  can differ slightly between machines (floating point), 76/82 identical in a check.
+- **Pipeline:** `inference/pipeline.py` `analyse_document`: clean → chunk (same chunker as the dataset) →
+  `GGUFModel.analyse` per chunk → parse/validate → locate each quote in the document → merge same-category flags
+  with overlapping spans → grade.
+- **Speed:** M1 ~1.5 s per chunk answered empty, ~5.4 s per flagged chunk; a median document (~28 chunks) takes
+  ~45 s–2.5 min. On the free 2-vCPU Space: precomputed results for ~10 well-known services, a cap on pasted
+  length; a DeBERTa pre-filter stays optional.
+- **Grade:** score = good − bad − 2·blocker over distinct (category, severity) pairs, cut-points A ≥ 7, B ≥ 2,
+  C ≥ 0, D ≥ −6, fitted on ToS;DR's human grades (D41, `configs/grade.yaml`); shown as a "Fine Print estimate".
 - Disclaimer on every page: *not legal advice*.
 
 ---
@@ -214,7 +218,8 @@ Summary only. Full reasoning and alternatives for every decision are in [DECISIO
 | One generative model with explanations | 123 binary classifiers (DocBot style) | One small artefact; produces explanation + quote; tests whether a 3B LLM can match specialist classifiers |
 | Labels from human ToS;DR data | Synthetic data from a big LLM | Free, real, and avoids Claude terms (no training on Claude outputs) |
 | ~20–25 merged categories | All ToS;DR cases | Long tail has too few examples to learn |
-| GGUF + llama.cpp | Transformers on CPU | 4× smaller, much faster on CPU and Apple Silicon |
+| GGUF + llama.cpp | Transformers on CPU | 4× smaller, much faster on CPU and Apple Silicon; −0.006 macro-F1 (D40) |
+| Fitted A–E counting rule | Hand-written rule | Checked against ToS;DR's human grades: never more than one grade off on held-out services (D41) |
 | Results JSON in git | Paid experiment tracker | Free, versioned with the code that produced it |
 
 ---

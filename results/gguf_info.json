@@ -1,0 +1,16 @@
+{
+  "llama_cpp_commit": "ae93877c8f3bf9f39f0ee4ffb3ef1697c416a7c3",
+  "base": "Qwen/Qwen2.5-3B-Instruct",
+  "models": {
+    "v2": {
+      "file": "fine-print-v2-q4_k_m.gguf",
+      "bytes": 1929902720,
+      "minutes": 6.8
+    },
+    "v1": {
+      "file": "fine-print-v1-q4_k_m.gguf",
+      "bytes": 1929902720,
+      "minutes": 5.8
+    }
+  }
+}

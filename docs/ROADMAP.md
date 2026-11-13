@@ -54,11 +54,11 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] Retrain and compare: 2nd epoch → `ft_qwen3b_v2`, test macro-F1 0.662 (DeBERTa 0.635); LexGLUE 0.466 (D39)
 - [x] LexGLUE external evaluation (tuned 0.589 vs DeBERTa 0.559)
 
-## v0.6 — Inference pipeline (Week 4) · MVP
-- [ ] Merge adapter → GGUF Q4_K_M; run on Mac with `llama-cpp-python`
-- [ ] `inference/`: chunk → predict → validate → aggregate → grade
-- [ ] Latency measurement
-- [ ] (optional) DeBERTa pre-filter
+## v0.6 — Inference pipeline (Week 4) · MVP ✅
+- [x] Merge adapter → GGUF Q4_K_M; run on Mac with `llama-cpp-python` (D40: test-500 macro-F1 0.652 vs 0.658)
+- [x] `inference/`: chunk → predict → validate → aggregate → grade (grade rule fitted on ToS;DR grades, D41)
+- [x] Latency measurement (M1: 1.5 s empty chunk, 5.4 s flagged chunk; ~45 s–2.5 min for a median 28-chunk document)
+- [ ] (optional) DeBERTa pre-filter — skipped for now; revisit if the Space is too slow (v0.7)
 
 ## v0.7 — Demo (Week 4) · MVP
 - [ ] Gradio app: paste text → highlighted clauses + grade + explanations

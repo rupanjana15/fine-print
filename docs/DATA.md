@@ -114,6 +114,19 @@ is a known limitation: it pushes the model towards **under-flagging**, so expect
 precision. The threshold was chosen on a 60-example sample, so it is a rough estimate, to be revisited in
 v0.5 error analysis.
 
+## Graded services (grade rule fit, v0.6, 2026-11-13)
+
+Comprehensively reviewed ToS;DR services with a rating A–E and at least one approved point in our taxonomy,
+split by the same service hash as the dataset (D14, D41): **344 train / 55 val / 45 test**.
+
+| Split | A | B | C | D | E |
+|---|---|---|---|---|---|
+| train | 19 | 58 | 80 | 104 | 83 |
+| val | 1 | 8 | 15 | 16 | 15 |
+| test | 2 | 12 | 15 | 7 | 9 |
+
+Few A services (22 in all), so the A/B boundary is the least certain. Fit results: `results/grade_fit.json`.
+
 ## LexGLUE `unfair_tos` (CLAUDETTE)
 
 `coastalcph/lex_glue`, config `unfair_tos`: 5,532 / 2,275 / 1,607 sentences (train / val / test),
