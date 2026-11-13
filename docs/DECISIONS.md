@@ -933,3 +933,22 @@ the model and the result is still reported. Overfitting risk is watched through 
 **Explain it:** *"My first fine-tune got one epoch because of the GPU budget. I continued it for a second epoch
 at half the learning rate, which mimics a two-epoch schedule, then re-tuned the threshold and kept whichever
 version did better on validation."*
+
+**Outcome (2026-11-13).** Epoch 2 took 4.8 h; val loss fell steadily 0.0493 → 0.0437 (no sign of
+overfitting). Threshold tuned on val again picked t = 0.9. Val macro-F1 0.625 → **0.652**, so by the rule set
+above **v2 is the model** (author's choice, after seeing both sides below).
+
+| | Val | Test | Test w/o transparency | LexGLUE | Severity | Harmless chunks flagged |
+|---|---|---|---|---|---|---|
+| DeBERTa | – | 0.635 | 0.649 | 0.559 | 0.678 | 27% |
+| v1 + threshold | 0.625 | 0.626 | 0.642 | **0.589** | 0.842 | 21% |
+| **v2 + threshold** | **0.652** | **0.662** | **0.675** | 0.466 | **0.854** | 22% |
+
+- v2 beats DeBERTa on test (unseen companies, D06) and ties or beats it on 18 of 24 categories; still behind on
+  data_collection (−0.10) and advertising (−0.07).
+- **LexGLUE got worse at every threshold** (0.589 → 0.466), mostly extra false alarms in dispute_resolution
+  (12 → 38) and jurisdiction (8 → 22). The second epoch fitted ToS;DR's labelling style more closely. LexGLUE is
+  small (172 positives over 5 mapped categories), lowercased and pre-tokenised, and uses a different annotation
+  scheme, so it is a weak proxy for real ToS text; the drop is reported as a known limitation. v1 stays saved
+  (`data/models/ft_qwen3b_v1/`) for comparison. Switching back to v1 on the strength of a test-time number would
+  have meant choosing the model on test data.

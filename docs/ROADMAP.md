@@ -45,13 +45,13 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] Evaluate → first full results table (`results/finetune_v0.4.md`): macro-F1 0.571 vs DeBERTa 0.635,
       precision 0.93, recall 0.68, severity 0.85
 
-## v0.5 — Error analysis + iteration (Week 3)
+## v0.5 — Error analysis + iteration (Week 3) ✅
 - [x] Read ≥50 errors (start with missed positives: model miss vs missing label), write `results/error_analysis_v1.md`
 - [x] Cheapest recall fix first: threshold on the probability of the empty answer, tuned on val
   (t = 0.9: macro-F1 0.571 → 0.626, recall 0.68 → 0.87; `results/finetune_v0.5.md`, D38)
 - [x] Parity check found a hidden repetition penalty (1.05); now explicit in every runner (D38)
-- [ ] Fix the largest error group (rebalance / more negatives / prompt / threshold)
-- [ ] Retrain (1–2 runs) and compare
+- [x] Fix the largest error group: empty answers → threshold (D38)
+- [x] Retrain and compare: 2nd epoch → `ft_qwen3b_v2`, test macro-F1 0.662 (DeBERTa 0.635); LexGLUE 0.466 (D39)
 - [x] LexGLUE external evaluation (tuned 0.589 vs DeBERTa 0.559)
 
 ## v0.6 — Inference pipeline (Week 4) · MVP

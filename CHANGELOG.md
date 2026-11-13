@@ -2,6 +2,17 @@
 
 One entry per tagged milestone (see `docs/ROADMAP.md`).
 
+## v0.5 — 2026-11-13 · Error analysis + iteration
+- Error analysis v1 (`results/error_analysis_v1.md`): 56% of misses are empty answers; `transparency` labels are
+  noisy (35% headings); LexGLUE quote gap is a lowercasing artefact, not hallucination
+- Empty-answer threshold (D38): P(` []`) at the decision token, t tuned on val → v1 macro-F1 0.571 → 0.626,
+  recall 0.68 → 0.87 (`eval/run_knob.py`, `eval/knob.py`)
+- Parity check found Qwen's hidden `repetition_penalty` 1.05 in every `generate()` result so far; now explicit in
+  all runners (`prompt.REPETITION_PENALTY`, `eval/diag_knob.py`)
+- Second epoch from the v1 adapter (D39, `train.py --init-adapter`, 4.8 h, val loss 0.049 → 0.044):
+  **`ft_qwen3b_v2_tuned` test macro-F1 0.662** (DeBERTa 0.635), recall 0.91, severity 0.854; ≥ DeBERTa on 18/24
+  categories. Limitation: LexGLUE 0.466 (v1 0.589, DeBERTa 0.559). Findings: `results/finetune_v0.5.md`
+
 ## v0.4 — 2026-11-12 · First fine-tune
 - `training/train.py`: QLoRA (NF4 + LoRA r 16), completion-only masking (unit-tested), DDP on both T4s, time budget
 - `notebooks/kaggle_train.ipynb`: timing / full / eval modes; timing run picked DDP 2×T4 (4.6 h/epoch) over

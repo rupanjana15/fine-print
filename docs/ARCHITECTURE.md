@@ -162,7 +162,7 @@ zip (`fineprint.kaggle_bundle`) and results re-imported with `fineprint.kaggle_r
 | B1 | Base 3B, zero-shot | What does the model know before training? |
 | B2 | Base 3B, few-shot | How far does prompting alone get? |
 | B3 | DeBERTa-v3-small multi-label classifier | Is a generative LLM even needed for *detection*? |
-| FT | Fine-tuned 3B (QLoRA), `ft_qwen3b_v1` | Our model: `training/train.py` on Kaggle 2×T4 (D37), adapter in `data/models/` |
+| FT | Fine-tuned 3B (QLoRA): `ft_qwen3b_v2` (2 epochs) + empty-answer threshold t = 0.9 → `ft_qwen3b_v2_tuned` | Our model: `training/train.py` on Kaggle 2×T4 (D37, D39), threshold D38, adapters in `data/models/`; `v1` (1 epoch) kept for comparison |
 | (ref) | ToS;DR DocBot (123 per-case binary classifiers) | Related work — discussed, not re-run |
 
 ### Metrics

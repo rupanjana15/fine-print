@@ -14,7 +14,8 @@ in plain English, with severity and the exact quote.** Runs locally; built entir
 | v0.2 Dataset v1: 38,143 / 4,773 / 4,024 train/val/test, split by company | ✅ done |
 | v0.3 Baselines + eval harness (heavy runs on Kaggle's free GPUs) | ✅ done |
 | v0.4 First fine-tune: QLoRA, 1 epoch, 4.3 h on 2×T4 | ✅ done |
-| v0.5 Error analysis + iteration | ⏳ threshold done (macro-F1 0.626); retrain decision open |
+| v0.5 Error analysis, empty-answer threshold, 2nd epoch | ✅ done |
+| v0.6 Inference pipeline on the Mac (GGUF) | ⏳ next |
 
 **Results** (full test set, 4,024 chunks; [all results](results/RESULTS.md) ·
 [v0.5 findings](results/finetune_v0.5.md) · [fine-tune findings](results/finetune_v0.4.md) · [baseline findings](results/baselines_v0.3.md)):
@@ -24,15 +25,18 @@ in plain English, with severity and the exact quote.** Runs locally; built entir
 | Always flag (reference) | 0.647 | 1.000 | 0.006 | 0.584 | 100% |
 | Keyword rules | 0.693 | 0.919 | 0.371 | 0.664 | 74% |
 | TF-IDF + logistic regression | 0.862 | 0.815 | 0.617 | 0.675 | 21% |
-| DeBERTa-v3-small classifier | 0.846 | **0.881** | **0.635** | 0.678 | 27% |
-| Fine-tuned Qwen2.5-3B, greedy (v0.4) | **0.933** | 0.681 | 0.571 | **0.851** | **7%** |
-| **+ empty-answer threshold (v0.5, ours)** | 0.869 | 0.871 | 0.626 | 0.842 | 21% |
+| DeBERTa-v3-small classifier | 0.846 | 0.881 | 0.635 | 0.678 | 27% |
+| Fine-tuned Qwen2.5-3B, greedy (v0.4) | **0.933** | 0.681 | 0.571 | 0.851 | **7%** |
+| + empty-answer threshold (v0.5) | 0.869 | 0.871 | 0.626 | 0.842 | 21% |
+| **+ 2nd epoch (v0.5, ours: `ft_qwen3b_v2_tuned`)** | 0.870 | 0.909 | **0.662** | **0.854** | 22% |
 
 Base Qwen 3B (500-chunk subset) → fine-tuned: category macro-F1 0.33 → 0.58, severity 0.30 → 0.82, harmless chunks
 flagged 71% → 5%, valid JSON 100%, quotes copied exactly 99.6%. The fine-tune is the most precise and best at
 severity, and every flag comes with an explanation and a quote, but it is conservative: it misses about a third of
-risky chunks. v0.5's empty-answer threshold (tuned on validation, no retraining) lifts recall to 0.87 and
-macro-F1 to 0.626, within 0.01 of DeBERTa, and beats it on LexGLUE (0.589 vs 0.559).
+risky chunks. v0.5 added an empty-answer threshold tuned on validation (recall 0.87, macro-F1 0.626) and a second
+epoch: the model now beats DeBERTa on category macro-F1 (0.662 vs 0.635) while keeping far better severity
+(0.85 vs 0.68). Known limitation: on LexGLUE (older, lowercased contracts, different labels) the second epoch
+scores 0.466 vs DeBERTa 0.559 and v1's 0.589.
 Plan: [docs/ROADMAP.md](docs/ROADMAP.md) · changes: [CHANGELOG.md](CHANGELOG.md).
 
 ## How it works

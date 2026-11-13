@@ -28,6 +28,20 @@ At t = 0.5 the threshold agreed with v0.4 greedy answers on only 79% of test chu
 along and pushes greedy decoding toward flagging; the threshold uses raw probabilities. Batch size and dtype play
 no part. Now explicit in every runner (D38).
 
-## What's left in v0.5
-The gap to DeBERTa is in a few privacy/legal categories. Whether a retrain can close it (and what kind) is the
-remaining v0.5 decision; see ROADMAP.
+## Second epoch: `ft_qwen3b_v2` (D39)
+Continued from the v1 adapter for one more epoch (peak lr 1e-4, new data order), 4.8 h on 2×T4; val loss
+0.0493 → 0.0437. Same threshold procedure; t = 0.9 again.
+
+| System | Val | Test | Test w/o transparency | LexGLUE | Detect P / R | Severity |
+|---|---|---|---|---|---|---|
+| DeBERTa | – | 0.635 | 0.649 | 0.559 | 0.846 / 0.881 | 0.678 |
+| v1 + threshold | 0.625 | 0.626 | 0.642 | **0.589** | 0.869 / 0.871 | 0.842 |
+| **v2 + threshold** | **0.652** | **0.662** | **0.675** | 0.466 | 0.870 / **0.909** | **0.854** |
+
+- **Chosen: v2**, by the rule fixed before the run (higher on val).
+- Beats DeBERTa on test and ties or beats it on 18 of 24 categories; behind on data_collection and advertising.
+- **Limitation: LexGLUE fell to 0.466**, and v2 is below v1 there at every threshold (val-free check:
+  t 0.7/0.8/0.9/0.95 → v1 0.487/0.574/0.589/0.574, v2 0.450/0.472/0.466/0.479). Most of it is extra false
+  alarms in dispute_resolution and jurisdiction. LexGLUE has 172 positives over 5 categories, lowercased,
+  pre-tokenised text and its own annotation scheme. v1 stays saved for comparison.
+- Quote faithfulness on LexGLUE rose from 67% to 94% (v2 copies the lowercased text more literally).
