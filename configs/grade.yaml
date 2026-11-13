@@ -1,0 +1,8 @@
+# A–E grade rule, fitted by `python -m fineprint.eval.grade_fit` on train services (D41). Do not edit by hand.
+w_good: 1.0
+w_blocker: 2.0
+cuts:
+- 7.0
+- 2.0
+- 0.0
+- -6.0

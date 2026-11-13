@@ -5,6 +5,9 @@ Predictions are appended one line at a time, so an interrupted run resumes where
 Usage:
     uv run python -m fineprint.eval.run_gguf --system b1_qwen3b_zeroshot --set test-500
     uv run python -m fineprint.eval.run_gguf --system b2_qwen3b_fewshot --set test-500 --shots 3
+    # fine-tuned model with the empty-answer threshold (D38, D40):
+    uv run python -m fineprint.eval.run_gguf --system ft_qwen3b_v2_gguf --set test-500 \
+        --model data/models/fine-print-v2-q4_k_m.gguf --threshold 0.9
 """
 
 import argparse
@@ -45,6 +48,7 @@ def main() -> None:
     ap.add_argument("--model", default=str(data_path("models") / DEFAULT_MODEL))
     ap.add_argument("--shots", type=int, default=0)
     ap.add_argument("--json-grammar", action="store_true", help="constrain output to valid JSON")
+    ap.add_argument("--threshold", type=float, help="fine-tuned model: empty-answer threshold t (D38)")
     ap.add_argument("--limit", type=int, help="only the first N examples (smoke test)")
     args = ap.parse_args()
 
@@ -64,13 +68,20 @@ def main() -> None:
     with open(path, "a") as f:
         for ex in tqdm(todo):
             t = time.perf_counter()
-            out = model.generate(ex["input"], shots)
-            f.write(json.dumps({"id": ex["id"], "output": out,
-                                "seconds": round(time.perf_counter() - t, 3)}, ensure_ascii=False) + "\n")
+            if args.threshold is None:
+                row = {"output": model.generate(ex["input"], shots)}
+            else:
+                r = model.analyse(ex["input"], threshold=args.threshold)
+                row = {"output": r["output"], "p_empty": round(r["p_empty"], 6)}
+            f.write(json.dumps({"id": ex["id"], **row, "seconds": round(time.perf_counter() - t, 3)},
+                               ensure_ascii=False) + "\n")
             f.flush()
+    model.close()
 
     if args.limit is None:
-        notes = f"{args.shots}-shot" + (", JSON grammar" if args.json_grammar else "")
+        notes = (f"{args.shots}-shot" + (", JSON grammar" if args.json_grammar else "")
+                 + (f", empty-answer threshold {args.threshold}, {args.model.split('/')[-1]} on the Mac"
+                    if args.threshold is not None else ""))
         r = score_run(args.system, args.eval_set, notes=notes)
         print(json.dumps({k: v for k, v in r.items() if k != "per_category"}, indent=2))
         print(build_table())
