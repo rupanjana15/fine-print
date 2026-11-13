@@ -49,6 +49,7 @@ def main() -> None:
     ap.add_argument("--shots", type=int, default=0)
     ap.add_argument("--json-grammar", action="store_true", help="constrain output to valid JSON")
     ap.add_argument("--threshold", type=float, help="fine-tuned model: empty-answer threshold t (D38)")
+    ap.add_argument("--threads", type=int, help="CPU threads (default: llama.cpp's choice)")
     ap.add_argument("--limit", type=int, help="only the first N examples (smoke test)")
     args = ap.parse_args()
 
@@ -64,7 +65,7 @@ def main() -> None:
     print(f"{len(done)} done, {len(todo)} to go → {path}")
 
     shots = pick_shots(args.shots) if args.shots else None
-    model = GGUFModel(args.model, json_grammar=args.json_grammar)
+    model = GGUFModel(args.model, json_grammar=args.json_grammar, n_threads=args.threads)
     with open(path, "a") as f:
         for ex in tqdm(todo):
             t = time.perf_counter()
