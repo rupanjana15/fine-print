@@ -1,0 +1,258 @@
+{
+  "system": "ft_qwen3b_v2_tuned",
+  "eval_set": "test-500",
+  "date": "2026-11-13",
+  "dataset_version": "ds-v1",
+  "set_fingerprint": "d84191efe021",
+  "seconds_per_example": 1.459,
+  "notes": "empty-answer threshold t=0.9 tuned on val (D38)",
+  "n_examples": 500,
+  "missing_outputs": 0,
+  "json_valid": 1.0,
+  "json_recovered": 1.0,
+  "invalid_flags": 0,
+  "detection": {
+    "precision": 0.8374,
+    "recall": 0.91,
+    "f1": 0.8722,
+    "tp": 273,
+    "fp": 53,
+    "fn": 27
+  },
+  "category_macro_f1": 0.6577,
+  "category_micro": {
+    "precision": 0.6826,
+    "recall": 0.6429,
+    "f1": 0.6621,
+    "tp": 243,
+    "fp": 113,
+    "fn": 135
+  },
+  "severity_accuracy": 0.8446,
+  "severity_confusion": {
+    "good": {
+      "good": 61,
+      "neutral": 7,
+      "bad": 5
+    },
+    "neutral": {
+      "neutral": 128,
+      "good": 6,
+      "blocker": 1,
+      "bad": 3
+    },
+    "bad": {
+      "bad": 55,
+      "neutral": 12,
+      "good": 9,
+      "blocker": 1
+    },
+    "blocker": {
+      "blocker": 6,
+      "neutral": 1,
+      "bad": 1
+    }
+  },
+  "quote_faithfulness": 0.992,
+  "predicted_flags": 376,
+  "flag_rate_by_kind": {
+    "bare": 0.8889,
+    "hard_negative": 0.6154,
+    "negative": 0.2406,
+    "positive": 0.9107
+  },
+  "per_category": {
+    "acceptable_use": {
+      "precision": 0.75,
+      "recall": 0.8182,
+      "f1": 0.7826,
+      "tp": 18,
+      "fp": 6,
+      "fn": 4
+    },
+    "account_termination_and_moderation": {
+      "precision": 0.7,
+      "recall": 0.7,
+      "f1": 0.7,
+      "tp": 14,
+      "fp": 6,
+      "fn": 6
+    },
+    "advertising": {
+      "precision": 0.5,
+      "recall": 0.2727,
+      "f1": 0.3529,
+      "tp": 3,
+      "fp": 3,
+      "fn": 8
+    },
+    "business_transfer": {
+      "precision": 0.7778,
+      "recall": 1.0,
+      "f1": 0.875,
+      "tp": 7,
+      "fp": 2,
+      "fn": 0
+    },
+    "changes_to_terms": {
+      "precision": 0.8095,
+      "recall": 0.8947,
+      "f1": 0.85,
+      "tp": 17,
+      "fp": 4,
+      "fn": 2
+    },
+    "content_license": {
+      "precision": 0.875,
+      "recall": 0.7778,
+      "f1": 0.8235,
+      "tp": 7,
+      "fp": 1,
+      "fn": 2
+    },
+    "content_ownership": {
+      "precision": 0.8571,
+      "recall": 0.6667,
+      "f1": 0.75,
+      "tp": 6,
+      "fp": 1,
+      "fn": 3
+    },
+    "data_collection": {
+      "precision": 0.4375,
+      "recall": 0.5833,
+      "f1": 0.5,
+      "tp": 7,
+      "fp": 9,
+      "fn": 5
+    },
+    "data_retention_and_deletion": {
+      "precision": 0.5263,
+      "recall": 0.5882,
+      "f1": 0.5556,
+      "tp": 10,
+      "fp": 9,
+      "fn": 7
+    },
+    "dispute_resolution": {
+      "precision": 0.7778,
+      "recall": 0.7778,
+      "f1": 0.7778,
+      "tp": 7,
+      "fp": 2,
+      "fn": 2
+    },
+    "eligibility": {
+      "precision": 0.9333,
+      "recall": 0.8235,
+      "f1": 0.875,
+      "tp": 14,
+      "fp": 1,
+      "fn": 3
+    },
+    "general_legal_terms": {
+      "precision": 0.875,
+      "recall": 0.875,
+      "f1": 0.875,
+      "tp": 7,
+      "fp": 1,
+      "fn": 1
+    },
+    "government_requests": {
+      "precision": 0.75,
+      "recall": 0.3333,
+      "f1": 0.4615,
+      "tp": 3,
+      "fp": 1,
+      "fn": 6
+    },
+    "identity_and_accounts": {
+      "precision": 0.25,
+      "recall": 0.2857,
+      "f1": 0.2667,
+      "tp": 2,
+      "fp": 6,
+      "fn": 5
+    },
+    "jurisdiction_and_compliance": {
+      "precision": 0.625,
+      "recall": 0.6667,
+      "f1": 0.6452,
+      "tp": 10,
+      "fp": 6,
+      "fn": 5
+    },
+    "liability_and_indemnity": {
+      "precision": 0.6667,
+      "recall": 0.7619,
+      "f1": 0.7111,
+      "tp": 16,
+      "fp": 8,
+      "fn": 5
+    },
+    "payments_and_refunds": {
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "tp": 3,
+      "fp": 1,
+      "fn": 1
+    },
+    "personal_data_use": {
+      "precision": 0.6087,
+      "recall": 0.4375,
+      "f1": 0.5091,
+      "tp": 14,
+      "fp": 9,
+      "fn": 18
+    },
+    "security": {
+      "precision": 0.6154,
+      "recall": 0.8,
+      "f1": 0.6957,
+      "tp": 8,
+      "fp": 5,
+      "fn": 2
+    },
+    "third_party_sharing": {
+      "precision": 0.619,
+      "recall": 0.5652,
+      "f1": 0.5909,
+      "tp": 13,
+      "fp": 8,
+      "fn": 10
+    },
+    "tracking_cookies": {
+      "precision": 0.7647,
+      "recall": 0.8387,
+      "f1": 0.8,
+      "tp": 26,
+      "fp": 8,
+      "fn": 5
+    },
+    "transparency": {
+      "precision": 0.55,
+      "recall": 0.3548,
+      "f1": 0.4314,
+      "tp": 11,
+      "fp": 9,
+      "fn": 20
+    },
+    "user_rights_and_control": {
+      "precision": 0.5556,
+      "recall": 0.3333,
+      "f1": 0.4167,
+      "tp": 5,
+      "fp": 4,
+      "fn": 10
+    },
+    "warranty_and_availability": {
+      "precision": 0.8333,
+      "recall": 0.75,
+      "f1": 0.7895,
+      "tp": 15,
+      "fp": 3,
+      "fn": 5
+    }
+  }
+}

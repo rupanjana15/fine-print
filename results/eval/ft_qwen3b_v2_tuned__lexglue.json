@@ -1,0 +1,81 @@
+{
+  "system": "ft_qwen3b_v2_tuned",
+  "eval_set": "lexglue",
+  "date": "2026-11-13",
+  "dataset_version": "ds-v1",
+  "set_fingerprint": "f3d2b3306d21",
+  "seconds_per_example": 0.748,
+  "notes": "empty-answer threshold t=0.9 tuned on val (D38)",
+  "n_examples": 1607,
+  "missing_outputs": 0,
+  "json_valid": 1.0,
+  "json_recovered": 1.0,
+  "invalid_flags": 0,
+  "detection": {
+    "precision": 0.4257,
+    "recall": 0.6163,
+    "f1": 0.5036,
+    "tp": 106,
+    "fp": 143,
+    "fn": 66
+  },
+  "category_macro_f1": 0.4664,
+  "category_micro": {
+    "precision": 0.4177,
+    "recall": 0.5746,
+    "f1": 0.4837,
+    "tp": 104,
+    "fp": 145,
+    "fn": 77
+  },
+  "severity_accuracy": null,
+  "severity_confusion": {},
+  "quote_faithfulness": 0.9398,
+  "predicted_flags": 249,
+  "flag_rate_by_kind": {
+    "negative": 0.0997,
+    "positive": 0.6163
+  },
+  "per_category": {
+    "account_termination_and_moderation": {
+      "precision": 0.7083,
+      "recall": 0.7234,
+      "f1": 0.7158,
+      "tp": 34,
+      "fp": 14,
+      "fn": 13
+    },
+    "changes_to_terms": {
+      "precision": 0.4375,
+      "recall": 0.459,
+      "f1": 0.448,
+      "tp": 28,
+      "fp": 36,
+      "fn": 33
+    },
+    "dispute_resolution": {
+      "precision": 0.1364,
+      "recall": 0.8571,
+      "f1": 0.2353,
+      "tp": 6,
+      "fp": 38,
+      "fn": 1
+    },
+    "jurisdiction_and_compliance": {
+      "precision": 0.5,
+      "recall": 0.7857,
+      "f1": 0.6111,
+      "tp": 22,
+      "fp": 22,
+      "fn": 6
+    },
+    "liability_and_indemnity": {
+      "precision": 0.2857,
+      "recall": 0.3684,
+      "f1": 0.3218,
+      "tp": 14,
+      "fp": 35,
+      "fn": 24
+    }
+  }
+}
