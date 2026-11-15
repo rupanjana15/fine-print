@@ -37,5 +37,6 @@ greedily with repeat penalty 1.05 over the whole context. Reference implementati
 ## Licence and credits
 - Base model: Qwen2.5-3B-Instruct, **Qwen Research License, non-commercial use only** (`LICENSE`).
   Qwen is licensed under the Qwen RESEARCH LICENSE AGREEMENT, Copyright (c) Alibaba Cloud. All Rights Reserved.
-- Training data: [ToS;DR](https://tosdr.org), CC BY-SA 3.0. Grades produced with this model are estimates, not
+- Training data: [ToS;DR](https://tosdr.org), CC BY-SA 3.0; the labels are published as
+  [rupp15/fine-print-tos-labels](https://huggingface.co/datasets/rupp15/fine-print-tos-labels). Grades produced with this model are estimates, not
   ToS;DR's human-reviewed ratings.

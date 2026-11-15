@@ -127,7 +127,7 @@ def analyse_text(text: str, progress=gr.Progress()):  # noqa: B008 (Gradio injec
         pos = e
     segs.append((clean[pos:], None))
     segs = [(t, lab) for t, lab in segs if t]
-    return grade_card(r, f"<br>{r['n_chunks']} chunks in {r['seconds']:.0f} s"), segs, flag_list(r["flags"])
+    return grade_card(r, f"<br>{r['n_chunks']} chunk{'s' * (r['n_chunks'] != 1)} in {r['seconds']:.0f} s"), segs, flag_list(r["flags"])
 
 
 with gr.Blocks(title="Fine Print") as demo:

@@ -19,7 +19,7 @@ def files():
     yield from (ROOT / "configs").glob("*.yaml")
     yield from data_path("processed").glob("*.jsonl")
     yield data_path("raw") / "lexglue" / "test.parquet"
-    yield from (ROOT / "data" / "examples").glob("inputs.jsonl")  # demo documents (D42)
+    yield from (ROOT / "data" / "examples").glob("*.jsonl")  # demo documents (D42), service chunks (D43)
 
 
 def main() -> None:

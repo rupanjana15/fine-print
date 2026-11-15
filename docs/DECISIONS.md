@@ -50,6 +50,7 @@ New decisions are appended with the next number; superseded ones are marked, nev
 | [D40](#d40--shipping-format-merged-4-bit-gguf-on-llamacpp-with-the-same-empty-answer-threshold) | Shipping format: merged 4-bit GGUF on llama.cpp, with the same empty-answer threshold | ✅ |
 | [D41](#d41--the-ae-grade-a-counting-rule-fitted-on-tosdrs-human-grades) | The A–E grade: a counting rule fitted on ToS;DR's human grades | ✅ |
 | [D42](#d42--the-demo-a-free-static-page-of-precomputed-examples-public-model-honest-grade-caveat) | The demo: a free static page of precomputed examples, public model, honest grade caveat | ✅ |
+| [D44](#d44--public-dataset-the-labels-only-not-the-training-chunks) | Public dataset: the labels only, not the training chunks | ✅ |
 
 ---
 
@@ -1117,3 +1118,26 @@ reliable part. Grading a whole service (all its documents) and the neutral/bad c
 **Explain it:** *"The demo shows ten well-known services, precomputed for free on Kaggle, as a static page, because
 Hugging Face stopped hosting free CPU apps; a live version comes on their free GPU tier. When I first ran whole documents, the grade turned out more generous than ToS;DR's for 8 of 10, so
 the app says so next to the grade instead of hiding it."*
+
+## D44 — Public dataset: the labels only, not the training chunks
+
+**Context.** v1.0 releases the work. The model is public (D42); the data it learned from should be inspectable too.
+The training set (D26) is 47k chunks of real Terms of Service, i.e. large parts of the companies' documents; the
+labels are ToS;DR's points (CC BY-SA 3.0), whose quotes ToS;DR already publishes.
+
+**Decision.** Publish **labels only** as `rupp15/fine-print-tos-labels` (author's choice, 2026-11-15): the 31,362
+approved points we kept, with quote, our category, severity, explanation (case title), case id, links to the
+ToS;DR point and the source document, and the company-level split (25,030 / 3,382 / 2,950). CC BY-SA 3.0 with
+ToS;DR credit; built by `data/export_labels.py`.
+
+**Alternatives.**
+| Option | Why not |
+|---|---|
+| Publish the exact training chunks | Republishes large parts of companies' documents; DATA.md: short excerpts only |
+| No dataset | Nobody could inspect what the model learned from or reuse the category mapping |
+
+**Consequences.** Anyone can reuse the labels and the split; retraining needs the documents, which the project's
+code fetches from ToS;DR. ToS;DR's share-alike licence carries over.
+
+**Explain it:** *"I released the 31k human-reviewed labels with the same company split I used, under ToS;DR's
+licence, but not the documents themselves, because the companies own that text."*

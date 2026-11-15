@@ -4,6 +4,8 @@
 - test-500        a fixed random 500 of test, for systems too slow to run on all of it (LLMs on a CPU)
 - lexglue         LexGLUE unfair_tos test split (1,607 sentences), external; labels mapped to our
                   categories with configs/taxonomy.yaml `lexglue_labels` (D28)
+- services        every chunk of every document of the graded val/test services, no gold flags; used only to
+                  grade whole services (`eval/service_grades.py`, D43)
 
 Each example: {"id", "input", "flags"} where flags are the gold flags (category, severity, ...).
 LexGLUE gold flags carry only a category: it has no severities or explanations.
@@ -18,7 +20,7 @@ import pandas as pd
 from fineprint.config import data_path, load_config
 
 SUBSET_SIZE = 500
-SETS = ("val", "test", "test-500", "lexglue")
+SETS = ("val", "test", "test-500", "lexglue", "services")
 
 
 def _processed(split: str) -> list[dict]:
@@ -50,6 +52,9 @@ def load_eval_set(name: str) -> list[dict]:
         return sorted(random.Random(0).sample(test, SUBSET_SIZE), key=lambda e: e["id"])
     if name == "lexglue":
         return _lexglue()
+    if name == "services":
+        with open(data_path("processed").parent / "examples" / "service_chunks.jsonl") as f:
+            return [json.loads(line) for line in f]
     raise ValueError(f"unknown eval set {name!r}; choose from {SETS}")
 
 

@@ -49,7 +49,12 @@ def main() -> None:
     ap.add_argument("--max-new-tokens", type=int, default=512)
     ap.add_argument("--device", default="cuda")
     ap.add_argument("--limit", type=int)
+    ap.add_argument("--shard", default="0/1", help="i/n: run every n-th example from i (one per GPU)")
+    ap.add_argument("--threshold", type=float,
+                    help="skip the forced answer where p_empty >= t (it would be answered empty anyway); "
+                         "saves most of the time on whole documents. Leave unset to keep every forced answer (D38)")
     args = ap.parse_args()
+    shard_i, shard_n = map(int, args.shard.split("/"))
 
     tok = AutoTokenizer.from_pretrained(args.model, padding_side="left")
     prefix = tok(PREFIX, add_special_tokens=False)["input_ids"]
@@ -64,8 +69,10 @@ def main() -> None:
 
     model = PeftModel.from_pretrained(model, args.adapter).merge_and_unload().eval()
 
-    examples = load_eval_set(args.eval_set)[: args.limit]
+    examples = load_eval_set(args.eval_set)[: args.limit][shard_i::shard_n]
     path = predictions_path(args.system, args.eval_set)
+    if shard_n > 1:
+        path = path.with_name(f"{path.stem}.shard{shard_i}.jsonl")
     done = set()
     if path.exists():
         with open(path) as f:
@@ -92,13 +99,17 @@ def main() -> None:
             pe, pf = probs[:, e_id], probs[:, f_id]
             p_empty = (pe / (pe + pf)).tolist()
             # 2) the best non-empty answer: force `{"flags": [{"` and continue greedily
-            enc = batch([b + prefix + [f_id] for b in base])
-            out = model.generate(**enc, max_new_tokens=args.max_new_tokens, do_sample=False,
-                                 repetition_penalty=REPETITION_PENALTY, pad_token_id=tok.pad_token_id)
-            cont = tok.batch_decode(out[:, enc["input_ids"].shape[1]:], skip_special_tokens=True)
+            need = [k for k, p in enumerate(p_empty) if args.threshold is None or p < args.threshold]
+            cont = [None] * len(part)
+            if need:
+                enc = batch([base[k] + prefix + [f_id] for k in need])
+                out = model.generate(**enc, max_new_tokens=args.max_new_tokens, do_sample=False,
+                                     repetition_penalty=REPETITION_PENALTY, pad_token_id=tok.pad_token_id)
+                for k, c in zip(need, tok.batch_decode(out[:, enc["input_ids"].shape[1]:], skip_special_tokens=True)):
+                    cont[k] = PREFIX + FLAG + c
             per = (time.perf_counter() - t) / len(part)
             f.writelines(json.dumps({"id": e["id"], "p_empty": round(p, 6), "p_two_way": round(float(a + b), 6),
-                                     "forced": PREFIX + FLAG + c, "seconds": round(per, 3)}, ensure_ascii=False) + "\n"
+                                     "forced": c, "seconds": round(per, 3)}, ensure_ascii=False) + "\n"
                          for e, p, a, b, c in zip(part, p_empty, pe.tolist(), pf.tolist(), cont))
             f.flush()
             print(f"{i + len(part)}/{len(todo)} {time.perf_counter() - t0:.0f}s", flush=True)

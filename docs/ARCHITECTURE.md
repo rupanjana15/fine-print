@@ -21,8 +21,8 @@ flowchart LR
     end
 
     subgraph TRAIN["② Training (Kaggle free GPU)"]
-        P -->|HF Hub private dataset| T[QLoRA fine-tune<br/>Unsloth + TRL]
-        T --> AD[LoRA adapter]
+        P -->|private Kaggle dataset| T[QLoRA fine-tune<br/>transformers + peft, 2×T4]
+        T --> AD[LoRA adapter<br/>+ empty-answer threshold]
         AD --> M[merge + GGUF Q4_K_M<br/>~2 GB]
     end
 
@@ -35,7 +35,7 @@ flowchart LR
 
     subgraph SERVE["④ Inference + demo"]
         M --> I[pipeline<br/>chunk → classify → aggregate → grade]
-        I --> UI[Gradio app<br/>HF Spaces free CPU]
+        I --> UI[static demo on HF Spaces<br/>Gradio app locally]
     end
 ```
 
