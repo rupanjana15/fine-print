@@ -21,11 +21,13 @@ import itertools
 import json
 from collections import Counter, defaultdict
 
+import pandas as pd
+
 from fineprint.chunk import chunk_text
 from fineprint.config import RESULTS, ROOT, data_path, load_config
 from fineprint.data.build_dataset import split_of
 from fineprint.data.clean import clean_text
-from fineprint.eval.grade_fit import W_BLOCKER, W_GOOD, best_cuts, evaluate
+from fineprint.eval.grade_fit import W_BLOCKER, W_GOOD, best_cuts, doc_service, evaluate
 from fineprint.eval.metrics import parse_output
 from fineprint.eval.score import predictions_path
 from fineprint.inference.grade import GRADES, counts
@@ -78,6 +80,19 @@ def _predictions() -> dict[str, dict]:
     return preds
 
 
+def _human_counts(sids: set[int]) -> dict[int, dict]:
+    """ToS;DR's own approved points for the same services, counted the same way (as in grade_fit, D41)."""
+    pts = pd.read_parquet(data_path("interim") / "points_labeled.parquet").dropna(subset=["document_id"])
+    d2s = doc_service(set(pts["document_id"].astype(int)))
+    seen, flags = defaultdict(set), defaultdict(list)
+    for r in pts.itertuples():
+        sid = d2s.get(int(r.document_id))
+        if sid in sids and r.point_id not in seen[sid]:
+            seen[sid].add(r.point_id)
+            flags[sid].append({"category": r.category, "severity": r.severity})
+    return {sid: counts(f) for sid, f in flags.items()}
+
+
 def analyse() -> None:
     svc = _graded_services()
     cats = set(load_config("taxonomy")["categories"])
@@ -101,12 +116,23 @@ def analyse() -> None:
                                      "counts": counts(flags[sid]), "n_flags": len(flags[sid])})
 
     human = load_config("grade")  # D41: fitted on ToS;DR's own flags of train services
+    hc = _human_counts(set(svc))
+    paired = {k: [{**r, "counts": hc[r["id"]]} for r in v if r["id"] in hc] for k, v in rows.items()}
+    model_paired = {k: [r for r in v if r["id"] in hc] for k, v in rows.items()}
     report = {"system": SYSTEM, "threshold": THRESHOLD, "chunks": len(chunks), "chunks_flagged": flagged,
               "services": {k: len(v) for k, v in rows.items()},
               "model_flag_counts_mean": {k: {sev: round(sum(r["counts"][sev] for r in v) / len(v), 2)
                                              for sev in ("good", "neutral", "bad", "blocker")}
                                          for k, v in rows.items()},
-              "d41_rule": {"params": human, **{k: evaluate(v, human) for k, v in rows.items()}}}
+              "d41_rule": {"params": human, **{k: evaluate(v, human) for k, v in rows.items()}},
+              # Same services, same rule: ToS;DR's own flags vs the model's (services that have approved points).
+              "paired_with_human_flags": {k: {"n": len(paired[k]),
+                                              "human_flags": evaluate(paired[k], human),
+                                              "model_flags": evaluate(model_paired[k], human),
+                                              "human_counts_mean": {sev: round(sum(r["counts"][sev] for r in paired[k])
+                                                                               / len(paired[k]), 2)
+                                                                    for sev in ("good", "neutral", "bad", "blocker")}}
+                                          for k in rows}}
 
     # Re-fit the same rule on the model's flags of val services, report on test services only.
     best = None
@@ -125,6 +151,10 @@ def analyse() -> None:
     print(json.dumps({"mean counts": report["model_flag_counts_mean"],
                       "d41 rule": {s: {x: report["d41_rule"][s][x] for x in ("n", "exact", "within_one")}
                                    for s in ("val", "test")},
+                      "same services, D41 rule (human → model flags)": {
+                          s: {"n": v["n"], **{x: (v["human_flags"][x], v["model_flags"][x]) for x in ("exact", "within_one")},
+                              "human mean counts": v["human_counts_mean"]}
+                          for s, v in report["paired_with_human_flags"].items()},
                       "refit params": refit,
                       "refit": {s: {x: report["refit_on_model_flags"][s][x] for x in ("n", "exact", "within_one")}
                                 for s in ("val (fit)", "test")}}, indent=1))

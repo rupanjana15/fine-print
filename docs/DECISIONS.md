@@ -50,6 +50,7 @@ New decisions are appended with the next number; superseded ones are marked, nev
 | [D40](#d40--shipping-format-merged-4-bit-gguf-on-llamacpp-with-the-same-empty-answer-threshold) | Shipping format: merged 4-bit GGUF on llama.cpp, with the same empty-answer threshold | ✅ |
 | [D41](#d41--the-ae-grade-a-counting-rule-fitted-on-tosdrs-human-grades) | The A–E grade: a counting rule fitted on ToS;DR's human grades | ✅ |
 | [D42](#d42--the-demo-a-free-static-page-of-precomputed-examples-public-model-honest-grade-caveat) | The demo: a free static page of precomputed examples, public model, honest grade caveat | ✅ |
+| [D43](#d43--grading-whole-services-keep-the-d41-rule-the-gap-is-missed-blockers) | Grading whole services: keep the D41 rule; the gap is missed blockers | ✅ |
 | [D44](#d44--public-dataset-the-labels-only-not-the-training-chunks) | Public dataset: the labels only, not the training chunks | ✅ |
 
 ---
@@ -1118,6 +1119,55 @@ reliable part. Grading a whole service (all its documents) and the neutral/bad c
 **Explain it:** *"The demo shows ten well-known services, precomputed for free on Kaggle, as a static page, because
 Hugging Face stopped hosting free CPU apps; a live version comes on their free GPU tier. When I first ran whole documents, the grade turned out more generous than ToS;DR's for 8 of 10, so
 the app says so next to the grade instead of hiding it."*
+
+## D43 — Grading whole services: keep the D41 rule; the gap is missed blockers
+
+**Context.** The demo graded one document per service and came out more generous than ToS;DR for 8 of 10 (D42).
+Two explanations were open: the demo reads one document while ToS;DR grades the whole service, or the model's
+severities are off (it seemed to say "neutral" where reviewers say "bad"). The D41 rule had only been checked on
+ToS;DR's own flags, never on the model's.
+
+**Decision.** Measure it on held-out companies, end to end: every document of the 109 graded val/test services
+(9,086 chunks) through the v2 model with the 0.9 threshold on Kaggle's 2×T4 (`eval/service_grades.py`,
+`notebooks/kaggle_services.py`, `run_knob --shard/--threshold`); pool flags per service; grade with the D41 rule
+unchanged. Compare with the same rule on ToS;DR's own flags for the same services, and with the rule refitted on
+the model's flags of val services. Full-precision model on GPU, not the 4-bit file: days on CPU otherwise, and they
+agree on 487/500 flag/no-flag answers (D40).
+
+**Result** ([results/service_grades.md](../results/service_grades.md)), test services:
+| Flags graded by the D41 rule | n | Exact | Within one |
+|---|---|---|---|
+| Majority guess | 52 | 0.29 | — |
+| Model's flags | 52 | 0.46 | 0.88 |
+| Model's flags, services with ToS;DR points | 45 | 0.51 | 0.89 |
+| ToS;DR's own flags, same 45 | 45 | 0.58 | 1.00 |
+| Rule refitted on model flags of val services | 52 | 0.37 | 0.88 |
+
+- Errors are close to balanced over whole services (17 too kind, 11 too harsh, 24 exact): the demo's generosity was
+  mostly the one-document effect.
+- Good / neutral / bad counts per service are close to ToS;DR's (5.7 / 8.1 / 5.3 vs 6.3 / 7.4 / 5.4), so
+  neutral-vs-bad calibration is not the main problem at service level. **Blockers are**: 0.31 per service vs
+  0.60. A blocker counts double, so the worst services drift up: of 10 E services, 3 get E, 5 D, 2 C.
+- The refit fits val (0.60) and fails on test (0.37): ~50 services per split is too few to fit 6 numbers.
+
+**Alternatives.**
+| Option | Why not |
+|---|---|
+| Refit the rule on the model's flags | Tried: overfits (val 0.60 → test 0.37) |
+| Lower the threshold to flag more | Raises false alarms everywhere; the shortfall is one severity, not recall overall |
+| Weight blockers higher to compensate | Tuning on ~50 services again; and it would punish the services where blockers *are* found |
+| Run on the 4-bit GGUF on Kaggle CPU | ~9,000 chunks × 1.5–5 s: days of CPU sessions for a 0.6-point F1 difference |
+| Score only the demo's 10 | Ten services is noise (D42) |
+
+**Consequences.** The D41 rule stays. The README and the demo state the whole-service numbers: right or one grade
+off for ~9 in 10 unseen services, exact for about half, worst services graded too kindly. The next lever is
+blocker recall (more blocker examples or a severity-specific threshold), recorded as future work rather than done
+for v1.0.
+
+**Explain it:** *"I graded 109 companies the model never saw, reading all their documents: the grade is right or
+one off for 9 in 10, exact for half. It wasn't the grade rule or the neutral/bad confusion, it was missed
+blockers, the rare, worst clauses, so the worst services look a grade better than they are. Refitting the rule on
+50 services just overfitted, so I kept the original."*
 
 ## D44 — Public dataset: the labels only, not the training chunks
 

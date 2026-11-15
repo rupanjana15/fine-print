@@ -2,6 +2,17 @@
 
 One entry per tagged milestone (see `docs/ROADMAP.md`).
 
+## v1.0 — 2026-11-16 · Writeup & release
+- Whole-service grading on held-out companies (`eval/service_grades.py`, `notebooks/kaggle_services.py`, D43):
+  9,086 chunks of 109 val/test services on 2×T4; D41 rule on the model's flags: test exact 0.46, within one 0.88
+  (ToS;DR's own flags, same services: 0.58 / 1.00; majority 0.29). Errors near balanced (17 kind / 11 harsh); the
+  gap is missed blockers (0.31 vs 0.60 per service). Refit on model flags overfits (test 0.37): D41 rule kept
+- `run_knob --shard i/n --threshold t` for parallel GPU shards with the empty-answer threshold
+- Public labels dataset `rupp15/fine-print-tos-labels` (31,362 human-reviewed points, company split, CC BY-SA 3.0;
+  no document text, D44)
+- Release README (example flag, architecture, results, error analysis, limitations), demo GIF, model card with
+  dataset link and service-grade numbers; demo and app caveats updated with whole-service results
+
 ## v0.7 — 2026-11-15 · Demo (MVP)
 - Public model `rupp15/fine-print-gguf` (Q4_K_M, model card, Qwen licence + NOTICE, "Built with Qwen")
 - Public demo: free Static Space `rupp15/fine-print`, 10 services precomputed (8 unseen in training) on 3 parallel

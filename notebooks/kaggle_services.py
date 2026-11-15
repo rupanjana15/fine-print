@@ -34,7 +34,7 @@ cmd = (f"python -m fineprint.eval.run_knob --set services --system ft_qwen3b_v2_
        "--threshold 0.9 --shard {i}/2")
 jobs = {}
 for i in (0, 1):
-    log = open(f"{W}/services_gpu{i}.log", "w")
+    log = open(f"{W}/services_gpu{i}.log", "w")  # noqa: SIM115 -- stays open while the job writes to it
     jobs[i] = subprocess.Popen(cmd.format(i=i), shell=True, cwd=REPO, stdout=log, stderr=subprocess.STDOUT,
                                env={**ENV, "CUDA_VISIBLE_DEVICES": str(i)})
 while any(p.poll() is None for p in jobs.values()):

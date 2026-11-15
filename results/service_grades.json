@@ -1,0 +1,1521 @@
+{
+  "system": "ft_qwen3b_v2_knob",
+  "threshold": 0.9,
+  "chunks": 9086,
+  "chunks_flagged": 4991,
+  "services": {
+    "val": 57,
+    "test": 52
+  },
+  "model_flag_counts_mean": {
+    "val": {
+      "good": 6.89,
+      "neutral": 10.56,
+      "bad": 7.37,
+      "blocker": 0.63
+    },
+    "test": {
+      "good": 5.65,
+      "neutral": 8.08,
+      "bad": 5.25,
+      "blocker": 0.31
+    }
+  },
+  "d41_rule": {
+    "params": {
+      "w_good": 1.0,
+      "w_blocker": 2.0,
+      "cuts": [
+        7.0,
+        2.0,
+        0.0,
+        -6.0
+      ]
+    },
+    "val": {
+      "n": 57,
+      "exact": 0.509,
+      "within_one": 0.947,
+      "majority_guess_exact": 0.298,
+      "confusion": {
+        "A": {
+          "B": 1
+        },
+        "B": {
+          "B": 4,
+          "C": 2,
+          "A": 2
+        },
+        "C": {
+          "C": 6,
+          "D": 8,
+          "B": 2
+        },
+        "D": {
+          "D": 11,
+          "C": 3,
+          "E": 2,
+          "B": 1
+        },
+        "E": {
+          "E": 8,
+          "D": 5,
+          "B": 2
+        }
+      }
+    },
+    "test": {
+      "n": 52,
+      "exact": 0.462,
+      "within_one": 0.885,
+      "majority_guess_exact": 0.288,
+      "confusion": {
+        "A": {
+          "D": 1,
+          "B": 1
+        },
+        "B": {
+          "B": 8,
+          "A": 2,
+          "C": 3,
+          "D": 2
+        },
+        "C": {
+          "B": 4,
+          "C": 7,
+          "D": 4
+        },
+        "D": {
+          "D": 6,
+          "C": 3,
+          "B": 1
+        },
+        "E": {
+          "D": 5,
+          "E": 3,
+          "C": 2
+        }
+      }
+    }
+  },
+  "paired_with_human_flags": {
+    "val": {
+      "n": 55,
+      "human_flags": {
+        "n": 55,
+        "exact": 0.618,
+        "within_one": 1.0,
+        "majority_guess_exact": 0.291,
+        "confusion": {
+          "A": {
+            "B": 1
+          },
+          "B": {
+            "B": 6,
+            "A": 1,
+            "C": 1
+          },
+          "C": {
+            "B": 3,
+            "D": 6,
+            "C": 6
+          },
+          "D": {
+            "D": 14,
+            "C": 2
+          },
+          "E": {
+            "E": 8,
+            "D": 7
+          }
+        }
+      },
+      "model_flags": {
+        "n": 55,
+        "exact": 0.509,
+        "within_one": 0.945,
+        "majority_guess_exact": 0.291,
+        "confusion": {
+          "A": {
+            "B": 1
+          },
+          "B": {
+            "B": 4,
+            "C": 2,
+            "A": 2
+          },
+          "C": {
+            "C": 5,
+            "D": 8,
+            "B": 2
+          },
+          "D": {
+            "D": 11,
+            "C": 2,
+            "E": 2,
+            "B": 1
+          },
+          "E": {
+            "E": 8,
+            "D": 5,
+            "B": 2
+          }
+        }
+      },
+      "human_counts_mean": {
+        "good": 5.98,
+        "neutral": 8.69,
+        "bad": 6.71,
+        "blocker": 0.87
+      }
+    },
+    "test": {
+      "n": 45,
+      "human_flags": {
+        "n": 45,
+        "exact": 0.578,
+        "within_one": 1.0,
+        "majority_guess_exact": 0.333,
+        "confusion": {
+          "A": {
+            "B": 1,
+            "A": 1
+          },
+          "B": {
+            "B": 9,
+            "A": 3
+          },
+          "C": {
+            "D": 6,
+            "B": 5,
+            "C": 4
+          },
+          "D": {
+            "D": 4,
+            "C": 2,
+            "E": 1
+          },
+          "E": {
+            "E": 8,
+            "D": 1
+          }
+        }
+      },
+      "model_flags": {
+        "n": 45,
+        "exact": 0.511,
+        "within_one": 0.889,
+        "majority_guess_exact": 0.333,
+        "confusion": {
+          "A": {
+            "D": 1,
+            "B": 1
+          },
+          "B": {
+            "B": 8,
+            "A": 2,
+            "D": 2
+          },
+          "C": {
+            "B": 4,
+            "C": 7,
+            "D": 4
+          },
+          "D": {
+            "D": 5,
+            "C": 1,
+            "B": 1
+          },
+          "E": {
+            "D": 5,
+            "E": 3,
+            "C": 1
+          }
+        }
+      },
+      "human_counts_mean": {
+        "good": 6.27,
+        "neutral": 7.44,
+        "bad": 5.4,
+        "blocker": 0.6
+      }
+    }
+  },
+  "refit_on_model_flags": {
+    "params": {
+      "w_good": 0.5,
+      "w_blocker": 1.0,
+      "cuts": [
+        4.5,
+        1.5,
+        -4.5,
+        -9.0
+      ]
+    },
+    "val (fit)": {
+      "n": 57,
+      "exact": 0.596,
+      "within_one": 0.947,
+      "majority_guess_exact": 0.298,
+      "confusion": {
+        "A": {
+          "C": 1
+        },
+        "B": {
+          "C": 5,
+          "B": 3
+        },
+        "C": {
+          "C": 14,
+          "D": 2
+        },
+        "D": {
+          "C": 6,
+          "D": 9,
+          "E": 2
+        },
+        "E": {
+          "E": 8,
+          "D": 5,
+          "C": 2
+        }
+      }
+    },
+    "test": {
+      "n": 52,
+      "exact": 0.365,
+      "within_one": 0.885,
+      "majority_guess_exact": 0.288,
+      "confusion": {
+        "A": {
+          "C": 2
+        },
+        "B": {
+          "C": 9,
+          "B": 4,
+          "D": 2
+        },
+        "C": {
+          "C": 9,
+          "D": 3,
+          "E": 1,
+          "B": 2
+        },
+        "D": {
+          "D": 5,
+          "C": 5
+        },
+        "E": {
+          "D": 8,
+          "E": 1,
+          "C": 1
+        }
+      }
+    }
+  },
+  "per_service": {
+    "val": [
+      {
+        "name": "Gopuff",
+        "rating": "E",
+        "counts": {
+          "good": 6,
+          "neutral": 14,
+          "bad": 15,
+          "blocker": 0
+        },
+        "n_flags": 100
+      },
+      {
+        "name": "K-9 Mail",
+        "rating": "C",
+        "counts": {
+          "good": 1,
+          "neutral": 0,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 3
+      },
+      {
+        "name": "Simply Earth",
+        "rating": "E",
+        "counts": {
+          "good": 10,
+          "neutral": 16,
+          "bad": 11,
+          "blocker": 0
+        },
+        "n_flags": 85
+      },
+      {
+        "name": "Guiding Tech",
+        "rating": "D",
+        "counts": {
+          "good": 2,
+          "neutral": 8,
+          "bad": 4,
+          "blocker": 0
+        },
+        "n_flags": 22
+      },
+      {
+        "name": "Vox Media",
+        "rating": "E",
+        "counts": {
+          "good": 13,
+          "neutral": 14,
+          "bad": 14,
+          "blocker": 3
+        },
+        "n_flags": 140
+      },
+      {
+        "name": "MacPaw",
+        "rating": "C",
+        "counts": {
+          "good": 6,
+          "neutral": 6,
+          "bad": 7,
+          "blocker": 0
+        },
+        "n_flags": 37
+      },
+      {
+        "name": "Astronomer",
+        "rating": "C",
+        "counts": {
+          "good": 9,
+          "neutral": 12,
+          "bad": 9,
+          "blocker": 0
+        },
+        "n_flags": 55
+      },
+      {
+        "name": "vBulletin",
+        "rating": "D",
+        "counts": {
+          "good": 8,
+          "neutral": 13,
+          "bad": 12,
+          "blocker": 1
+        },
+        "n_flags": 104
+      },
+      {
+        "name": "Lichess",
+        "rating": "C",
+        "counts": {
+          "good": 6,
+          "neutral": 13,
+          "bad": 3,
+          "blocker": 0
+        },
+        "n_flags": 60
+      },
+      {
+        "name": "Vouchley",
+        "rating": "D",
+        "counts": {
+          "good": 9,
+          "neutral": 12,
+          "bad": 10,
+          "blocker": 0
+        },
+        "n_flags": 84
+      },
+      {
+        "name": "YouTube",
+        "rating": "E",
+        "counts": {
+          "good": 13,
+          "neutral": 13,
+          "bad": 8,
+          "blocker": 1
+        },
+        "n_flags": 99
+      },
+      {
+        "name": "Brainly",
+        "rating": "D",
+        "counts": {
+          "good": 7,
+          "neutral": 14,
+          "bad": 9,
+          "blocker": 1
+        },
+        "n_flags": 70
+      },
+      {
+        "name": "Instructure",
+        "rating": "D",
+        "counts": {
+          "good": 7,
+          "neutral": 13,
+          "bad": 6,
+          "blocker": 1
+        },
+        "n_flags": 52
+      },
+      {
+        "name": "El Mundo (El Salvador)",
+        "rating": "C",
+        "counts": {
+          "good": 0,
+          "neutral": 0,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 0
+      },
+      {
+        "name": "James Bush",
+        "rating": "A",
+        "counts": {
+          "good": 2,
+          "neutral": 1,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 4
+      },
+      {
+        "name": "Open Collective",
+        "rating": "D",
+        "counts": {
+          "good": 9,
+          "neutral": 13,
+          "bad": 10,
+          "blocker": 0
+        },
+        "n_flags": 54
+      },
+      {
+        "name": "SchildiChat",
+        "rating": "C",
+        "counts": {
+          "good": 2,
+          "neutral": 1,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 3
+      },
+      {
+        "name": "Open Source Initiative",
+        "rating": "B",
+        "counts": {
+          "good": 7,
+          "neutral": 13,
+          "bad": 5,
+          "blocker": 0
+        },
+        "n_flags": 51
+      },
+      {
+        "name": "List Armor",
+        "rating": "D",
+        "counts": {
+          "good": 8,
+          "neutral": 12,
+          "bad": 7,
+          "blocker": 0
+        },
+        "n_flags": 38
+      },
+      {
+        "name": "SourceHut",
+        "rating": "B",
+        "counts": {
+          "good": 7,
+          "neutral": 8,
+          "bad": 3,
+          "blocker": 0
+        },
+        "n_flags": 26
+      },
+      {
+        "name": "FaceApp",
+        "rating": "C",
+        "counts": {
+          "good": 8,
+          "neutral": 13,
+          "bad": 11,
+          "blocker": 1
+        },
+        "n_flags": 64
+      },
+      {
+        "name": "IMDb",
+        "rating": "D",
+        "counts": {
+          "good": 8,
+          "neutral": 13,
+          "bad": 9,
+          "blocker": 1
+        },
+        "n_flags": 55
+      },
+      {
+        "name": "Orchid VPN",
+        "rating": "C",
+        "counts": {
+          "good": 2,
+          "neutral": 6,
+          "bad": 2,
+          "blocker": 1
+        },
+        "n_flags": 13
+      },
+      {
+        "name": "Turnitin",
+        "rating": "C",
+        "counts": {
+          "good": 11,
+          "neutral": 13,
+          "bad": 11,
+          "blocker": 0
+        },
+        "n_flags": 113
+      },
+      {
+        "name": "Listudy",
+        "rating": "B",
+        "counts": {
+          "good": 6,
+          "neutral": 6,
+          "bad": 6,
+          "blocker": 0
+        },
+        "n_flags": 23
+      },
+      {
+        "name": "Future PLC",
+        "rating": "D",
+        "counts": {
+          "good": 8,
+          "neutral": 11,
+          "bad": 9,
+          "blocker": 2
+        },
+        "n_flags": 82
+      },
+      {
+        "name": "matrix.org",
+        "rating": "B",
+        "counts": {
+          "good": 8,
+          "neutral": 10,
+          "bad": 6,
+          "blocker": 1
+        },
+        "n_flags": 59
+      },
+      {
+        "name": "t2bot.io",
+        "rating": "C",
+        "counts": {
+          "good": 8,
+          "neutral": 12,
+          "bad": 8,
+          "blocker": 0
+        },
+        "n_flags": 63
+      },
+      {
+        "name": "El País",
+        "rating": "D",
+        "counts": {
+          "good": 0,
+          "neutral": 1,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 1
+      },
+      {
+        "name": "AirVPN",
+        "rating": "B",
+        "counts": {
+          "good": 8,
+          "neutral": 5,
+          "bad": 1,
+          "blocker": 0
+        },
+        "n_flags": 20
+      },
+      {
+        "name": "Mattermost",
+        "rating": "E",
+        "counts": {
+          "good": 6,
+          "neutral": 13,
+          "bad": 9,
+          "blocker": 0
+        },
+        "n_flags": 61
+      },
+      {
+        "name": "Ryver",
+        "rating": "C",
+        "counts": {
+          "good": 7,
+          "neutral": 14,
+          "bad": 7,
+          "blocker": 1
+        },
+        "n_flags": 56
+      },
+      {
+        "name": "Fur Affinity",
+        "rating": "E",
+        "counts": {
+          "good": 6,
+          "neutral": 11,
+          "bad": 9,
+          "blocker": 0
+        },
+        "n_flags": 72
+      },
+      {
+        "name": "Uber",
+        "rating": "E",
+        "counts": {
+          "good": 7,
+          "neutral": 14,
+          "bad": 11,
+          "blocker": 2
+        },
+        "n_flags": 60
+      },
+      {
+        "name": "Daybreak Game Company",
+        "rating": "E",
+        "counts": {
+          "good": 10,
+          "neutral": 16,
+          "bad": 14,
+          "blocker": 3
+        },
+        "n_flags": 140
+      },
+      {
+        "name": "Your Opinion",
+        "rating": "C",
+        "counts": {
+          "good": 7,
+          "neutral": 12,
+          "bad": 7,
+          "blocker": 0
+        },
+        "n_flags": 96
+      },
+      {
+        "name": "CareerOne",
+        "rating": "D",
+        "counts": {
+          "good": 5,
+          "neutral": 14,
+          "bad": 11,
+          "blocker": 2
+        },
+        "n_flags": 99
+      },
+      {
+        "name": "Canonical (Ubuntu)",
+        "rating": "C",
+        "counts": {
+          "good": 6,
+          "neutral": 8,
+          "bad": 7,
+          "blocker": 0
+        },
+        "n_flags": 36
+      },
+      {
+        "name": "NordVPN",
+        "rating": "D",
+        "counts": {
+          "good": 8,
+          "neutral": 14,
+          "bad": 6,
+          "blocker": 0
+        },
+        "n_flags": 54
+      },
+      {
+        "name": "Rotten Tomatoes",
+        "rating": "E",
+        "counts": {
+          "good": 8,
+          "neutral": 14,
+          "bad": 14,
+          "blocker": 2
+        },
+        "n_flags": 111
+      },
+      {
+        "name": "CouchSurfing",
+        "rating": "E",
+        "counts": {
+          "good": 8,
+          "neutral": 16,
+          "bad": 14,
+          "blocker": 1
+        },
+        "n_flags": 92
+      },
+      {
+        "name": "USSeek",
+        "rating": "D",
+        "counts": {
+          "good": 0,
+          "neutral": 7,
+          "bad": 2,
+          "blocker": 0
+        },
+        "n_flags": 12
+      },
+      {
+        "name": "Tickets Plus",
+        "rating": "C",
+        "counts": {
+          "good": 2,
+          "neutral": 5,
+          "bad": 3,
+          "blocker": 0
+        },
+        "n_flags": 14
+      },
+      {
+        "name": "Discadia",
+        "rating": "C",
+        "counts": {
+          "good": 2,
+          "neutral": 8,
+          "bad": 3,
+          "blocker": 1
+        },
+        "n_flags": 20
+      },
+      {
+        "name": "GitHub",
+        "rating": "D",
+        "counts": {
+          "good": 13,
+          "neutral": 16,
+          "bad": 11,
+          "blocker": 1
+        },
+        "n_flags": 94
+      },
+      {
+        "name": "Docker",
+        "rating": "E",
+        "counts": {
+          "good": 8,
+          "neutral": 17,
+          "bad": 14,
+          "blocker": 1
+        },
+        "n_flags": 88
+      },
+      {
+        "name": "Free Software Foundation",
+        "rating": "B",
+        "counts": {
+          "good": 7,
+          "neutral": 0,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 12
+      },
+      {
+        "name": "Cloudflare",
+        "rating": "D",
+        "counts": {
+          "good": 9,
+          "neutral": 16,
+          "bad": 10,
+          "blocker": 0
+        },
+        "n_flags": 98
+      },
+      {
+        "name": "Google",
+        "rating": "E",
+        "counts": {
+          "good": 12,
+          "neutral": 12,
+          "bad": 8,
+          "blocker": 1
+        },
+        "n_flags": 90
+      },
+      {
+        "name": "Privacy Guides",
+        "rating": "B",
+        "counts": {
+          "good": 5,
+          "neutral": 6,
+          "bad": 1,
+          "blocker": 0
+        },
+        "n_flags": 24
+      },
+      {
+        "name": "Represent",
+        "rating": "D",
+        "counts": {
+          "good": 9,
+          "neutral": 15,
+          "bad": 15,
+          "blocker": 2
+        },
+        "n_flags": 91
+      },
+      {
+        "name": "Gandi",
+        "rating": "C",
+        "counts": {
+          "good": 5,
+          "neutral": 4,
+          "bad": 4,
+          "blocker": 1
+        },
+        "n_flags": 22
+      },
+      {
+        "name": "Audacity",
+        "rating": "B",
+        "counts": {
+          "good": 11,
+          "neutral": 12,
+          "bad": 4,
+          "blocker": 2
+        },
+        "n_flags": 54
+      },
+      {
+        "name": "BlueSky",
+        "rating": "E",
+        "counts": {
+          "good": 9,
+          "neutral": 15,
+          "bad": 10,
+          "blocker": 0
+        },
+        "n_flags": 70
+      },
+      {
+        "name": "MuseScore",
+        "rating": "E",
+        "counts": {
+          "good": 9,
+          "neutral": 13,
+          "bad": 9,
+          "blocker": 2
+        },
+        "n_flags": 75
+      },
+      {
+        "name": "Houseparty",
+        "rating": "E",
+        "counts": {
+          "good": 7,
+          "neutral": 13,
+          "bad": 12,
+          "blocker": 1
+        },
+        "n_flags": 130
+      },
+      {
+        "name": "Rapid VPN",
+        "rating": "D",
+        "counts": {
+          "good": 8,
+          "neutral": 11,
+          "bad": 9,
+          "blocker": 0
+        },
+        "n_flags": 59
+      }
+    ],
+    "test": [
+      {
+        "name": "Gather Town",
+        "rating": "C",
+        "counts": {
+          "good": 6,
+          "neutral": 14,
+          "bad": 3,
+          "blocker": 0
+        },
+        "n_flags": 47
+      },
+      {
+        "name": "Waterfox",
+        "rating": "A",
+        "counts": {
+          "good": 2,
+          "neutral": 4,
+          "bad": 3,
+          "blocker": 0
+        },
+        "n_flags": 19
+      },
+      {
+        "name": "FreeTube",
+        "rating": "B",
+        "counts": {
+          "good": 2,
+          "neutral": 0,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 3
+      },
+      {
+        "name": "Notion",
+        "rating": "C",
+        "counts": {
+          "good": 5,
+          "neutral": 4,
+          "bad": 2,
+          "blocker": 1
+        },
+        "n_flags": 17
+      },
+      {
+        "name": "Archive of Our Own",
+        "rating": "B",
+        "counts": {
+          "good": 10,
+          "neutral": 13,
+          "bad": 5,
+          "blocker": 0
+        },
+        "n_flags": 108
+      },
+      {
+        "name": "OpenTracks",
+        "rating": "C",
+        "counts": {
+          "good": 2,
+          "neutral": 0,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 2
+      },
+      {
+        "name": "Element",
+        "rating": "B",
+        "counts": {
+          "good": 11,
+          "neutral": 15,
+          "bad": 3,
+          "blocker": 0
+        },
+        "n_flags": 62
+      },
+      {
+        "name": "iFunny",
+        "rating": "E",
+        "counts": {
+          "good": 11,
+          "neutral": 15,
+          "bad": 9,
+          "blocker": 3
+        },
+        "n_flags": 82
+      },
+      {
+        "name": "Metager",
+        "rating": "B",
+        "counts": {
+          "good": 6,
+          "neutral": 4,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 24
+      },
+      {
+        "name": "Eltiempo.es",
+        "rating": "C",
+        "counts": {
+          "good": 6,
+          "neutral": 4,
+          "bad": 5,
+          "blocker": 0
+        },
+        "n_flags": 24
+      },
+      {
+        "name": "Profilic",
+        "rating": "C",
+        "counts": {
+          "good": 5,
+          "neutral": 12,
+          "bad": 8,
+          "blocker": 0
+        },
+        "n_flags": 43
+      },
+      {
+        "name": "TourOfCalifornia.org",
+        "rating": "C",
+        "counts": {
+          "good": 2,
+          "neutral": 3,
+          "bad": 1,
+          "blocker": 0
+        },
+        "n_flags": 7
+      },
+      {
+        "name": "Anonfiles",
+        "rating": "C",
+        "counts": {
+          "good": 1,
+          "neutral": 1,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 2
+      },
+      {
+        "name": "Tinder",
+        "rating": "E",
+        "counts": {
+          "good": 5,
+          "neutral": 5,
+          "bad": 9,
+          "blocker": 0
+        },
+        "n_flags": 39
+      },
+      {
+        "name": "Virtual World Computing Cocoon MyData Rewards",
+        "rating": "E",
+        "counts": {
+          "good": 7,
+          "neutral": 11,
+          "bad": 9,
+          "blocker": 1
+        },
+        "n_flags": 62
+      },
+      {
+        "name": "Medium",
+        "rating": "D",
+        "counts": {
+          "good": 10,
+          "neutral": 15,
+          "bad": 12,
+          "blocker": 0
+        },
+        "n_flags": 71
+      },
+      {
+        "name": "Getty Images",
+        "rating": "E",
+        "counts": {
+          "good": 6,
+          "neutral": 13,
+          "bad": 12,
+          "blocker": 1
+        },
+        "n_flags": 81
+      },
+      {
+        "name": "Conjuguemos",
+        "rating": "C",
+        "counts": {
+          "good": 12,
+          "neutral": 13,
+          "bad": 12,
+          "blocker": 0
+        },
+        "n_flags": 92
+      },
+      {
+        "name": "Dendreo",
+        "rating": "B",
+        "counts": {
+          "good": 0,
+          "neutral": 1,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 1
+      },
+      {
+        "name": "Cover your Tracks",
+        "rating": "A",
+        "counts": {
+          "good": 5,
+          "neutral": 1,
+          "bad": 3,
+          "blocker": 0
+        },
+        "n_flags": 14
+      },
+      {
+        "name": "Adventurer's Codex",
+        "rating": "D",
+        "counts": {
+          "good": 5,
+          "neutral": 10,
+          "bad": 5,
+          "blocker": 0
+        },
+        "n_flags": 40
+      },
+      {
+        "name": "Team SDS",
+        "rating": "B",
+        "counts": {
+          "good": 5,
+          "neutral": 7,
+          "bad": 9,
+          "blocker": 1
+        },
+        "n_flags": 47
+      },
+      {
+        "name": "The Filipino Channel",
+        "rating": "C",
+        "counts": {
+          "good": 8,
+          "neutral": 14,
+          "bad": 9,
+          "blocker": 1
+        },
+        "n_flags": 71
+      },
+      {
+        "name": "Canvas",
+        "rating": "C",
+        "counts": {
+          "good": 6,
+          "neutral": 8,
+          "bad": 6,
+          "blocker": 0
+        },
+        "n_flags": 36
+      },
+      {
+        "name": "CyberGhost",
+        "rating": "B",
+        "counts": {
+          "good": 8,
+          "neutral": 12,
+          "bad": 3,
+          "blocker": 0
+        },
+        "n_flags": 47
+      },
+      {
+        "name": "Evernote",
+        "rating": "D",
+        "counts": {
+          "good": 11,
+          "neutral": 13,
+          "bad": 11,
+          "blocker": 1
+        },
+        "n_flags": 84
+      },
+      {
+        "name": "Hulu",
+        "rating": "E",
+        "counts": {
+          "good": 6,
+          "neutral": 17,
+          "bad": 11,
+          "blocker": 0
+        },
+        "n_flags": 70
+      },
+      {
+        "name": "Liberapay",
+        "rating": "B",
+        "counts": {
+          "good": 4,
+          "neutral": 3,
+          "bad": 2,
+          "blocker": 0
+        },
+        "n_flags": 9
+      },
+      {
+        "name": "Disroot",
+        "rating": "B",
+        "counts": {
+          "good": 6,
+          "neutral": 7,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 43
+      },
+      {
+        "name": "FastMail",
+        "rating": "B",
+        "counts": {
+          "good": 10,
+          "neutral": 15,
+          "bad": 7,
+          "blocker": 0
+        },
+        "n_flags": 101
+      },
+      {
+        "name": "Symbaloo",
+        "rating": "C",
+        "counts": {
+          "good": 5,
+          "neutral": 13,
+          "bad": 7,
+          "blocker": 0
+        },
+        "n_flags": 40
+      },
+      {
+        "name": "LauraKalbag",
+        "rating": "C",
+        "counts": {
+          "good": 1,
+          "neutral": 0,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 2
+      },
+      {
+        "name": "El Mundo (Spain)",
+        "rating": "D",
+        "counts": {
+          "good": 0,
+          "neutral": 1,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 1
+      },
+      {
+        "name": "OpenHAB",
+        "rating": "B",
+        "counts": {
+          "good": 4,
+          "neutral": 4,
+          "bad": 1,
+          "blocker": 0
+        },
+        "n_flags": 20
+      },
+      {
+        "name": "Le Parisien",
+        "rating": "D",
+        "counts": {
+          "good": 0,
+          "neutral": 2,
+          "bad": 1,
+          "blocker": 0
+        },
+        "n_flags": 3
+      },
+      {
+        "name": "Chapril",
+        "rating": "B",
+        "counts": {
+          "good": 0,
+          "neutral": 2,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 2
+      },
+      {
+        "name": "CNED",
+        "rating": "B",
+        "counts": {
+          "good": 1,
+          "neutral": 1,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 3
+      },
+      {
+        "name": "HideMyAss!",
+        "rating": "B",
+        "counts": {
+          "good": 10,
+          "neutral": 10,
+          "bad": 9,
+          "blocker": 1
+        },
+        "n_flags": 102
+      },
+      {
+        "name": "Pico",
+        "rating": "C",
+        "counts": {
+          "good": 11,
+          "neutral": 17,
+          "bad": 14,
+          "blocker": 1
+        },
+        "n_flags": 146
+      },
+      {
+        "name": "Cisco",
+        "rating": "D",
+        "counts": {
+          "good": 10,
+          "neutral": 13,
+          "bad": 7,
+          "blocker": 0
+        },
+        "n_flags": 45
+      },
+      {
+        "name": "Vector",
+        "rating": "B",
+        "counts": {
+          "good": 8,
+          "neutral": 2,
+          "bad": 1,
+          "blocker": 0
+        },
+        "n_flags": 22
+      },
+      {
+        "name": "Samsung",
+        "rating": "E",
+        "counts": {
+          "good": 10,
+          "neutral": 12,
+          "bad": 10,
+          "blocker": 0
+        },
+        "n_flags": 73
+      },
+      {
+        "name": "VOID Interactive (Ready or Not)",
+        "rating": "E",
+        "counts": {
+          "good": 6,
+          "neutral": 13,
+          "bad": 11,
+          "blocker": 1
+        },
+        "n_flags": 55
+      },
+      {
+        "name": "CyberPuerta",
+        "rating": "E",
+        "counts": {
+          "good": 0,
+          "neutral": 0,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 0
+      },
+      {
+        "name": "InfinityFree",
+        "rating": "D",
+        "counts": {
+          "good": 8,
+          "neutral": 14,
+          "bad": 12,
+          "blocker": 0
+        },
+        "n_flags": 62
+      },
+      {
+        "name": "Gettr",
+        "rating": "E",
+        "counts": {
+          "good": 9,
+          "neutral": 13,
+          "bad": 10,
+          "blocker": 3
+        },
+        "n_flags": 87
+      },
+      {
+        "name": "Météo France",
+        "rating": "D",
+        "counts": {
+          "good": 0,
+          "neutral": 0,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 0
+      },
+      {
+        "name": "LADBible Group",
+        "rating": "E",
+        "counts": {
+          "good": 6,
+          "neutral": 12,
+          "bad": 8,
+          "blocker": 1
+        },
+        "n_flags": 61
+      },
+      {
+        "name": "KDE",
+        "rating": "C",
+        "counts": {
+          "good": 5,
+          "neutral": 7,
+          "bad": 1,
+          "blocker": 0
+        },
+        "n_flags": 25
+      },
+      {
+        "name": "DigiPaws",
+        "rating": "C",
+        "counts": {
+          "good": 4,
+          "neutral": 3,
+          "bad": 0,
+          "blocker": 0
+        },
+        "n_flags": 8
+      },
+      {
+        "name": "Netflix",
+        "rating": "D",
+        "counts": {
+          "good": 4,
+          "neutral": 12,
+          "bad": 9,
+          "blocker": 0
+        },
+        "n_flags": 41
+      },
+      {
+        "name": "GoDaddy",
+        "rating": "D",
+        "counts": {
+          "good": 9,
+          "neutral": 15,
+          "bad": 13,
+          "blocker": 0
+        },
+        "n_flags": 110
+      }
+    ]
+  }
+}

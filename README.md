@@ -97,7 +97,10 @@ All numbers: [results/RESULTS.md](results/RESULTS.md) · findings per milestone:
 
 ## Limitations
 
-- **The grade is the weakest part.** <!-- service-grades-summary -->
+- **The grade is the weakest part.** Reading all documents of 52 unseen companies, it matches ToS;DR's grade for
+  46% and is within one grade for 88% (always guessing the most common grade: 29%). The model finds about half as
+  many "blocker" clauses as ToS;DR's reviewers, so the worst services come out a grade too kind
+  ([details](results/service_grades.md), D43). The demo reads one document per service, which is less reliable still.
 - **LexGLUE:** on an older, lowercased, differently-labelled contract set the final model scores 0.466 macro-F1,
   below DeBERTa (0.559) and the 1-epoch model (0.589): the second epoch fitted ToS;DR's labelling style more closely.
 - **Labels are ToS;DR's.** The model learns what ToS;DR's volunteers chose to record; points they never wrote

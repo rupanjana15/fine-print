@@ -136,9 +136,10 @@ with gr.Blocks(title="Fine Print") as demo:
     with gr.Tab("Well-known services"):
         gr.Markdown("**How far to trust the grade:** on these 10 services the estimate matched ToS;DR's human grade "
                     "for 1 and was within one grade for 5; for 8 of 10 it was more generous. It reads one document, "
-                    "while ToS;DR grades the whole service (privacy policy included), and the model tends to call "
-                    "some clauses neutral that ToS;DR's reviewers call bad. The individual flags are the more "
-                    "reliable part.")
+                    "while ToS;DR grades the whole service (privacy policy included). Reading all documents of 52 "
+                    "companies it never saw, it was exact for 46% and within one grade for 88%; it finds about half "
+                    "as many blocker clauses as ToS;DR, so the worst services come out a grade too kind. The "
+                    "individual flags are the more reliable part.")
         pick = gr.Dropdown(list(EXAMPLES), value=next(iter(EXAMPLES)), label="Service")
         card, flags = gr.HTML(), gr.HTML()
         pick.change(show_example, pick, [card, flags])

@@ -28,6 +28,11 @@ human-reviewed ToS;DR points, merged into the weights, then converted to GGUF an
 Known limitation: on LexGLUE `unfair_tos` (older, lowercased contracts, a different labelling scheme) it scores
 0.466 macro-F1, below the DeBERTa baseline (0.559).
 
+**Service grades.** Pooling the model's flags over all documents of 52 unseen companies and applying the project's
+A–E counting rule matches ToS;DR's grade for 46% and is within one grade for 88% (majority guess 29%). The model
+finds about half as many "blocker" clauses as ToS;DR's reviewers, so the worst services come out a grade too kind
+(measured with the full-precision model; this file agrees with it on 487/500 flag/no-flag answers).
+
 ## How to use
 The model expects the exact prompt from the project (`src/fineprint/prompt.py`) and an **empty-answer threshold**:
 read P(`" []"`) vs P(`' [{"'`) after `{"flags":` and answer `{"flags": []}` when P(empty) ≥ 0.9, else continue

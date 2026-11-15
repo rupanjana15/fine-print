@@ -222,7 +222,7 @@ Summary only. Full reasoning and alternatives for every decision are in [DECISIO
 | Labels from human ToS;DR data | Synthetic data from a big LLM | Free, real, and avoids Claude terms (no training on Claude outputs) |
 | ~20–25 merged categories | All ToS;DR cases | Long tail has too few examples to learn |
 | GGUF + llama.cpp | Transformers on CPU | 4× smaller, much faster on CPU and Apple Silicon; −0.006 macro-F1 (D40) |
-| Fitted A–E counting rule | Hand-written rule | Checked against ToS;DR's human grades: never more than one grade off on held-out services (D41) |
+| Fitted A–E counting rule | Hand-written rule | With ToS;DR's flags: never more than one grade off on held-out services (D41); with the model's flags over whole services: exact 0.46, within one 0.88 (D43) |
 | Results JSON in git | Paid experiment tracker | Free, versioned with the code that produced it |
 
 ---

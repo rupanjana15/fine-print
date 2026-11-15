@@ -67,9 +67,10 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
   (free CPU Gradio Spaces now need PRO, D42); model public at `rupp15/fine-print-gguf`
 - [ ] Live "paste your own" on ZeroGPU once the HF account is 30 days old (~2026-12-15) or a community grant
 
-## v1.0 — Writeup & release (Week 4)
-- [ ] Grade a whole service (all its documents) and check neutral-vs-bad calibration (D42)
-- [ ] README: problem, architecture diagram, results vs baselines, error analysis, limitations
-- [ ] HF model card + dataset card (with attribution)
-- [ ] 2-minute demo video / GIF
-- [ ] (optional) browser extension
+## v1.0 — Writeup & release (Week 4) ✅
+- [x] Grade a whole service (all its documents) and check neutral-vs-bad calibration (D43: exact 0.46, within one 0.88; gap is missed blockers)
+- [x] README: problem, architecture diagram, results vs baselines, error analysis, limitations
+- [x] HF model card + dataset card (with attribution)
+- [x] 2-minute demo video / GIF
+- [ ] (optional) browser extension — not done
+- [ ] Future: blocker recall (more blocker examples or a severity-specific threshold, D43)

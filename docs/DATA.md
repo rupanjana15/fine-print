@@ -127,6 +127,11 @@ split by the same service hash as the dataset (D14, D41): **344 train / 55 val /
 
 Few A services (22 in all), so the A/B boundary is the least certain. Fit results: `results/grade_fit.json`.
 
+## Whole-service chunks (v1.0, 2026-11-16)
+All documents of the 109 comprehensively-reviewed val/test services with a grade: 9,086 chunks (val 4,928 / test
+4,158), `data/examples/service_chunks.jsonl` (not in git). 100 of them have approved ToS;DR points (55 val / 45
+test); the other 9 have a grade but no usable points. Results: `results/service_grades.md` (D43).
+
 ## LexGLUE `unfair_tos` (CLAUDETTE)
 
 `coastalcph/lex_glue`, config `unfair_tos`: 5,532 / 2,275 / 1,607 sentences (train / val / test),
