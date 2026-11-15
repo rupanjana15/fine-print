@@ -1,0 +1,13 @@
+# Precomputed demo examples (v0.7, D42). One main document per service, run through the shipped pipeline
+# (`python -m fineprint.inference.examples`). `split` says whether the model saw this company's points in training.
+examples:
+  - {slug: google, service_id: 217, document: "Terms of Service"}
+  - {slug: youtube, service_id: 274, document: "Terms of Service"}
+  - {slug: uber, service_id: 252, document: "U.S. Terms of Use"}
+  - {slug: github, service_id: 297, document: "Terms of Service"}
+  - {slug: twitch, service_id: 200, document: "Terms of Service"}
+  - {slug: netflix, service_id: 185, document: "Terms of Use"}
+  - {slug: duckduckgo, service_id: 222, document: "Privacy Policy"}
+  - {slug: mozilla-vpn, service_id: 4159, document: "Mozilla VPN Terms of Service"}
+  - {slug: facebook, service_id: 182, document: "Terms of Service"}
+  - {slug: signal, service_id: 528, document: "Terms of Service & Privacy Policy"}

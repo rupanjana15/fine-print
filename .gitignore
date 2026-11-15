@@ -12,6 +12,7 @@ data/interim/*
 data/processed/*
 data/predictions/*
 data/models/*
+data/examples/*
 !data/**/.gitkeep
 
 # Models

@@ -38,6 +38,18 @@ New decisions are appended with the next number; superseded ones are marked, nev
 | [D28](#d28--lexglue-is-never-used-for-training) | LexGLUE is never used for training | ✅ (amends D09, D13) |
 | [D29](#d29--split-by-a-stable-hash-of-the-service) | Split by a stable hash of the service | ✅ (implements D14) |
 | [D30](#d30--cleaning-rules-and-language-detection) | Cleaning rules and language detection | ✅ (implements D15) |
+| [D31](#d31--filter-negatives-by-similarity-to-known-risky-quotes) | Filter negatives by similarity to known risky quotes | ✅ |
+| [D32](#d32--one-evaluation-harness-fixed-eval-sets-an-always-flag-reference) | One evaluation harness, fixed eval sets, an "always flag" reference | ✅ |
+| [D33](#d33--baseline-line-up-as-built) | Baseline line-up, as built | ✅ |
+| [D34](#d34--how-the-base-model-is-prompted-b1b2) | How the base model is prompted (B1/B2) | ✅ |
+| [D35](#d35--heavy-jobs-run-on-kaggle-two-gpus-in-parallel-the-mac-does-light-work-only) | Heavy jobs run on Kaggle (two GPUs in parallel); the Mac does light work only | ✅ |
+| [D36](#d36--deberta-trains-in-fp32-kaggle-is-driven-from-the-mac-with-the-kaggle-cli) | DeBERTa trains in fp32; Kaggle is driven from the Mac with the Kaggle CLI | ✅ |
+| [D37](#d37--first-fine-tune-plain-transformers--peft-on-both-t4s-1-epoch-data-from-the-kaggle-dataset) | First fine-tune: plain transformers + peft on both T4s, 1 epoch, data from the Kaggle dataset | ✅ |
+| [D38](#d38--empty-answer-threshold-for-the-fine-tune-tuned-on-val-decoding-settings-made-explicit) | Empty-answer threshold for the fine-tune, tuned on val; decoding settings made explicit | ✅ |
+| [D39](#d39--a-second-epoch-continued-from-the-v1-adapter) | A second epoch, continued from the v1 adapter | ✅ |
+| [D40](#d40--shipping-format-merged-4-bit-gguf-on-llamacpp-with-the-same-empty-answer-threshold) | Shipping format: merged 4-bit GGUF on llama.cpp, with the same empty-answer threshold | ✅ |
+| [D41](#d41--the-ae-grade-a-counting-rule-fitted-on-tosdrs-human-grades) | The A–E grade: a counting rule fitted on ToS;DR's human grades | ✅ |
+| [D42](#d42--the-demo-a-free-static-page-of-precomputed-examples-public-model-honest-grade-caveat) | The demo: a free static page of precomputed examples, public model, honest grade caveat | ✅ |
 
 ---
 
@@ -1044,3 +1056,64 @@ grade off on held-out services, and the error is mostly C ↔ B/D, the middle gr
 **Explain it:** *"Each flag adds or removes points: good +1, bad −1, blocker −2. Four cut-offs turn points into
 A–E. I fitted the cut-offs on ToS;DR's human grades for training companies; on unseen companies it gets the exact
 grade 58–62% of the time and is never more than one grade off."*
+
+## D42 — The demo: a free static page of precomputed examples, public model, honest grade caveat
+
+**Context.** v0.7 puts the model in front of people (D19): a Gradio app on a free 2-vCPU Hugging Face Space. Full
+documents are 12–76 chunks; at ~20–30 s per chunk on a small CPU, a whole document takes 5–30 minutes there.
+
+**What changed on the way.** The plan was the Gradio app on HF's free CPU. Hugging Face now refuses that for free
+accounts (HTTP 402: "hosting Gradio and Docker Spaces on free cpu-basic requires a PRO subscription"), and free
+ZeroGPU Spaces need an account at least 30 days old; the author's account was new (2026-11-15). Static Spaces
+(plain HTML) are still free.
+
+**Decision.**
+- **Public demo = a Static Space** `rupp15/fine-print` (`app/static/index.html` + `app/examples.json`): pick one of
+  the 10 services, see both grades side by side, filter flags by severity. No server, so free and instant.
+- **The Gradio app stays in the repo** and runs locally (`app/app.py`, `app/build_space.py` packs it for a Space)
+  with two tabs: *Well-known services*, precomputed and instant; *Paste your own*, capped at 6,000
+  characters (~9 chunks), run live with the shipped GGUF and the same `analyse_document` as everything else,
+  with per-chunk progress and the pasted text highlighted by severity.
+- **10 examples** (`configs/examples.yaml`): one main document each. 8 from companies held out of training (val:
+  Google, YouTube, Uber, GitHub, Twitch; test: Netflix, DuckDuckGo, Mozilla VPN) and 2 from training (Facebook,
+  and Signal as a well-rated contrast); the app says which. Computed with `inference/examples.py` on three
+  parallel free Kaggle CPU kernels (`notebooks/kaggle_examples.py`, ~30 min each), not on the Mac (heat).
+- **No full documents in the demo file**: flags, short quotes, grade and a link to the source; the companies own
+  the text (DATA.md, licensing). Pasted text is the user's own and is shown highlighted.
+- **Public** model repo `rupp15/fine-print-gguf` (author's choice). Qwen's Research License allows this for
+  non-commercial use with: a copy of the licence, a NOTICE file with Alibaba's attribution, a note that the files
+  were modified, and "Built with Qwen" in the documentation and the demo. ToS;DR is credited (CC BY-SA 3.0).
+- **Live "paste your own" later, on ZeroGPU** (free once the account is 30 days old, ~2026-12-15, or sooner via a
+  community grant): the app then runs the full-precision model on a shared GPU, seconds per document.
+
+**First end-to-end grades (model flags → D41 rule vs ToS;DR's service grade).**
+| | Google | YouTube | Uber | GitHub | Twitch | Netflix | DuckDuckGo | Mozilla VPN | Facebook | Signal |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Fine Print | B | B | C | B | D | C | B | B | B | C |
+| ToS;DR | E | E | E | D | D | D | C | C | E | B |
+
+Exact 1/10, within one grade 5/10, **more generous than ToS;DR on 8/10**. With ToS;DR's own flags the rule was
+never more than one grade off (D41), so the gap comes from the inputs: (1) one document vs ToS;DR's whole service
+(Google's E comes largely from its privacy policy, which isn't in the example); (2) the model labels many clauses
+**neutral** (e.g. Google: 12 neutral, 10 good, 1 bad) where reviewers often say bad, and repeats the same "good"
+issue in several places. Quotes were found verbatim for 228 of 229 flags.
+
+**Alternatives.**
+| Option | Why not |
+|---|---|
+| Run examples on the Space at start-up | 5–30 min per document on 2 vCPU, at every restart |
+| Re-fit the grade rule on these 10 | Fitting on the demo set; 10 services is noise. A fix belongs in v1.0 with held-out services |
+| Hide the grade until it is better | The comparison with ToS;DR is shown next to it, and the gap is stated in the app |
+| Private Space | No usable demo link |
+| HF PRO ($9/month) for the CPU Gradio Space | Breaks the free-only rule, and a paste would still take minutes on 2 vCPU |
+| Oracle Cloud Always Free VM | Card at sign-up, a server to maintain, allowance reportedly cut in 2026; ZeroGPU is faster and free soon |
+| Model in the visitor's browser (llama.cpp in WebAssembly) | 1.9 GB download per visitor, 10–30 s per chunk, poor on phones |
+| Gradio share link from the Mac | Only live while the laptop runs it (heat); fine for a live interview demo |
+
+**Consequences.** Visitors can browse the 10 services but can't analyse their own text online until the ZeroGPU
+version. The demo states plainly that the grade tends to be too generous and that the flags are the more
+reliable part. Grading a whole service (all its documents) and the neutral/bad calibration are v1.0 items.
+
+**Explain it:** *"The demo shows ten well-known services, precomputed for free on Kaggle, as a static page, because
+Hugging Face stopped hosting free CPU apps; a live version comes on their free GPU tier. When I first ran whole documents, the grade turned out more generous than ToS;DR's for 8 of 10, so
+the app says so next to the grade instead of hiding it."*

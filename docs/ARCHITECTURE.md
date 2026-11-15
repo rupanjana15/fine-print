@@ -199,6 +199,9 @@ flowchart LR
 - **Pipeline:** `inference/pipeline.py` `analyse_document`: clean → chunk (same chunker as the dataset) →
   `GGUFModel.analyse` per chunk → parse/validate → locate each quote in the document → merge same-category flags
   with overlapping spans → grade.
+- **Demo (D42):** public Static Space `rupp15/fine-print` showing 10 precomputed services (`app/static/`,
+  `app/examples.json`, built by `inference/examples.py` on Kaggle CPU). The Gradio app (`app/app.py`, paste your
+  own text) runs locally; a live ZeroGPU version follows when the HF account qualifies.
 - **Speed:** M1 ~1.5 s per chunk answered empty, ~5.4 s per flagged chunk; a median document (~28 chunks) takes
   ~45 s–2.5 min. On the free 2-vCPU Space: precomputed results for ~10 well-known services, a cap on pasted
   length; a DeBERTa pre-filter stays optional.

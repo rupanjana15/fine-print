@@ -1,0 +1,1846 @@
+[
+ {
+  "slug": "google",
+  "service": "Google",
+  "document": "Terms of Service",
+  "url": "https://policies.google.com/terms#",
+  "tosdr_rating": "E",
+  "tosdr_url": "https://tosdr.org/en/service/217",
+  "split": "val",
+  "grade": "B",
+  "score": 5.0,
+  "counts": {
+   "good": 6,
+   "neutral": 7,
+   "bad": 1,
+   "blocker": 0
+  },
+  "n_chunks": 57,
+  "chars": 34384,
+  "seconds": 1277.71,
+  "flags": [
+   {
+    "category": "changes_to_terms",
+    "severity": "neutral",
+    "explanation": "There is a date of the last update of the agreements",
+    "quote": "Google Terms of Service Effective July 30, 2026",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "good",
+    "explanation": "Archives of their agreements are provided so that changes can be viewed over time",
+    "quote": "We encourage you to download these terms for future reference. We make these terms, and all previous versions, available at all times here.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "Minors must have the authorization of their legal guardians to use the service",
+    "quote": "If you’re under the age required to manage your own Google Account, you must have your parent or legal guardian’s permission to use a Google Account.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "Minors must have the authorization of their legal guardians to use the service",
+    "quote": "Please have your parent or legal guardian read these terms with you.",
+    "quote_found": true
+   },
+   {
+    "category": "content_license",
+    "severity": "neutral",
+    "explanation": "Your content can be used by the service provider for all their existing and future services",
+    "quote": "Although we give you permission to use our services, we retain any intellectual property rights we have in the services.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You agree not to use the service for illegal purposes",
+    "quote": "We want to maintain a respectful environment for everyone, which means you must follow these basic rules of conduct: comply with applicable laws, including export control, sanctions, and human trafficking laws",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You are prohibited from attempting to gain unauthorized access to other computer systems",
+    "quote": "adversarial prompting, or prompt injection",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "good",
+    "explanation": "You maintain ownership of your content",
+    "quote": "Your content remains yours, which means that you retain any intellectual property rights that you have in your content.",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "good",
+    "explanation": "A free help desk is provided",
+    "quote": "Feedback is covered in the Service-related communications section below.",
+    "quote_found": true
+   },
+   {
+    "category": "security",
+    "severity": "neutral",
+    "explanation": "You are responsible for maintaining the security of your account and for the activities on your account",
+    "quote": "You’re responsible for what you do with your Google Account, including taking reasonable steps to keep your Google Account secure",
+    "quote_found": true
+   },
+   {
+    "category": "personal_data_use",
+    "severity": "bad",
+    "explanation": "Location data may be collected, used and/or shared",
+    "quote": "Google services may frequently use the Internet when you're not actively engaged with the services or your device. Google uses the Internet in this way for a wide variety of purposes — for example, to provide software updates and to improve Google's services, security, user experience, and/or Google’s operations, including advertising.",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "good",
+    "explanation": "You maintain ownership of your content",
+    "quote": "Google won’t claim ownership over that content.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "If you are the target of a copyright claim, your content and/or your account may be removed",
+    "quote": "If you think someone is infringing your intellectual property rights, you can send us notice of the infringement and we’ll take appropriate action. For example, we suspend or close the Google Accounts of repeat copyright infringers as described in our Copyright Help Center.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "This service does not condone any ideas contained in its user-generated contents",
+    "quote": "The views expressed in other people or organizations’ content are theirs, and don’t necessarily reflect Google’s views.",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "good",
+    "explanation": "Features of the service are available under a free software and/or open source license",
+    "quote": "Some of our services include software that’s offered under open source license terms that we make available to you.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "You agree to indemnify and hold the service harmless in case of a claim related to your use of the service",
+    "quote": "To the extent allowed by applicable law, you’ll indemnify Google and its directors, officers, employees, and contractors for any third-party legal proceedings (including actions by government authorities) arising out of or relating to your unlawful use of the services or violation of these terms or service-specific additional terms. This indemnity covers any liability or expense arising from claims, losses, damages, judgments, fines, litigation costs, and legal fees, except to the extent a liability or expense is caused by Google's breach, negligence, or willful misconduct.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "Your content can be deleted if you violate the terms",
+    "quote": "reserve the right to take down some or all of that content in accordance with applicable law. Examples include child pornography, content that facilitates human trafficking or harassment, terrorist content, and content that infringes someone else’s intellectual property rights.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "good",
+    "explanation": "Your account may be suspended and/or terminated for breaching the Terms of Service",
+    "quote": "Without limiting any of our other rights, Google may suspend or terminate your access to the services or delete your Google Account if any of these things happen: you materially or repeatedly breach these terms, service-specific additional terms, or policies we’re required to do so to comply with a legal requirement or a court order there are objective and concrete reasons to believe that your conduct causes harm or liability to a user, third party, or Google — for example, by hacking, phishing, harassing, spamming, misleading others, or scraping content that doesn’t belong to you",
+    "quote_found": true
+   },
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "good",
+    "explanation": "The court of law governing the terms is in a jurisdiction that is friendlier to user privacy protection",
+    "quote": "If you’re a resident of, or an organization based in, the European Economic Area (EEA) or Switzerland, these terms and your relationship with Google under these terms and service-specific additional terms, are governed by the laws of your country of residence, and you can file legal disputes in your local courts.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "good",
+    "explanation": "When the service wants to make a material change to its terms, you are notified at least 30 days in advance",
+    "quote": "We may update these terms and service-specific additional terms (1) to reflect changes in our services or how we do business — for example, when we add new services, features, technologies, pricing, or benefits (or remove old ones), (2) for legal, regulatory, or security reasons, or (3) to prevent abuse or harm. If we change these terms or service-specific additional terms, we’ll provide you with at least 15 days’ advance notice before the changes take effect.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "neutral",
+    "explanation": "You should revisit the terms periodically, although in case of material changes, the service will notify",
+    "quote": "When we notify you of changes, we’ll provide you with the new version of the terms and point out the material changes.",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "good",
+    "explanation": "You have the right to leave this service at any time",
+    "quote": "You can also end your relationship with us at any time by closing your Google Account.",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "good",
+    "explanation": "You have the right to leave this service at any time",
+    "quote": "You have the right to withdraw from this contract within 14 days without giving any reason.",
+    "quote_found": true
+   }
+  ]
+ },
+ {
+  "slug": "youtube",
+  "service": "YouTube",
+  "document": "Terms of Service",
+  "url": "https://www.youtube.com/t/terms",
+  "tosdr_rating": "E",
+  "tosdr_url": "https://tosdr.org/en/service/274",
+  "split": "val",
+  "grade": "B",
+  "score": 5.0,
+  "counts": {
+   "good": 5,
+   "neutral": 7,
+   "bad": 0,
+   "blocker": 0
+  },
+  "n_chunks": 45,
+  "chars": 29635,
+  "seconds": 1018.52,
+  "flags": [
+   {
+    "category": "changes_to_terms",
+    "severity": "neutral",
+    "explanation": "There is a date of the last update of the agreements",
+    "quote": "Terms of Service Dated: January 5, 2022",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available to users over a certain age",
+    "quote": "You may use the Service if you are at least 16 years old; however, children of all ages may use the Service and YouTube Kids (where available) if enabled by a parent or legal guardian.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available for use individually and non-commercially",
+    "quote": "You may view or listen to Content for your personal, non-commercial use.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "Spidering, crawling, or accessing the site through any automated means is not allowed",
+    "quote": "access the Service using any automated means (such as robots, botnets or scrapers) except: (a) in the case of public search engines, in accordance with YouTube’s robots.txt file;",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You are prohibited from sending chain letters, junk mail, spam or any unsolicited messages",
+    "quote": "use the Service to distribute unsolicited promotional or commercial content or other unwanted or mass solicitations (spam);",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "The service can stop being provided at any time",
+    "quote": "YouTube is constantly changing and improving the Service. As part of this continual evolution of our digital content and services, we may make modifications or changes (to all or part of the Service) such as adding or removing features and functionalities, offering new digital content or services or discontinuing old ones.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You agree not to use the service for illegal purposes",
+    "quote": "For example, the Content you submit must not include third-party intellectual property (such as copyrighted material) unless you have permission from that party or are otherwise legally entitled to do so (including by way of any available exceptions or limitations to copyright or related rights provided for in European Union law).",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "good",
+    "explanation": "You maintain ownership of your content",
+    "quote": "Rights you Grant You retain all of your ownership rights in your Content. In short, what belongs to you stays yours.",
+    "quote_found": true
+   },
+   {
+    "category": "content_license",
+    "severity": "good",
+    "explanation": "The service has non-exclusive use of your content",
+    "quote": "You also grant each other user of the Service a worldwide, non-exclusive, royalty-free licence to access your Content through the Service, and to use that Content (including to reproduce, distribute, modify, display, and perform it, taking into account the moral rights) only to the extent necessary therefore and as enabled by a feature of the Service.",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "good",
+    "explanation": "You can delete your content from this service",
+    "quote": "You may remove your Content from the Service at any time. You also have the option to make a copy of your Content before removing it.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "If you are the target of a copyright claim, your content and/or your account may be removed",
+    "quote": "We respond to notices of alleged copyright infringement according to the process in our YouTube Copyright Center, where you can also find information about how to resolve a copyright strike.",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "good",
+    "explanation": "You have the right to leave this service at any time",
+    "quote": "You may stop using the Service at any time.",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "good",
+    "explanation": "Features of the service are available under a free software and/or open source license",
+    "quote": "Some software used in our Service may be offered under an open source licence.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "This service assumes no responsibility and liability for the contents of links to other websites",
+    "quote": "YouTube has no control over, and assumes no responsibility for, such websites and online services.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "good",
+    "explanation": "When the service wants to make a material change to its terms, you are notified at least 30 days in advance",
+    "quote": "If we change this Agreement, we’ll provide you with at least 15 days’ advance notice before the changes take effect.",
+    "quote_found": true
+   },
+   {
+    "category": "general_legal_terms",
+    "severity": "neutral",
+    "explanation": "Invalidity of any portion of the Terms of Service does not entail invalidity of its remainder",
+    "quote": "If it turns out that a particular term of this Agreement is not enforceable for any reason, this will not affect any other terms.",
+    "quote_found": true
+   },
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "neutral",
+    "explanation": "The court of law governing the terms is in location X",
+    "quote": "If you are based in Germany, this Agreement, and your relationship with YouTube under this Agreement, will be governed by the laws of Germany",
+    "quote_found": true
+   }
+  ]
+ },
+ {
+  "slug": "uber",
+  "service": "Uber",
+  "document": "U.S. Terms of Use",
+  "url": "https://www.uber.com/legal/en/document/?country=united-states&lang=en&name=general-terms-of-use",
+  "tosdr_rating": "E",
+  "tosdr_url": "https://tosdr.org/en/service/252",
+  "split": "val",
+  "grade": "C",
+  "score": 0.0,
+  "counts": {
+   "good": 4,
+   "neutral": 10,
+   "bad": 2,
+   "blocker": 1
+  },
+  "n_chunks": 59,
+  "chars": 36795,
+  "seconds": 1401.27,
+  "flags": [
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "bad",
+    "explanation": "Your account can be deleted or permanently suspended without prior notice and without a reason",
+    "quote": "Uber may immediately terminate these Terms or any Services with respect to you, or generally cease offering or deny access to the Services or any portion thereof, at any time for any reason.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "good",
+    "explanation": "When the service wants to make a material change to its terms, you are notified at least 30 days in advance",
+    "quote": "If Uber changes these Terms after the date you first agreed to the Terms (or to any subsequent changes to these Terms), you may reject any such change by providing Uber written notice of such rejection within 30 days of the date such change became effective, as indicated in the \"Effective\" date above.",
+    "quote_found": true
+   },
+   {
+    "category": "dispute_resolution",
+    "severity": "bad",
+    "explanation": "You are forced into binding arbitration in case of disputes",
+    "quote": "You and Uber agree that any dispute, claim or controversy arising out of or relating to (a) these Terms or the existence, breach, termination, enforcement, interpretation or validity thereof, or (b) your access to or use of the Services at any time, whether before or after the date you agreed to the Terms, will be settled by binding arbitration between you and Uber, and not in a court of law.",
+    "quote_found": true
+   },
+   {
+    "category": "dispute_resolution",
+    "severity": "bad",
+    "explanation": "You waive your right to a class action",
+    "quote": "You acknowledge and agree that you and Uber are each waiving the right to a trial by jury or to participate as a plaintiff or class member in any purported class action or representative proceeding.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available for use individually and non-commercially",
+    "quote": "Unless otherwise agreed by Uber in a separate written agreement with you, the Services are made available solely for your personal, noncommercial use.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available for use individually and non-commercially",
+    "quote": "Subject to your compliance with these Terms, Uber grants you a limited, non-exclusive, non-sublicensable, revocable, non-transferable license to: (i) access and use the Applications on your personal device solely in connection with your use of the Services. and (ii) access and use any content, information and related materials that may be made available through the Services, in each case solely for your personal, noncommercial use.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You are prohibited from attempting to gain unauthorized access to other computer systems",
+    "quote": "(vi) attempt to gain unauthorized access to or impair any aspect of the Services or its related systems or networks.",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "good",
+    "explanation": "Features of the service are available under a free software and/or open source license",
+    "quote": "Provision of the Services.",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "neutral",
+    "explanation": "This service informs you that its Terms of Service does not apply to third-party services",
+    "quote": "You acknowledge that different terms of use and privacy policies may apply to your use of such third party services and content.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available to users over a certain age",
+    "quote": "You must be at least 18 years of age, or the age of legal majority in your jurisdiction (if different than 18), to obtain an Account, unless a specific Service permits otherwise.",
+    "quote_found": true
+   },
+   {
+    "category": "identity_and_accounts",
+    "severity": "neutral",
+    "explanation": "Alternative accounts are not allowed",
+    "quote": "Unless otherwise permitted by Uber in writing, you may only possess one Account.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available to users over a certain age",
+    "quote": "The Service is not available for use by persons under the age of 18.",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "neutral",
+    "explanation": "You cannot distribute or disclose your account to third parties",
+    "quote": "You may not assign or otherwise transfer your Account to any other person or entity.",
+    "quote_found": true
+   },
+   {
+    "category": "user_rights_and_control",
+    "severity": "good",
+    "explanation": "You can opt out of receiving promotional communications",
+    "quote": "You also understand that you may opt out of receiving text messages from Uber at any time, either by texting the word \"STOP\" to 89203 using the mobile device that is receiving the messages, or by contacting help.",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "good",
+    "explanation": "You maintain ownership of your content",
+    "quote": "Any User Content provided by you remains your property.",
+    "quote_found": true
+   },
+   {
+    "category": "content_license",
+    "severity": "neutral",
+    "explanation": "Your content can be distributed through any media known now or in the future",
+    "quote": "in any manner such User Content in all formats and distribution channels now known or hereafter devised (including in connection with the Services and Uber's business and on third-party sites and services),",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "blocker",
+    "explanation": "Specific content can be deleted without reason and may be removed without prior notice",
+    "quote": "Uber may, but shall not be obligated to, review, monitor, or remove User Content, at Uber's sole discretion and at any time and for any reason, without notice to you.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "No warranty is made regarding an uninterrupted, timely, secure and/or error-free experience",
+    "quote": "In addition, the Services may be subject to malfunctions and delays inherent in the use of the Internet and electronic communications.",
+    "quote_found": true
+   },
+   {
+    "category": "payments_and_refunds",
+    "severity": "neutral",
+    "explanation": "No refunds will be issued",
+    "quote": "Charges paid by you are final and non-refundable, unless otherwise determined by Uber.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "The service is provided 'as is' and to be used at your sole risk",
+    "quote": "THE SERVICES ARE PROVIDED \"AS IS\" AND \"AS AVAILABLE.\"",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "No warranty is made regarding an uninterrupted, timely, secure and/or error-free experience",
+    "quote": "IN ADDITION, UBER MAKES NO REPRESENTATION, WARRANTY, OR GUARANTEE REGARDING THE RELIABILITY, TIMELINESS, QUALITY, SUITABILITY, OR AVAILABILITY OF THE SERVICES OR ANY SERVICES OR GOODS REQUESTED THROUGH THE USE OF THE SERVICES, OR THAT THE SERVICES WILL BE UNINTERRUPTED OR ERROR-FREE.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "The service assumes no liability for any damages the user incurs",
+    "quote": "UBER SHALL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, PUNITIVE, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS, LOST DATA, PERSONAL INJURY, OR PROPERTY DAMAGE RELATED TO, IN CONNECTION WITH, OR OTHERWISE RESULTING FROM ANY USE OF THE SERVICES, REGARDLESS OF THE NEGLIGENCE (EITHER ACTIVE, AFFIRMATIVE, SOLE, OR CONCURRENT) OF UBER, EVEN IF UBER HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "You agree to indemnify and hold the service harmless from any damages they incur by virtue of your use of the service",
+    "quote": "You agree to indemnify and hold Uber and its affiliates and their officers, directors, employees, and agents harmless from any and all claims, demands, losses, liabilities, and expenses (including attorneys' fees), arising out of or in connection with: (i) your use of the Services or services or goods obtained through your use of the Services. (ii) your breach or violation of any of these Terms. (iii) Uber's use of your User Content. or (iv) your violation of the rights of any third party, including Third Party Providers.",
+    "quote_found": true
+   },
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "neutral",
+    "explanation": "The court of law governing the terms is in location X",
+    "quote": "These Terms are governed by and construed in accordance with the laws of the State of California, U.S.A., without giving effect to any conflict of law principles, except as may be otherwise provided in the Arbitration Agreement above or in supplemental terms applicable to your region.",
+    "quote_found": true
+   },
+   {
+    "category": "content_license",
+    "severity": "neutral",
+    "explanation": "Instructions are provided on how to submit a copyright claim",
+    "quote": "Claims of copyright infringement should be sent to Uber's designated agent. Please visit Uber's web page at https://www.uber.com/legal/intellectual-property/copyright/global for the designated address and additional information.",
+    "quote_found": true
+   },
+   {
+    "category": "general_legal_terms",
+    "severity": "neutral",
+    "explanation": "Invalidity of any portion of the Terms of Service does not entail invalidity of its remainder",
+    "quote": "If any provision of these Terms is held to be invalid or unenforceable, such provision shall be struck and the remaining provisions shall be enforced to the fullest extent under law.",
+    "quote_found": true
+   }
+  ]
+ },
+ {
+  "slug": "github",
+  "service": "GitHub",
+  "document": "Terms of Service",
+  "url": "https://help.github.com/articles/github-terms-of-service/",
+  "tosdr_rating": "D",
+  "tosdr_url": "https://tosdr.org/en/service/297",
+  "split": "val",
+  "grade": "B",
+  "score": 3.0,
+  "counts": {
+   "good": 6,
+   "neutral": 11,
+   "bad": 3,
+   "blocker": 0
+  },
+  "n_chunks": 63,
+  "chars": 41021,
+  "seconds": 1634.91,
+  "flags": [
+   {
+    "category": "content_ownership",
+    "severity": "good",
+    "explanation": "You maintain ownership of your content",
+    "quote": "You own the content you post on GitHub.",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "good",
+    "explanation": "You have the right to leave this service at any time",
+    "quote": "You may cancel this agreement and close your Account at any time.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "The service is provided 'as is' and to be used at your sole risk",
+    "quote": "We provide our service as is, and we make no promises or guarantees about this service.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "The service assumes no liability for any damages suffered by the user",
+    "quote": "We will not be liable for damages or losses arising from your use or inability to use the service or otherwise arising under this agreement.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "neutral",
+    "explanation": "There is a date of the last update of the agreements",
+    "quote": "The GitHub Terms of Service Effective date: November 16, 2020",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available to users over a certain age",
+    "quote": "A User must be at least 13 years of age.",
+    "quote_found": true
+   },
+   {
+    "category": "identity_and_accounts",
+    "severity": "neutral",
+    "explanation": "Alternative accounts are not allowed",
+    "quote": "you may not have more than one free Account.",
+    "quote_found": true
+   },
+   {
+    "category": "security",
+    "severity": "neutral",
+    "explanation": "You are responsible for maintaining the security of your account and for the activities on your account",
+    "quote": "You are responsible for keeping your Account secure.",
+    "quote_found": true
+   },
+   {
+    "category": "identity_and_accounts",
+    "severity": "good",
+    "explanation": "Pseudonyms are allowed",
+    "quote": "Any other information requested, such as your real name, is optional, unless you are accepting these terms on behalf of a legal entity (in which case we need more information about the legal entity) or if you opt for a paid Account, in which case additional information will be necessary for billing purposes.",
+    "quote_found": true
+   },
+   {
+    "category": "identity_and_accounts",
+    "severity": "neutral",
+    "explanation": "Alternative accounts are not allowed",
+    "quote": "You may maintain no more than one free machine account in addition to your free User Account.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available to users over a certain age",
+    "quote": "GitHub does not target our Service to children under 13, and we do not permit any Users under 13 on our Service.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available to users over a certain age",
+    "quote": "If we learn of any User under the age of 13, we will terminate that User’s Account immediately.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You agree not to use the service for illegal purposes",
+    "quote": "You may not use GitHub in violation of export control or sanctions laws of the United States or any other applicable jurisdiction.",
+    "quote_found": true
+   },
+   {
+    "category": "security",
+    "severity": "good",
+    "explanation": "Two factor authentication is provided for your account",
+    "quote": "We offer tools such as two-factor authentication to help you maintain your Account's security, but the content of your Account and its security are up to you.",
+    "quote_found": true
+   },
+   {
+    "category": "security",
+    "severity": "neutral",
+    "explanation": "You are responsible for maintaining the security of your account and for the activity on your account",
+    "quote": "You are responsible for maintaining the security of your Account and password.",
+    "quote_found": true
+   },
+   {
+    "category": "security",
+    "severity": "neutral",
+    "explanation": "You must report to the service any unauthorized use of your account or any breach of security",
+    "quote": "You will promptly notify GitHub if you become aware of any unauthorized use of, or access to, our Service through your Account, including any unauthorized use of your password or Account.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You agree not to use the service for illegal purposes",
+    "quote": "Your use of the Website and Service must not violate any applicable laws, including copyright or trademark laws, export control or sanctions laws, or other laws in your jurisdiction.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "Your content can be deleted if you violate the terms",
+    "quote": "We have the right to remove content or close Accounts if we need to.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "Your content can be deleted if you violate the terms",
+    "quote": "We have the right to refuse or remove any User-Generated Content that, in our sole discretion, violates any laws or GitHub terms or policies.",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "good",
+    "explanation": "You maintain ownership of your content",
+    "quote": "You retain ownership of and responsibility for Your Content.",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "good",
+    "explanation": "You maintain ownership of your content",
+    "quote": "You retain all moral rights to Your Content that you upload, publish, or submit to any part of the Service, including the rights of integrity and attribution.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "If you are the target of a copyright claim, your content and/or your account may be removed",
+    "quote": "We will terminate the Accounts of repeat infringers of this policy.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You are prohibited from attempting to gain unauthorized access to other computer systems",
+    "quote": "Abuse or excessively frequent requests to GitHub via the API may result in the temporary or permanent suspension of your Account's access to the API.",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "bad",
+    "explanation": "If you offer suggestions to the service, they become the owner of the ideas that you give them",
+    "quote": "If you choose to give us any ideas, know-how, algorithms, code contributions, suggestions, enhancement requests, recommendations or any other feedback for our products or services (collectively, “Feedback”), you acknowledge and agree that GitHub will have a royalty-free, fully paid-up, worldwide, transferable, sub-licensable, irrevocable and perpetual license to implement, use, modify, commercially exploit and/or incorporate the Feedback into our products, services, and documentation.",
+    "quote_found": true
+   },
+   {
+    "category": "payments_and_refunds",
+    "severity": "neutral",
+    "explanation": "No refunds will be issued",
+    "quote": "Payment Based on Plan For monthly or yearly payment plans, the Service is billed in advance on a monthly or yearly basis respectively and is non-refundable. There will be no refunds or credits for partial months of service, downgrade refunds, or refunds for months unused with an open Account.",
+    "quote_found": true
+   },
+   {
+    "category": "payments_and_refunds",
+    "severity": "neutral",
+    "explanation": "No refunds will be issued",
+    "quote": "Amounts payable under this Agreement are non-refundable, except as otherwise provided in this Agreement.",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "good",
+    "explanation": "You have the right to leave this service at any time",
+    "quote": "You may close your Account at any time.",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "good",
+    "explanation": "You have the right to leave this service at any time",
+    "quote": "You can cancel your Account at any time by going into your Settings in the global navigation bar at the top of the screen.",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "bad",
+    "explanation": "Some personal data may be kept for business interests or legal obligations",
+    "quote": "We will not delete Content that you have contributed to other Users' repositories or that other Users have forked.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "The service can stop being provided at any time",
+    "quote": "GitHub has the right to suspend or terminate your access to all or any part of the Website at any time, with or without cause, with or without notice, effective immediately. GitHub reserves the right to refuse service to anyone for any reason at any time.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "Defend, indemnify, hold harmless; survives termination",
+    "quote": "All provisions of this Agreement which, by their nature, should survive termination will survive termination — including, without limitation: ownership provisions, warranty disclaimers, indemnity, and limitations of liability.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "The service is provided 'as is' and to be used at your sole risk",
+    "quote": "We provide our service as is, and we make no promises or guarantees about this service.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "The service is provided 'as is' and to be used at your sole risk",
+    "quote": "GitHub provides the Website and the Service “as is” and “as available,” without warranty of any kind.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "No warranty is made regarding an uninterrupted, timely, secure and/or error-free experience",
+    "quote": "that the Service will be uninterrupted, timely, secure, or error-free.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "No guarantee is made reguarding the accuracy and/or reliability of the information provided",
+    "quote": "that the information provided through the Service is accurate, reliable or correct.",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "good",
+    "explanation": "The terms for this service are easy to read",
+    "quote": "Please read this section carefully. it limits our obligations to you.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "The service assumes no liability for any damages suffered by the user",
+    "quote": "You understand and agree that we will not be liable to you or any third party for any loss of profits, use, goodwill, or data, or for any incidental, indirect, special, consequential or exemplary damages, however arising, that result from the use, disclosure, or display of your User-Generated Content; your use or inability to use the Service; any modification, price change, suspension or discontinuance of the Service; the Service generally or the software or systems that make the Service available; unauthorized access to or alterations of your transmissions or data; statements or conduct of any third party on the Service; any other user interactions that you input or receive through your use of the Service. or any other matter relating to the Service.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "The service assumes no liability for any damages the user incurs",
+    "quote": "We will have no liability for any failure or delay due to matters beyond our reasonable control.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "You agree to defend, indemnify, and hold the service harmless in case of a claim related to your use of the service",
+    "quote": "You agree to indemnify us, defend us, and hold us harmless from and against any and all claims, liabilities, and expenses, including attorneys’ fees, arising out of your use of the Website and the Service, including but not limited to your violation of this Agreement, provided that GitHub (1) promptly gives you written notice of the claim, demand, suit or proceeding. (2) gives you sole control of the defense and settlement of the claim, demand, suit or proceeding (provided that you may not settle any claim, demand, suit or proceeding unless the settlement unconditionally releases GitHub of all liability). and (3) provides to you all reasonable assistance, at your expense.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "good",
+    "explanation": "When the service wants to make a material change to its terms, you are notified at least 30 days in advance",
+    "quote": "We reserve the right, at our sole discretion, to amend these Terms of Service at any time and will update these Terms of Service in the event of any such amendments. We will notify our Users of material changes to this Agreement, such as price increases, at least 30 days prior to the change taking effect by posting a notice on our Website or sending email to the primary email address specified in your GitHub account.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "bad",
+    "explanation": "Instead of asking directly, this Service will assume your consent to changes of terms merely from your usage",
+    "quote": "Customer's continued use of the Service after those 30 days constitutes agreement to those revisions of this Agreement. For any other modifications, your continued use of the Website constitutes agreement to our revisions of these Terms of Service.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "The service can stop being provided at any time",
+    "quote": "We reserve the right at any time and from time to time to modify or discontinue, temporarily or permanently, the Website (or any part of it) with or without notice.",
+    "quote_found": true
+   },
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "neutral",
+    "explanation": "The court of law governing the terms is in location X",
+    "quote": "Except to the extent applicable law provides otherwise, this Agreement between you and GitHub and any access to or use of the Website or the Service are governed by the federal laws of the United States of America and the laws of the State of California, without regard to conflict of law provisions.",
+    "quote_found": true
+   },
+   {
+    "category": "general_legal_terms",
+    "severity": "neutral",
+    "explanation": "Invalidity of any portion of the Terms of Service does not entail invalidity of its remainder",
+    "quote": "If any part of this Agreement is held invalid or unenforceable, that portion of the Agreement will be construed to reflect the parties’ original intent. The remaining portions will remain in full force and effect.",
+    "quote_found": true
+   },
+   {
+    "category": "general_legal_terms",
+    "severity": "neutral",
+    "explanation": "Failure to enforce any provision of the Terms of Service does not constitute a waiver of such provision",
+    "quote": "Any failure on the part of GitHub to enforce any provision of this Agreement will not be considered a waiver of our right to enforce such provision.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "Defend, indemnify, hold harmless; survives termination",
+    "quote": "Our rights under this Agreement will survive any termination of this Agreement.",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "good",
+    "explanation": "A free help desk is provided",
+    "quote": "Questions about the Terms of Service? Contact us.",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "good",
+    "explanation": "The terms for this service are easy to read",
+    "quote": "Terms Privacy Security Status Help Contact GitHub",
+    "quote_found": true
+   }
+  ]
+ },
+ {
+  "slug": "twitch",
+  "service": "Twitch",
+  "document": "Terms of Service",
+  "url": "https://legal.twitch.com/en/legal/terms-of-service/",
+  "tosdr_rating": "D",
+  "tosdr_url": "https://tosdr.org/en/service/200",
+  "split": "val",
+  "grade": "D",
+  "score": -6.0,
+  "counts": {
+   "good": 2,
+   "neutral": 11,
+   "bad": 6,
+   "blocker": 1
+  },
+  "n_chunks": 76,
+  "chars": 47170,
+  "seconds": 1941.83,
+  "flags": [
+   {
+    "category": "changes_to_terms",
+    "severity": "neutral",
+    "explanation": "There is a date of the last update of the agreements",
+    "quote": "last modified on 10/14/2020",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available to users over a certain age",
+    "quote": "The Twitch Services are not available to persons under the age of 13.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "Minors must have the authorization of their legal guardians to use the service",
+    "quote": "If you are between the ages of 13 and the age of legal majority in your jurisdiction of residence, you may only use the Twitch Services under the supervision of a parent or legal guardian who agrees to be bound by these Terms of Service.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available to users over a certain age",
+    "quote": "BY DOWNLOADING, INSTALLING, OR OTHERWISE USING THE TWITCH SERVICES, YOU REPRESENT THAT YOU ARE AT LEAST 13 YEARS OF AGE,",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "Minors must have the authorization of their legal guardians to use the service",
+    "quote": "THAT YOUR PARENT OR LEGAL GUARDIAN AGREES TO BE BOUND BY THESE TERMS OF SERVICE IF YOU ARE BETWEEN 13 AND THE AGE OF LEGAL MAJORITY IN YOUR JURISDICTION OF RESIDENCE",
+    "quote_found": true
+   },
+   {
+    "category": "security",
+    "severity": "neutral",
+    "explanation": "You are responsible for maintaining the security of your account and for the activities on your account",
+    "quote": "You are solely responsible for maintaining the confidentiality of your account, your password and for restricting access to your computer.",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "neutral",
+    "explanation": "You cannot distribute or disclose your account to third parties",
+    "quote": "If you permit others to use your account credentials, you agree to these Terms of Service on behalf of all other persons who use the Services under your account or password, and you are responsible for all activities that occur under your account or password.",
+    "quote_found": true
+   },
+   {
+    "category": "transparency",
+    "severity": "neutral",
+    "explanation": "You cannot distribute or disclose your account to third parties",
+    "quote": "Unless expressly permitted in writing by Twitch, you may not sell, rent, lease, share, or provide access to your account to anyone else, including without limitation, charging anyone for access to administrative rights on your account.",
+    "quote_found": true
+   },
+   {
+    "category": "third_party_sharing",
+    "severity": "good",
+    "explanation": "The service claims that third parties it shares your personal information with are bound by confidentiality obligations",
+    "quote": "Third-Party Accounts Twitch may permit you to register for and log on to the Twitch Services via certain third-party services. The third party’s collection, use, and disclosure of your information will be subject to that third-party service’s privacy notice.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "bad",
+    "explanation": "Instead of asking directly, this Service will assume your consent to changes of terms merely from your usage",
+    "quote": "Your continued use of the Twitch Services after the effective date of the revised Terms of Service constitutes your acceptance of the terms.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available for use individually and non-commercially",
+    "quote": "Unless otherwise expressly stated in writing by Twitch, by agreeing to these Terms of Service you are granted a limited, non-sublicensable license (i.e., a personal and limited right) to access and use the Twitch Services for your personal use or internal business use only.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "Spidering, crawling, or accessing the site through any automated means is not allowed",
+    "quote": "(d) use of any data mining, robots, or similar data gathering or extraction methods.",
+    "quote_found": true
+   },
+   {
+    "category": "content_license",
+    "severity": "bad",
+    "explanation": "A license is kept on user-generated content even after you close your account",
+    "quote": "(i) Unless otherwise agreed to in a written agreement between you and Twitch that was signed by an authorized representative of Twitch, if you submit, transmit, display, perform, post, or store User Content using the Twitch Services, you grant Twitch and its sub-licensees, to the furthest extent and for the maximum duration permitted by applicable law (including in perpetuity if permitted under applicable law), an unrestricted, worldwide, irrevocable, fully sub-licenseable, nonexclusive, and royalty-free right to:",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You agree not to submit libelous, harassing or threatening content",
+    "quote": "(2) your User Content does not and will not: (a) infringe, violate, or misappropriate any third-party right, including any copyright, trademark, patent, trade secret, moral right, privacy right, right of publicity, or any other intellectual property or proprietary right, or (b) defame any other person.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You are prohibited from attempting to gain unauthorized access to other computer systems",
+    "quote": "(3) your User Content does not contain any viruses, adware, spyware, worms, or other harmful or malicious code.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You agree not to submit libelous, harassing or threatening content",
+    "quote": "You agree that you will comply with these Terms of Service and Twitch’s Community Guidelines and will not: i. create, upload, transmit, distribute, or store any content that is inaccurate, unlawful, infringing, defamatory, obscene, pornographic, invasive of privacy or publicity rights, harassing, threatening, abusive, inflammatory, or otherwise objectionable;",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You are prohibited from sending chain letters, junk mail, spam or any unsolicited messages",
+    "quote": "unsolicited advertising, promotional materials, or other solicitation material. bulk mailing of commercial advertising, chain mail, informational announcements, charity requests, petitions for signatures, or any of the preceding things related to promotional giveaways (such as raffles and contests).",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "Spidering, crawling, or accessing the site through any automated means is not allowed",
+    "quote": "xi. access any website, server, software application, or other computer resource owned, used, and/or licensed by Twitch, including but not limited to the Twitch Services, by means of any robot, spider, scraper, crawler, or other automated means for any purpose",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "bad",
+    "explanation": "You shall not interfere with another person's enjoyment of the service",
+    "quote": "use the Twitch Services in any manner that could interfere with, disrupt, negatively affect, or inhibit other users from fully enjoying the Twitch Services, or that could damage, disable, overburden, or impair the functioning of the Twitch Services in any manner;",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You agree not to use the service for illegal purposes",
+    "quote": "xvii. use the Twitch Services for any illegal purpose, or in violation of any local, state, national, or international law or regulation, including without limitation laws governing intellectual property and other proprietary rights, data protection, and privacy.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "This service does not condone any ideas contained in its user-generated contents",
+    "quote": "Twitch is not liable for any statements or representations included in User Content.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "blocker",
+    "explanation": "Specific content can be deleted without reason and may be removed without prior notice",
+    "quote": "To the fullest extent permitted by applicable law, Twitch reserves the right to remove, screen, or edit any User Content posted or stored on the Twitch Services at any time and without notice, including where such User Content violates these Terms of Service or applicable law",
+    "quote_found": true
+   },
+   {
+    "category": "content_license",
+    "severity": "neutral",
+    "explanation": "Instructions are provided on how to submit a copyright claim",
+    "quote": "If you are the copyright owner or agent thereof and believe that content posted on the Twitch Services infringes upon your copyright, please submit a notice following our DMCA Guidelines, which include further information about our policies, what to include in your notice, and where to submit your notice.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "This service does not condone any ideas contained in its user-generated contents",
+    "quote": "Twitch does not control or endorse any Third-Party Content and makes no representation or warranties of any kind regarding the Third-Party Content, including without limitation regarding its accuracy or completeness.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "This service assumes no responsibility and liability for the contents of links to other websites",
+    "quote": "Therefore we are not responsible for any Third-Party Content on the Twitch Services. You are responsible for deciding if you want to access or use third-party websites or applications that link from the Twitch Services (the “Reference Sites”). Twitch does not control or endorse any such Reference Sites or the information, materials, products, or services contained on or accessible through Reference Sites, and makes no representations or warranties of any kind regarding the Reference Sites.",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "bad",
+    "explanation": "If you offer suggestions to the service, they become the owner of the ideas that you give them",
+    "quote": "By submitting ideas, suggestions, documents, and/or proposals (the “Submissions”) to Twitch or its employees, you acknowledge and agree that Twitch shall be entitled to use or disclose such Submissions for any purpose in any way without providing compensation or credit to you.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "Your content can be deleted if you violate the terms",
+    "quote": "To the fullest extent permitted by applicable law, Twitch reserves the right, without notice and in our sole discretion, to terminate your license to use the Twitch Services (including to post User Content) and to block or prevent your future access to and use of the Twitch Services, including where we reasonably consider that: (a) your use of the Twitch Services violates these Terms of Service or applicable law.",
+    "quote_found": true
+   },
+   {
+    "category": "dispute_resolution",
+    "severity": "good",
+    "explanation": "You aren’t forced into binding arbitration in case of disputes",
+    "quote": "15. Disputes a.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "You agree to defend, indemnify, and hold the service harmless in case of a claim related to your use of the service",
+    "quote": "To the fullest extent permitted by applicable law, you agree to indemnify, defend, and hold harmless Twitch, its affiliated companies, and each of our respective contractors, employees, officers, directors, agents, . third-party suppliers, licensors, and partners (individually and collectively, the “Twitch Parties”) from any claims, losses, damages, demands, expenses, costs, and liabilities, including legal fees and expenses, arising out of or related to your access, use, or misuse of the Twitch Services, any User Content you post, store, or otherwise transmit in or through the Twitch Services, your violation of the rights of any third party, any violation by you of these Terms of Service, or any breach of the representations, warranties, and covenants made by you herein.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "The service is provided 'as is' and to be used at your sole risk",
+    "quote": "THE TWITCH SERVICES AND THE CONTENT AND MATERIALS CONTAINED THEREIN ARE PROVIDED ON AN “AS IS” BASIS WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, EXCEPT AS EXPRESSLY PROVIDED TO THE CONTRARY IN WRITING BY TWITCH.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "No guarantee is made reguarding the accuracy and/or reliability of the information provided",
+    "quote": "(C) TWITCH DOES NOT REPRESENT OR WARRANT THAT THE CONTENT OR MATERIALS ON THE TWITCH SERVICES ARE ACCURATE, COMPLETE, RELIABLE, CURRENT, OR ERROR-FREE.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "No guarantee is made reguarding the accuracy and/or reliability of the information provided",
+    "quote": "(D) TWITCH IS NOT RESPONSIBLE FOR TYPOGRAPHICAL ERRORS OR OMISSIONS RELATING TO TEXT OR PHOTOGRAPHY.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You are prohibited from attempting to gain unauthorized access to other computer systems",
+    "quote": "AND (E) WHILE TWITCH ATTEMPTS TO MAKE YOUR ACCESS AND USE OF THE TWITCH SERVICES SAFE, TWITCH CANNOT AND DOES NOT REPRESENT OR WARRANT THAT THE TWITCH SERVICES OR OUR SERVER(S) ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS, AND THEREFORE, YOU SHOULD USE INDUSTRY-RECOGNIZED SOFTWARE TO DETECT AND DISINFECT VIRUSES FROM ANY DOWNLOAD.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "The service assumes no liability for any damages the user incurs",
+    "quote": "Limitation of Liability and Damages i.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "The service assumes no liability for any damages the user incurs",
+    "quote": "(A) IN NO EVENT SHALL TWITCH OR THE TWITCH PARTIES BE LIABLE FOR ANY DIRECT, SPECIAL, INDIRECT, OR CONSEQUENTIAL DAMAGES, OR ANY OTHER DAMAGES OF ANY KIND, INCLUDING BUT NOT LIMITED TO LOSS OF USE, LOSS OF PROFITS, OR LOSS OF DATA, WHETHER IN AN ACTION IN CONTRACT, TORT (INCLUDING BUT NOT LIMITED TO NEGLIGENCE), OR OTHERWISE, ARISING OUT OF OR IN ANY WAY CONNECTED WITH THE USE OF OR INABILITY TO USE THE TWITCH SERVICES, THE CONTENT OR THE MATERIALS, INCLUDING WITHOUT LIMITATION ANY DAMAGES CAUSED BY OR RESULTING FROM RELIANCE ON ANY INFORMATION OBTAINED FROM TWITCH, OR THAT RESULT FROM MISTAKES, OMISSIONS, INTERRUPTIONS, DELETION OF FILES OR EMAIL, ERRORS, DEFECTS, VIRUSES, DELAYS IN OPERATION OR TRANSMISSION, OR",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "bad",
+    "explanation": "Any liability on behalf of the service is only limited to the fees you paid as a user",
+    "quote": "(B) IN NO EVENT SHALL THE AGGREGATE LIABILITY OF TWITCH, WHETHER IN CONTRACT, WARRANTY, TORT (INCLUDING NEGLIGENCE, WHETHER ACTIVE, PASSIVE, OR IMPUTED), PRODUCT LIABILITY, STRICT LIABILITY, OR OTHER THEORY, ARISING OUT OF OR RELATING TO THE USE OF OR INABILITY TO USE THE TWITCH SERVICES EXCEED THE AMOUNT PAID BY YOU, IF ANY, FOR ACCESSING THE TWITCH SERVICES DURING THE TWELVE (12) MONTHS IMMEDIATELY PRECEDING THE DATE OF THE CLAIM OR ONE HUNDRED DOLLARS, WHICHEVER IS GREATER.",
+    "quote_found": true
+   },
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "neutral",
+    "explanation": "The court of law governing the terms is in location X",
+    "quote": "Any dispute between the parties will be governed by this Agreement and the laws of the State of California and applicable United States law, without giving effect to any conflict of laws principles that may provide for the application of the law of another jurisdiction.",
+    "quote_found": true
+   },
+   {
+    "category": "dispute_resolution",
+    "severity": "bad",
+    "explanation": "You waive your right to a class action",
+    "quote": "Whether the dispute is heard in arbitration or in court, you and Twitch will not commence against the other a class action, class arbitration, or other representative action or proceeding.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "bad",
+    "explanation": "You have a reduced time period to take legal action against the service",
+    "quote": "YOU AND TWITCH AGREE THAT ANY CAUSE OF ACTION ARISING OUT OF OR RELATED TO THE TWITCH SERVICES MUST COMMENCE WITHIN ONE (1) YEAR AFTER THE CAUSE OF ACTION ACCRUES. OTHERWISE, SUCH CAUSE OF ACTION IS PERMANENTLY BARRED.",
+    "quote_found": true
+   },
+   {
+    "category": "general_legal_terms",
+    "severity": "neutral",
+    "explanation": "Failure to enforce any provision of the Terms of Service does not constitute a waiver of such provision",
+    "quote": "If we fail to exercise or enforce any right or provision of these Terms of Service, it will not constitute a waiver of such right or provision.",
+    "quote_found": true
+   },
+   {
+    "category": "general_legal_terms",
+    "severity": "neutral",
+    "explanation": "Invalidity of any portion of the Terms of Service does not entail invalidity of its remainder",
+    "quote": "If any provision of these Terms of Service is held to be unlawful, void, or for any reason unenforceable, then that provision will be limited or eliminated from these Terms of Service to the minimum extent necessary and will not affect the validity and enforceability of any remaining provisions.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "Defend, indemnify, hold harmless; survives termination",
+    "quote": "Upon termination of these Terms of Service, any provision which, by its nature or express terms should survive, will survive such termination or expiration, including, but not limited to, Sections 7, 8, 11, 12, and 15-17.",
+    "quote_found": true
+   }
+  ]
+ },
+ {
+  "slug": "netflix",
+  "service": "Netflix",
+  "document": "Terms of Use",
+  "url": "https://help.netflix.com/legal/termsofuse",
+  "tosdr_rating": "D",
+  "tosdr_url": "https://tosdr.org/en/service/185",
+  "split": "test",
+  "grade": "C",
+  "score": 1.0,
+  "counts": {
+   "good": 1,
+   "neutral": 6,
+   "bad": 0,
+   "blocker": 0
+  },
+  "n_chunks": 22,
+  "chars": 14684,
+  "seconds": 518.85,
+  "flags": [
+   {
+    "category": "tracking_cookies",
+    "severity": "neutral",
+    "explanation": "First-party cookies are used",
+    "quote": "Netflix uses cookies and similar technologies on this website to collect information about your browsing activities which we use to analyse your use of the website.",
+    "quote_found": true
+   },
+   {
+    "category": "payments_and_refunds",
+    "severity": "neutral",
+    "explanation": "No refunds will be issued",
+    "quote": "Payments are non-refundable and we do not provide refunds or credits for any partial - month membership periods or unwatched Netflix content.",
+    "quote_found": true
+   },
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available to users over a certain age",
+    "quote": "You must be 18 years of age, or the age of majority in your province, territory or country, to become a member of the Netflix service.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "Spidering, crawling, or accessing the site through any automated means is not allowed",
+    "quote": "use any robot, spider, scraper or other automated means to access the Netflix service.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You agree not to use the service for illegal purposes",
+    "quote": "We may terminate or restrict your use of our service if you violate these Terms of Use or are engaged in illegal or fraudulent use of the service.",
+    "quote_found": true
+   },
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "neutral",
+    "explanation": "The court of law governing the terms is in location X",
+    "quote": "These Terms of Use shall be governed by and construed in accordance with the laws of the Netherlands.",
+    "quote_found": true
+   },
+   {
+    "category": "general_legal_terms",
+    "severity": "neutral",
+    "explanation": "Invalidity of any portion of the Terms of Service does not entail invalidity of its remainder",
+    "quote": "If any provision or provisions of these Terms of Use shall be held to be invalid, illegal, or unenforceable, the validity, legality and enforceability of the remaining provisions shall remain in full force and effect.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "good",
+    "explanation": "When the service wants to make a material change to its terms, you are notified at least 30 days in advance",
+    "quote": "Netflix may, from time to time, change these Terms of Use. We will notify you at least 30 days before such changes apply to you.",
+    "quote_found": true
+   }
+  ]
+ },
+ {
+  "slug": "duckduckgo",
+  "service": "DuckDuckGo",
+  "document": "Privacy Policy",
+  "url": "https://duckduckgo.com/privacy",
+  "tosdr_rating": "C",
+  "tosdr_url": "https://tosdr.org/en/service/222",
+  "split": "test",
+  "grade": "B",
+  "score": 4.0,
+  "counts": {
+   "good": 6,
+   "neutral": 2,
+   "bad": 2,
+   "blocker": 0
+  },
+  "n_chunks": 19,
+  "chars": 12512,
+  "seconds": 461.44,
+  "flags": [
+   {
+    "category": "advertising",
+    "severity": "bad",
+    "explanation": "Your personal data is used to employ targeted third-party advertising",
+    "quote": "Other companies track your data — like your search, chat, and browsing history — to create detailed profiles about you, and then use those profiles to follow you around with ads so creepy it can seem like your devices are listening in on you (even when they aren’t).",
+    "quote_found": true
+   },
+   {
+    "category": "tracking_cookies",
+    "severity": "good",
+    "explanation": "You are not being tracked",
+    "quote": "We don’t track you.",
+    "quote_found": true
+   },
+   {
+    "category": "data_collection",
+    "severity": "good",
+    "explanation": "IP addresses of website visitors are not tracked",
+    "quote": "we never log IP addresses to disk that could be tied back to you",
+    "quote_found": true
+   },
+   {
+    "category": "personal_data_use",
+    "severity": "neutral",
+    "explanation": "Only aggregate data is given to third parties",
+    "quote": "In order for our product to function (for example, for security and display purposes), we share anonymous information (for example, browser and device types) with our hosting and content providers, but we never share any information with them that could tie your searches, chats, or website visits to you personally, or that could allow them to create a history of your individual search queries, chats, or the sites you browse.",
+    "quote_found": true
+   },
+   {
+    "category": "tracking_cookies",
+    "severity": "good",
+    "explanation": "You are not being tracked",
+    "quote": "We don’t track you through cookies or any other storage methods.",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "good",
+    "explanation": "The data retention period is kept to the minimum necessary for fulfilling its purposes",
+    "quote": "We will limit its use by only keeping it for as long necessary for the stated purpose, and we will protect it by keeping it secure and deleting it when it is no longer required, unless a longer period is required by law.",
+    "quote_found": true
+   },
+   {
+    "category": "third_party_sharing",
+    "severity": "good",
+    "explanation": "The service claims that third parties it shares your personal information with are bound by confidentiality obligations",
+    "quote": "In that process, your communication may be accessible to the software-as-a-service providers we use in our corporate systems (such as our company email, project management software, and customer support vendors). For information voluntarily provided in surveys, we sometimes use additional vendors for processing, though their access to personal information is contractually limited to what is necessary to perform their services.",
+    "quote_found": true
+   },
+   {
+    "category": "government_requests",
+    "severity": "good",
+    "explanation": "The service will try to inform and/or notify you regarding government inquiries that may involve your personal information",
+    "quote": "If required by law to disclose any of your personal information and we have your email address, we will notify you by email unless legally forbidden to do so.",
+    "quote_found": true
+   },
+   {
+    "category": "personal_data_use",
+    "severity": "bad",
+    "explanation": "Your data may be processed and stored anywhere in the world",
+    "quote": "Related, there are scenarios where we may transfer this limited personal information (for example, your email address) to countries other than the country in which it was received. For example, we have servers across the world and while your device will typically try to automatically connect to regional servers (e.g., European servers in Europe, U.S. servers in the U.S.), you could be using a VPN from another country.",
+    "quote_found": true
+   },
+   {
+    "category": "personal_data_use",
+    "severity": "good",
+    "explanation": "This service claims that your personal data is not being sold",
+    "quote": "We do not sell your personal information. We have never sold any personal information.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "neutral",
+    "explanation": "The terms may be changed at any time, but you will receive notification of the changes",
+    "quote": "We will post a notice on this page when our policy is updated. We will notify you of changes by posting the modified version on our website.",
+    "quote_found": true
+   }
+  ]
+ },
+ {
+  "slug": "mozilla-vpn",
+  "service": "Mozilla VPN",
+  "document": "Mozilla VPN Terms of Service",
+  "url": "https://www.mozilla.org/en-US/about/legal/terms/mozilla-vpn/",
+  "tosdr_rating": "C",
+  "tosdr_url": "https://tosdr.org/en/service/4159",
+  "split": "test",
+  "grade": "B",
+  "score": 2.0,
+  "counts": {
+   "good": 5,
+   "neutral": 4,
+   "bad": 3,
+   "blocker": 0
+  },
+  "n_chunks": 12,
+  "chars": 8602,
+  "seconds": 347.9,
+  "flags": [
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "bad",
+    "explanation": "The service is only available in some countries approved by its government",
+    "quote": "You must be in a country where the Service is available to download Mozilla VPN and use the Service.",
+    "quote_found": true
+   },
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "good",
+    "explanation": "The service claims to be GDPR compliant for European users",
+    "quote": "Currently, the Service is available in United States, Canada, United Kingdom, New Zealand, Germany, France, Singapore, and Malaysia.",
+    "quote_found": true
+   },
+   {
+    "category": "personal_data_use",
+    "severity": "bad",
+    "explanation": "Your data may be processed and stored anywhere in the world",
+    "quote": "This means that your information might be processed on servers located outside of the country where you live, and that country may have a different level of data protection regulation than yours.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "This service does not condone any ideas contained in its user-generated contents",
+    "quote": "You are solely responsible for the content you transmit and the consequences.",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "good",
+    "explanation": "If you offer suggestions to the service, they may use that without compensation, but they do not become the owner",
+    "quote": "If you give Mozilla any ideas, suggestions, or feedback about Firefox Accounts or the services you use through your account, you give Mozilla permission to use them for free and without any additional obligations.",
+    "quote_found": true
+   },
+   {
+    "category": "payments_and_refunds",
+    "severity": "neutral",
+    "explanation": "You authorise the service to charge a credit card supplied on re-occurring basis",
+    "quote": "We offer Mozilla VPN as an automatically renewing subscription service. When you sign up, you authorize us to charge the payment method you provide for the subscription fees for the first term of the Service. Your plan renews automatically at the end of each term, and you authorize us to charge the subscription fees each term.",
+    "quote_found": true
+   },
+   {
+    "category": "payments_and_refunds",
+    "severity": "good",
+    "explanation": "You are entitled to a refund if certain thresholds or standards are not met by the service",
+    "quote": "The first time you subscribe to Mozilla VPN through Mozilla's website, if you cancel your account within the first 30 days, you may request a refund and Mozilla will refund your first subscription term. This offer only applies the first time you subscribe.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "bad",
+    "explanation": "Any liability on behalf of the service is only limited to the fees you paid as a user",
+    "quote": "Any liability for Mozilla under this agreement is limited to $500.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "This service does not guarantee that it or the products obtained through the service meet your expectations or requirements",
+    "quote": "To the extent permitted by applicable law, Mozilla specifically disclaims any legal guarantees or warranties such as “merchantability,” “fitness for a particular purpose,” “non-infringement,” and warranties arising out of a course of dealing, usage, or trade.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "good",
+    "explanation": "The service reviews its Privacy Policy on a regular basis",
+    "quote": "Mozilla Can Update These Terms. Every once in a while, Mozilla may decide to update these Terms.",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "good",
+    "explanation": "You have the right to leave this service at any time",
+    "quote": "You can choose to end them at any time for any reason by stopping your use of the Service and cancelling your subscription.",
+    "quote_found": true
+   },
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "neutral",
+    "explanation": "The court of law governing the terms is in location X",
+    "quote": "California law applies to this contract, except for California’s conflict of law.",
+    "quote_found": true
+   }
+  ]
+ },
+ {
+  "slug": "facebook",
+  "service": "Facebook",
+  "document": "Terms of Service",
+  "url": "https://mbasic.facebook.com/legal/terms/plain_text_terms/",
+  "tosdr_rating": "E",
+  "tosdr_url": "https://tosdr.org/en/service/182",
+  "split": "train",
+  "grade": "B",
+  "score": 5.0,
+  "counts": {
+   "good": 6,
+   "neutral": 8,
+   "bad": 1,
+   "blocker": 0
+  },
+  "n_chunks": 50,
+  "chars": 33082,
+  "seconds": 1191.79,
+  "flags": [
+   {
+    "category": "advertising",
+    "severity": "bad",
+    "explanation": "Your personal data is used to employ targeted third-party advertising",
+    "quote": "Instead, businesses and organizations, and other persons pay us to show you ads for their products and services. By using our Products, you agree that we can show you ads that we think may be relevant to you and your interests. We use your personal data to help determine which personalized ads to show you.",
+    "quote_found": true
+   },
+   {
+    "category": "personal_data_use",
+    "severity": "good",
+    "explanation": "This service claims that your personal data is not being sold",
+    "quote": "We don't sell your personal data.",
+    "quote_found": true
+   },
+   {
+    "category": "personal_data_use",
+    "severity": "neutral",
+    "explanation": "Your personal data may be aggregated into statistics",
+    "quote": "For example, we provide general demographic and interest information to advertisers to help them better understand their audience, like the fact that women between the ages of 25 and 34 who live in Madrid and like software engineering have seen an ad.",
+    "quote_found": true
+   },
+   {
+    "category": "identity_and_accounts",
+    "severity": "neutral",
+    "explanation": "Alternative accounts are not allowed",
+    "quote": "Create only one account (your own) and use it for personal purposes.",
+    "quote_found": true
+   },
+   {
+    "category": "identity_and_accounts",
+    "severity": "neutral",
+    "explanation": "Alternative accounts are not allowed",
+    "quote": "Not share your password, give access to your Facebook account to others, or transfer your account to anyone else (without our permission).",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You are prohibited from sending chain letters, junk mail, spam or any unsolicited messages",
+    "quote": "use the services to send spam",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "Your content can be deleted if you violate the terms",
+    "quote": "We can remove or restrict access to content that is in violation of these provisions.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "Your content can be deleted if you violate the terms",
+    "quote": "We can also suspend or disable your account for conduct that violates these provisions, as provided in Section 4.2.",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "good",
+    "explanation": "You maintain ownership of your content",
+    "quote": "You retain ownership of the intellectual property rights (things like copyright or trademarks) in any such content that you create and share on Facebook and other Meta Company Products you use.",
+    "quote_found": true
+   },
+   {
+    "category": "content_license",
+    "severity": "good",
+    "explanation": "The service has non-exclusive use of your content",
+    "quote": "Specifically, when you share, post, or upload content that is covered by intellectual property rights on or in connection with our Products, you grant us a non-exclusive, transferable, sub-licensable, royalty-free, and worldwide license to host, use, distribute, modify, run, copy, publicly perform or display, translate, and create derivative works of your content (consistent with your privacy and application settings).",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "good",
+    "explanation": "You can delete your content from this service",
+    "quote": "You can delete individual content you share, post, and upload at any time.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "good",
+    "explanation": "When the service wants to make a material change to its terms, you are notified at least 30 days in advance",
+    "quote": "We will notify you (for example, by email or through our Products) at least 30 days before we make changes to these Terms and give you an opportunity to review them before they go into effect, unless changes are required by law.",
+    "quote_found": true
+   },
+   {
+    "category": "data_retention_and_deletion",
+    "severity": "good",
+    "explanation": "You have the right to leave this service at any time",
+    "quote": "We hope that you will continue using our Products, but if you do not agree to our updated Terms, or wish to terminate your agreement to this contract, you can delete your account at any time and you must also stop accessing, or using Facebook and the other Meta Products.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "good",
+    "explanation": "Your account may be suspended and/or terminated for breaching the Terms of Service",
+    "quote": "If we determine, in our discretion, that you have clearly, seriously or repeatedly breached our Terms or Policies, including in particular the Community Standards, we may suspend or permanently disable your access to Meta Company Products, and we may permanently disable or delete your account.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "The service is provided 'as is' and to be used at your sole risk",
+    "quote": "Our Products, however, are provided \"as is,\" and to the extent permissible by law, we make no guarantees that they always will be safe, secure, or error-free, or that they will function without disruptions, delays, or imperfections.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "This service does not condone any ideas contained in its user-generated contents",
+    "quote": "We do not control or direct what people and others do or say, and we are not responsible for their actions or conduct (whether online or offline) or any content they share (including offensive, inappropriate, obscene, unlawful, and other objectionable content).",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "The service assumes no liability for any damages suffered by the user",
+    "quote": "To the fullest extent permitted by applicable law under no circumstance will we be liable to you for any lost profits, revenues, information, or data, or consequential, special, indirect, exemplary, punitive, or incidental damages arising out of or related to these Terms or the Meta Products (however caused and on any theory of liability, including negligence), even if we have been advised of the possibility of such damages.",
+    "quote_found": true
+   },
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "neutral",
+    "explanation": "The court of law governing the terms is in location X",
+    "quote": "If you are a consumer, or where required by applicable law, the laws of the country in which you reside will apply to any claim, cause of action, or dispute you have against us that arises out of or relates to these Terms or the Meta Products, and you may resolve your claim in any competent court in that country that has jurisdiction over the claim.",
+    "quote_found": true
+   },
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "neutral",
+    "explanation": "The court of law governing the terms is in location X",
+    "quote": "You also agree that you submit to the personal jurisdiction of either of these courts for the purpose of litigating any such claim, and that the laws of the State of California will govern these Terms and any claim, cause of action, or dispute without regard to conflict of law provisions.",
+    "quote_found": true
+   },
+   {
+    "category": "general_legal_terms",
+    "severity": "neutral",
+    "explanation": "Invalidity of any portion of the Terms of Service does not entail invalidity of its remainder",
+    "quote": "If any portion of these Terms is found to be unenforceable, the unenforceable portion will be deemed amended to the minimum extent necessary to make it enforceable, and if it can’t be made enforceable, then it will be severed and the remaining portion will remain in full force and effect.",
+    "quote_found": true
+   },
+   {
+    "category": "general_legal_terms",
+    "severity": "neutral",
+    "explanation": "Failure to enforce any provision of the Terms of Service does not constitute a waiver of such provision",
+    "quote": "If we fail to enforce any of these Terms, it will not be considered a waiver.",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "good",
+    "explanation": "If you offer suggestions to the service, they may use that without attribution, but they cannot claim your contributions as their own",
+    "quote": "We always appreciate your feedback and other suggestions about our products and services. But we may use feedback and other suggestions without any restriction or obligation to compensate you, and we are under no obligation to keep them confidential.",
+    "quote_found": true
+   }
+  ]
+ },
+ {
+  "slug": "signal",
+  "service": "Signal",
+  "document": "Terms of Service & Privacy Policy",
+  "url": "https://signal.org/legal/",
+  "tosdr_rating": "B",
+  "tosdr_url": "https://tosdr.org/en/service/528",
+  "split": "train",
+  "grade": "C",
+  "score": 0.0,
+  "counts": {
+   "good": 4,
+   "neutral": 9,
+   "bad": 4,
+   "blocker": 0
+  },
+  "n_chunks": 20,
+  "chars": 13153,
+  "seconds": 607.66,
+  "flags": [
+   {
+    "category": "eligibility",
+    "severity": "neutral",
+    "explanation": "This service is only available to users over a certain age",
+    "quote": "You must be at least 13 years old to use our Services.",
+    "quote_found": true
+   },
+   {
+    "category": "identity_and_accounts",
+    "severity": "bad",
+    "explanation": "You must provide your identifiable information",
+    "quote": "To create an account you must register for our Services using your phone number.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "Banned users are prohibited from creating a new account",
+    "quote": "If we disable your account for a violation of our Terms, you will not create another account without our permission.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You agree not to use the service for illegal purposes",
+    "quote": "You agree to use our Services only for legal, authorized, and acceptable purposes.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "neutral",
+    "explanation": "You are prohibited from attempting to gain unauthorized access to other computer systems",
+    "quote": "(a) gain or try to gain unauthorized access to our Services or systems;",
+    "quote_found": true
+   },
+   {
+    "category": "security",
+    "severity": "neutral",
+    "explanation": "You are responsible for maintaining the security of your account and for the activities on your account",
+    "quote": "You are responsible for keeping your device and your Signal account safe and secure.",
+    "quote_found": true
+   },
+   {
+    "category": "content_ownership",
+    "severity": "good",
+    "explanation": "You maintain ownership of your content",
+    "quote": "You own the information you submit through our Services.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "The service is provided 'as is' and to be used at your sole risk",
+    "quote": "YOU USE OUR SERVICES AT YOUR OWN RISK AND SUBJECT TO THE FOLLOWING DISCLAIMERS. WE PROVIDE OUR SERVICES ON AN “AS IS” BASIS WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT, AND FREEDOM FROM COMPUTER VIRUS OR OTHER HARMFUL CODE.",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "No guarantee is made reguarding the accuracy and/or reliability of the information provided",
+    "quote": "SIGNAL DOES NOT WARRANT THAT ANY INFORMATION PROVIDED BY US IS ACCURATE, COMPLETE, OR USEFUL,",
+    "quote_found": true
+   },
+   {
+    "category": "warranty_and_availability",
+    "severity": "neutral",
+    "explanation": "No warranty is made regarding an uninterrupted, timely, secure and/or error-free experience",
+    "quote": "OR THAT OUR SERVICES WILL BE OPERATIONAL, ERROR-FREE, SECURE, OR SAFE, OR THAT OUR SERVICES WILL FUNCTION WITHOUT DISRUPTIONS, DELAYS, OR IMPERFECTIONS.",
+    "quote_found": false
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "neutral",
+    "explanation": "The service assumes no liability for any damages the user incurs",
+    "quote": "WE ARE NOT RESPONSIBLE FOR THE ACTIONS OR INFORMATION (INCLUDING CONTENT) OF OUR USERS OR OTHER THIRD PARTIES. YOU RELEASE US, AFFILIATES, DIRECTORS, OFFICERS, EMPLOYEES, PARTNERS, AND AGENTS (TOGETHER, “SIGNAL PARTIES”) FROM ANY CLAIM, COMPLAINT, CAUSE OF ACTION, CONTROVERSY, OR DISPUTE (TOGETHER, “CLAIM”) AND DAMAGES, KNOWN AND UNKNOWN, RELATING TO, ARISING OUT OF, OR IN ANY WAY CONNECTED WITH ANY SUCH CLAIM YOU HAVE AGAINST ANY THIRD PARTIES.",
+    "quote_found": true
+   },
+   {
+    "category": "liability_and_indemnity",
+    "severity": "bad",
+    "explanation": "Any liability on behalf of the service is only limited to the fees you paid as a user",
+    "quote": "OUR AGGREGATE LIABILITY RELATING TO, ARISING OUT OF, OR IN ANY WAY IN CONNECTION WITH OUR TERMS, US, OR OUR SERVICES WILL NOT EXCEED ONE HUNDRED DOLLARS ($100).",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "neutral",
+    "explanation": "The service can stop being provided at any time",
+    "quote": "We may discontinue some or all of our Services, including certain features and the support for certain devices and platforms, at any time.",
+    "quote_found": true
+   },
+   {
+    "category": "jurisdiction_and_compliance",
+    "severity": "neutral",
+    "explanation": "The court of law governing the terms is in location X",
+    "quote": "The laws of the State of California govern our Terms, as well as any disputes, whether in court or arbitration, which might arise between Signal and you, without regard to conflict of law provisions.",
+    "quote_found": true
+   },
+   {
+    "category": "account_termination_and_moderation",
+    "severity": "bad",
+    "explanation": "Your account can be deleted or permanently suspended without prior notice and without a reason",
+    "quote": "We may modify, suspend, or terminate your access to or use of our Services anytime for any reason, such as if you violate the letter or spirit of our Terms or create harm, risk, or possible legal exposure for Signal.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "bad",
+    "explanation": "Instead of asking directly, this Service will assume your consent to changes of terms merely from your past usage",
+    "quote": "Your continued use of our Services confirms your acceptance of our updated Terms and supersedes any prior Terms.",
+    "quote_found": true
+   },
+   {
+    "category": "general_legal_terms",
+    "severity": "neutral",
+    "explanation": "Failure to enforce any provision of the Terms of Service does not constitute a waiver of such provision",
+    "quote": "If we fail to enforce any of our Terms, that does not mean we waive the right to enforce them.",
+    "quote_found": true
+   },
+   {
+    "category": "general_legal_terms",
+    "severity": "neutral",
+    "explanation": "Invalidity of any portion of the Terms of Service does not entail invalidity of its remainder",
+    "quote": "If any provision of the Terms is deemed unlawful, void, or unenforceable, that provision shall be deemed severable from our Terms and shall not affect the enforceability of the remaining provisions.",
+    "quote_found": true
+   },
+   {
+    "category": "security",
+    "severity": "good",
+    "explanation": "Information is provided about security practices",
+    "quote": "Signal utilizes state-of-the-art security and end-to-end encryption to provide private messaging and Internet calling services to users worldwide (“Services”). Your calls and messages are always encrypted, so they can never be shared or viewed by anyone but yourself and the intended recipients.",
+    "quote_found": true
+   },
+   {
+    "category": "acceptable_use",
+    "severity": "good",
+    "explanation": "This service claims User-generated content is encrypted, and they can not decrypt it",
+    "quote": "This information is end-to-end encrypted. Messages. Signal cannot decrypt or otherwise access the content of your messages or calls.",
+    "quote_found": true
+   },
+   {
+    "category": "third_party_sharing",
+    "severity": "good",
+    "explanation": "The service claims that third parties it shares your personal information with are bound by confidentiality obligations",
+    "quote": "We work with third parties to provide some of our Services. For example, our Third-Party Providers send a verification code to your phone number when you register for our Services. These providers are bound by their Privacy Policies to safeguard that information.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "bad",
+    "explanation": "Instead of asking directly, this Service will assume your consent to changes of terms merely from your usage",
+    "quote": "Your continued use of our Services confirms your acceptance of our updated Privacy Policy.",
+    "quote_found": true
+   },
+   {
+    "category": "changes_to_terms",
+    "severity": "neutral",
+    "explanation": "There is a date of the last update of the agreements",
+    "quote": "Effective as of May 25, 2018 Updated May 25, 2018",
+    "quote_found": true
+   }
+  ]
+ }
+]

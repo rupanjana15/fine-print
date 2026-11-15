@@ -1,0 +1,6 @@
+Qwen is licensed under the Qwen RESEARCH LICENSE AGREEMENT, Copyright (c) Alibaba Cloud. All Rights Reserved.
+
+Modified files: fine-print-v2-q4_k_m.gguf is Qwen/Qwen2.5-3B-Instruct with a LoRA adapter (trained by the Fine Print
+project on ToS;DR data) merged into its weights, converted to GGUF and quantized to 4 bits (Q4_K_M) with llama.cpp.
+
+Training data: ToS;DR (https://tosdr.org), CC BY-SA 3.0. The model's outputs are not ToS;DR's grades.

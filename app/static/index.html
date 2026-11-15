@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fine Print</title>
+<meta name="description" content="A fine-tuned 3B model that flags the clauses that matter in Terms of Service.">
+<style>
+  :root {
+    --bg: #fbfaf8; --surface: #ffffff; --text: #1d1d1f; --muted: #6b6b70; --line: #e6e3de;
+    --accent: #2b59c3;
+    --blocker: #b42318; --bad: #c4410c; --neutral: #6b6b70; --good: #2f8f3a;
+    --gA: #2f8f3a; --gB: #6a9a14; --gC: #c98a00; --gD: #d4570c; --gE: #b42318;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161618; --surface: #1f1f22; --text: #ececee; --muted: #a0a0a8; --line: #333338;
+      --accent: #7ea2ff; --blocker: #ff6b5e; --bad: #ff8a4c; --neutral: #a0a0a8; --good: #5fcf6b;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161618; --surface: #1f1f22; --text: #ececee; --muted: #a0a0a8; --line: #333338;
+    --accent: #7ea2ff; --blocker: #ff6b5e; --bad: #ff8a4c; --neutral: #a0a0a8; --good: #5fcf6b;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 34px; margin: 0 0 4px; letter-spacing: -0.02em; }
+  .lede { color: var(--muted); margin: 0 0 20px; max-width: 640px; }
+  a { color: var(--accent); }
+  .note { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px;
+          font-size: 14px; color: var(--muted); margin: 16px 0; }
+  .note b { color: var(--text); }
+  .picker { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 8px; }
+  .picker button { border: 1px solid var(--line); background: var(--surface); color: var(--text);
+                   border-radius: 999px; padding: 6px 14px; font: inherit; font-size: 14px; cursor: pointer; }
+  .picker button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-top: 16px; }
+  .head { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+  .grades { display: flex; gap: 14px; }
+  .grade { text-align: center; font-size: 12px; color: var(--muted); }
+  .grade .g { width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+              font-size: 34px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .grade.theirs .g { background: transparent; border: 2px solid currentColor; color: inherit; }
+  .meta { flex: 1; min-width: 220px; font-size: 14px; color: var(--muted); }
+  .meta h2 { font-size: 22px; margin: 0 0 4px; color: var(--text); }
+  .counts { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+  .counts span { white-space: nowrap; }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; margin: 18px 0 4px; }
+  .filters label { font-size: 13px; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+  .filters input { margin: 0 4px 0 0; vertical-align: -1px; }
+  .flag { border-left: 4px solid var(--neutral); padding: 8px 12px; margin: 12px 0; }
+  .flag .top { font-size: 13px; }
+  .flag .sev { font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+  .flag .cat { color: var(--muted); }
+  .flag p { margin: 2px 0; }
+  .flag q { display: block; color: var(--muted); font-style: italic; font-size: 14px; quotes: "“" "”"; }
+  footer { font-size: 13px; color: var(--muted); margin-top: 40px; border-top: 1px solid var(--line); padding-top: 16px; }
+  code { font-size: 13px; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 1px 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Fine Print</h1>
+  <p class="lede">A fine-tuned 3B model that reads Terms of Service and flags the clauses that matter, with a severity,
+    a plain-English explanation and the exact quote. Below: ten well-known services, analysed in advance.</p>
+
+  <div class="note"><b>Fine Print estimate, not legal advice, and not ToS;DR's grade.</b> How far to trust the grade:
+    on these ten services it matched <a href="https://tosdr.org">ToS;DR</a>'s human grade for 1 and was within one grade
+    for 5; for 8 of 10 it was more generous. It reads one document, while ToS;DR grades the whole service, and the
+    model tends to call some clauses neutral that ToS;DR's reviewers call bad. The individual flags are the more
+    reliable part.</div>
+
+  <div class="picker" id="picker" role="group" aria-label="Service"></div>
+  <div id="out"></div>
+
+  <footer>
+    <p><b>Try your own text:</b> a live "paste your own terms" version is coming. Meanwhile the 4-bit model is public at
+      <a href="https://huggingface.co/rupp15/fine-print-gguf">rupp15/fine-print-gguf</a> and runs on a laptop with
+      llama.cpp at about 1.5–5 s per chunk (prompt and decoding settings on the model card).</p>
+    <p id="rule"></p>
+    <p>Data: <a href="https://tosdr.org">ToS;DR</a> (CC BY-SA 3.0). <b>Built with Qwen</b>: Qwen2.5-3B-Instruct fine-tuned
+      with QLoRA, non-commercial use under the Qwen Research License. Quotes are short excerpts; follow the links for the
+      full documents.</p>
+  </footer>
+</main>
+<script>
+const SEV = { blocker: "Blocker", bad: "Bad", good: "Good", neutral: "Neutral" };
+const ORDER = { blocker: 0, bad: 1, good: 2, neutral: 3 };
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const cssVar = n => `var(--${n})`;
+let data = [], current = null, shown = { blocker: true, bad: true, good: true, neutral: false };
+
+document.getElementById("rule").textContent =
+  "Grade rule: good +1, bad −1, blocker −2 per distinct issue (neutral flags don't count); A ≥ 7, B ≥ 2, C ≥ 0, " +
+  "D ≥ −6, else E. Fitted on ToS;DR's human grades: with ToS;DR's own flags it is exact on 58% of unseen companies " +
+  "and never more than one grade off.";
+
+function render() {
+  const e = current;
+  const seen = e.split === "train" ? "This company's terms were part of the training data."
+                                   : "The model never saw this company's terms in training.";
+  const flags = e.flags.filter(f => shown[f.severity]).sort((a, b) => ORDER[a.severity] - ORDER[b.severity]);
+  const total = s => e.flags.filter(f => f.severity === s).length;
+  document.getElementById("out").innerHTML = `
+    <section class="card">
+      <div class="head">
+        <div class="grades">
+          <div class="grade"><div class="g" style="background:${cssVar("g" + e.grade)}">${esc(e.grade)}</div>Fine Print</div>
+          <div class="grade theirs" style="color:${cssVar("g" + e.tosdr_rating)}"><div class="g">${esc(e.tosdr_rating)}</div>
+            <a href="${esc(e.tosdr_url)}" target="_blank" rel="noopener">ToS;DR</a></div>
+        </div>
+        <div class="meta">
+          <h2>${esc(e.service)}</h2>
+          <a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.document)}</a> · ${e.n_chunks} chunks · score ${e.score}
+          <div>${seen}</div>
+          <div class="counts">${["blocker", "bad", "good", "neutral"].map(s =>
+            `<span style="color:${cssVar(s)}">${total(s)} ${SEV[s].toLowerCase()}</span>`).join("")}</div>
+        </div>
+      </div>
+      <div class="filters">${["blocker", "bad", "good", "neutral"].map(s =>
+        `<label style="color:${cssVar(s)}"><input type="checkbox" data-sev="${s}" ${shown[s] ? "checked" : ""}>${SEV[s]}</label>`).join("")}</div>
+      ${flags.map(f => `
+        <div class="flag" style="border-color:${cssVar(f.severity)}">
+          <div class="top"><span class="sev" style="color:${cssVar(f.severity)}">${SEV[f.severity]}</span>
+            <span class="cat"> · ${esc(f.category.replaceAll("_", " "))}</span></div>
+          <p>${esc(f.explanation)}</p>
+          <q>${esc(f.quote)}</q>
+        </div>`).join("") || "<p>No flags of the selected kinds.</p>"}
+    </section>`;
+  document.querySelectorAll(".filters input").forEach(i => i.onchange = () => { shown[i.dataset.sev] = i.checked; render(); });
+}
+
+function pick(slug) {
+  current = data.find(e => e.slug === slug) || data[0];
+  document.querySelectorAll("#picker button").forEach(b => b.setAttribute("aria-pressed", b.dataset.slug === current.slug));
+  try { history.replaceState(null, "", "#" + current.slug); } catch (_) {}
+  render();
+}
+
+fetch("examples.json").then(r => r.json()).then(d => {
+  data = d;
+  document.getElementById("picker").innerHTML =
+    d.map(e => `<button data-slug="${esc(e.slug)}" aria-pressed="false">${esc(e.service)}</button>`).join("");
+  document.querySelectorAll("#picker button").forEach(b => b.onclick = () => pick(b.dataset.slug));
+  pick(location.hash.slice(1));
+  window.addEventListener("hashchange", () => { if (location.hash.slice(1) !== current.slug) pick(location.hash.slice(1)); });
+}).catch(() => { document.getElementById("out").textContent = "Could not load the examples."; });
+</script>
+</body>
+</html>

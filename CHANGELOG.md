@@ -2,6 +2,14 @@
 
 One entry per tagged milestone (see `docs/ROADMAP.md`).
 
+## v0.7 — 2026-11-15 · Demo (MVP)
+- Public model `rupp15/fine-print-gguf` (Q4_K_M, model card, Qwen licence + NOTICE, "Built with Qwen")
+- Public demo: free Static Space `rupp15/fine-print`, 10 services precomputed (8 unseen in training) on 3 parallel
+  Kaggle CPU kernels (`inference/examples.py`, `notebooks/kaggle_examples.py`); flags, quotes, both grades
+- First end-to-end grades: exact 1/10, within one 5/10, more generous than ToS;DR on 8/10; stated in the demo (D42)
+- Gradio app (`app/app.py`): paste text → highlights, flags, grade; runs locally. HF now needs PRO for CPU Gradio
+  Spaces; live version planned on free ZeroGPU (account must be 30 days old)
+
 ## v0.6 — 2026-11-13 · Inference pipeline (MVP)
 - Merged v2 adapter → GGUF Q4_K_M, 1.93 GB, on a free Kaggle CPU kernel (`notebooks/kaggle_gguf.py`, D40)
 - Empty-answer threshold inside llama.cpp via logits (`inference/gguf.py`); repeat penalty over the full context,

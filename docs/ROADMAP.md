@@ -60,12 +60,15 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] Latency measurement (M1: 1.5 s empty chunk, 5.4 s flagged chunk; ~45 s–2.5 min for a median 28-chunk document)
 - [ ] (optional) DeBERTa pre-filter — skipped for now; revisit if the Space is too slow (v0.7)
 
-## v0.7 — Demo (Week 4) · MVP
-- [ ] Gradio app: paste text → highlighted clauses + grade + explanations
-- [ ] Precomputed examples for ~10 well-known services
-- [ ] Deploy to HF Spaces (free CPU)
+## v0.7 — Demo (Week 4) · MVP ✅
+- [x] Gradio app: paste text → highlighted clauses + grade + explanations (`app/app.py`, runs locally)
+- [x] Precomputed examples for 10 well-known services (Kaggle CPU; first end-to-end grades: too generous on 8/10, D42)
+- [x] Deploy to HF Spaces: free **Static** Space [rupp15/fine-print](https://huggingface.co/spaces/rupp15/fine-print)
+  (free CPU Gradio Spaces now need PRO, D42); model public at `rupp15/fine-print-gguf`
+- [ ] Live "paste your own" on ZeroGPU once the HF account is 30 days old (~2026-12-15) or a community grant
 
 ## v1.0 — Writeup & release (Week 4)
+- [ ] Grade a whole service (all its documents) and check neutral-vs-bad calibration (D42)
 - [ ] README: problem, architecture diagram, results vs baselines, error analysis, limitations
 - [ ] HF model card + dataset card (with attribution)
 - [ ] 2-minute demo video / GIF

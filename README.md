@@ -5,7 +5,7 @@ in plain English, with severity and the exact quote.** Runs locally; built entir
 
 > ⚠️ Not legal advice.
 
-## Status (2026-11-13)
+## Status (2026-11-15)
 
 | Milestone | State |
 |---|---|
@@ -16,7 +16,8 @@ in plain English, with severity and the exact quote.** Runs locally; built entir
 | v0.4 First fine-tune: QLoRA, 1 epoch, 4.3 h on 2×T4 | ✅ done |
 | v0.5 Error analysis, empty-answer threshold, 2nd epoch | ✅ done |
 | v0.6 Inference pipeline on the Mac: 4-bit GGUF (1.9 GB), A–E grade | ✅ done |
-| v0.7 Demo on HF Spaces | ⏳ next |
+| v0.7 Demo: [10 services, analysed](https://huggingface.co/spaces/rupp15/fine-print) · [model](https://huggingface.co/rupp15/fine-print-gguf) | ✅ done |
+| v1.0 Write-up, release, live paste-your-own demo | ⏳ next |
 
 **Results** (full test set, 4,024 chunks; [all results](results/RESULTS.md) ·
 [v0.5 findings](results/finetune_v0.5.md) · [fine-tune findings](results/finetune_v0.4.md) · [baseline findings](results/baselines_v0.3.md)):
@@ -41,6 +42,9 @@ scores 0.466 vs DeBERTa 0.559 and v1's 0.589.
 The shipped model is the 4-bit GGUF of v2 (1.9 GB, llama.cpp): test-500 macro-F1 0.652 vs 0.658 for the full
 model, ~1.5–5 s per chunk on an M1 Mac. The A–E grade is a counting rule fitted on ToS;DR's human grades: exact on
 58% of held-out services, never more than one grade off (D40, D41).
+**Demo:** [huggingface.co/spaces/rupp15/fine-print](https://huggingface.co/spaces/rupp15/fine-print). On whole documents
+the grade is more generous than ToS;DR's for 8 of 10 services (one document vs the whole service; the model calls
+some clauses neutral that reviewers call bad); the flags are the more reliable part (D42).
 Plan: [docs/ROADMAP.md](docs/ROADMAP.md) · changes: [CHANGELOG.md](CHANGELOG.md).
 
 ## How it works
