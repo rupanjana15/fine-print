@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fine Print</title>
+<style>
+  :root { --bg: #fff; --fg: #1d1d1f; --muted: #6b6b70; --line: #e4e4e7; --soft: #f4f4f5; --accent: #3b5bdb;
+          --A: #2f9e44; --B: #74b816; --C: #f59f00; --D: #e8590c; --E: #c92a2a;
+          --blocker: #c92a2a; --bad: #e8590c; --good: #2f9e44; --neutral: #868e96; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1c1c1f; --fg: #ececf1; --muted: #a0a0a8; --line: #33333a; --soft: #26262b; --accent: #748ffc; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; width: 380px; max-height: 580px; background: var(--bg); color: var(--fg);
+         font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px 10px;
+           border-bottom: 1px solid var(--line); }
+  h1 { font-size: 15px; margin: 0; }
+  .status { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+  .dot.on { background: var(--A); } .dot.off { background: var(--E); }
+  main { padding: 12px 14px; }
+  button { font: inherit; border-radius: 8px; border: 1px solid var(--line); background: var(--soft); color: var(--fg);
+           padding: 7px 12px; cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:disabled { opacity: .5; cursor: default; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12px; }
+  pre { background: var(--soft); border-radius: 6px; padding: 8px; white-space: pre-wrap; word-break: break-all;
+        font-size: 11.5px; margin: 6px 0; user-select: all; }
+  .bar { height: 6px; background: var(--soft); border-radius: 3px; overflow: hidden; margin: 10px 0 6px; }
+  .bar > div { height: 100%; background: var(--accent); width: 0; transition: width .4s; }
+  .result-head { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+  .grade { width: 52px; height: 52px; border-radius: 10px; color: #fff; font-size: 30px; font-weight: 700;
+           display: flex; align-items: center; justify-content: center; flex: none; }
+  .counts { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; }
+  .counts span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 2px;
+                         margin-right: 4px; background: var(--c); }
+  ul { list-style: none; padding: 0; margin: 0; max-height: 330px; overflow-y: auto; }
+  li { border-left: 3px solid var(--c); padding: 6px 8px; margin-bottom: 6px; background: var(--soft);
+       border-radius: 0 6px 6px 0; cursor: pointer; }
+  li.missing { cursor: default; }
+  li .cat { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+  li .where { font-size: 11px; color: var(--muted); }
+  details { margin-top: 4px; } summary { cursor: pointer; color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+  .note { font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--line); margin-top: 10px; padding-top: 8px; }
+  .error { color: var(--E); }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Fine Print</h1>
+    <div class="status"><span class="dot" id="dot"></span><span id="server">checking…</span></div>
+  </header>
+  <main id="main"></main>
+  <script src="popup.js"></script>
+</body>
+</html>

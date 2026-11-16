@@ -303,6 +303,12 @@ from high to low and decide, for each, which grade it gets, under the rule that 
 score drops; keeping the best total for each "grade so far" makes the search exact and fast instead of trying
 every combination. *Repo:* `eval/grade_fit.py`. *Decision:* D41.
 
+### Ceiling ("oracle") analysis
+Before fixing a weakness, pretend one part of the system were perfect and measure the result: that is the most
+the fix could ever give. Here: swap ToS;DR's true blocker count into the model's flags and re-grade. If even a
+perfect fix gains little (2 of 45 services), a realistic fix gains less, and the work goes elsewhere.
+*Repo:* `eval/service_grades.py` (`oracle_blockers`). *Decision:* D45.
+
 ### Inference pipeline
 Everything that happens at prediction time: clean text → split into chunks → run the model on each →
 validate the JSON and quotes → merge duplicate flags across chunks → compute a grade → show in the UI.

@@ -35,7 +35,7 @@ flowchart LR
 
     subgraph SERVE["④ Inference + demo"]
         M --> I[pipeline<br/>chunk → classify → aggregate → grade]
-        I --> UI[static demo on HF Spaces<br/>Gradio app locally]
+        I --> UI[static demo on HF Spaces<br/>Gradio app locally<br/>browser extension + local server]
     end
 ```
 
@@ -202,6 +202,9 @@ flowchart LR
 - **Demo (D42):** public Static Space `rupp15/fine-print` showing 10 precomputed services (`app/static/`,
   `app/examples.json`, built by `inference/examples.py` on Kaggle CPU). The Gradio app (`app/app.py`, paste your
   own text) runs locally; a live ZeroGPU version follows when the HF account qualifies.
+- **Browser extension (D46):** `extension/` (Chrome MV3) sends the open page's text to a local server
+  (`inference/server.py`, standard library, 127.0.0.1:8737, one job at a time, extension origins only) that runs
+  the same pipeline; the content script highlights each quote on the page by severity.
 - **Speed:** M1 ~1.5 s per chunk answered empty, ~5.4 s per flagged chunk; a median document (~28 chunks) takes
   ~45 s–2.5 min. On the free 2-vCPU Space: precomputed results for ~10 well-known services, a cap on pasted
   length; a DeBERTa pre-filter stays optional.

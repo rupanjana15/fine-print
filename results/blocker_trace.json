@@ -1,0 +1,42 @@
+{
+  "val": {
+    "gold_blockers": 105,
+    "fate": {
+      "same category": 75,
+      "other category": 19,
+      "chunk empty": 11
+    },
+    "severity_when_category_right": {
+      "bad": 13,
+      "blocker": 49,
+      "neutral": 12,
+      "good": 1
+    },
+    "predicted_blockers_gold": {
+      "blocker": 41,
+      "no gold label, same category": 16,
+      "bad": 2,
+      "neutral": 4
+    }
+  },
+  "test": {
+    "gold_blockers": 100,
+    "fate": {
+      "same category": 76,
+      "other category": 14,
+      "chunk empty": 10
+    },
+    "severity_when_category_right": {
+      "good": 7,
+      "bad": 13,
+      "blocker": 46,
+      "neutral": 10
+    },
+    "predicted_blockers_gold": {
+      "no gold label, same category": 5,
+      "blocker": 43,
+      "bad": 2,
+      "neutral": 6
+    }
+  }
+}

@@ -1,0 +1,10 @@
+<!doctype html>
+<meta charset="utf-8"><title>Harness: popup</title>
+<script>
+  // Load the real popup.html with the Chrome API stub inserted before popup.js.
+  fetch("../popup.html").then((r) => r.text()).then((html) => {
+    html = html.replace("<head>", '<head><base href="../">')
+               .replace('<script src="popup.js">', '<script src="dev/chrome-stub.js"><\/script><script src="popup.js">');
+    document.open(); document.write(html); document.close();
+  });
+</script>

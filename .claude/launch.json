@@ -1,7 +1,38 @@
 {
   "version": "0.0.1",
   "configurations": [
-    {"name": "static-demo", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8765", "-d", "dist/space-static"], "port": 8765},
-    {"name": "gradio-app", "runtimeExecutable": "bash", "runtimeArgs": ["-c", "FINEPRINT_MODEL=data/models/fine-print-v2-q4_k_m.gguf GRADIO_SERVER_PORT=7860 uv run --extra app python app/app.py"], "port": 7860}
+    {
+      "name": "static-demo",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "-d",
+        "dist/space-static"
+      ],
+      "port": 8765
+    },
+    {
+      "name": "gradio-app",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "FINEPRINT_MODEL=data/models/fine-print-v2-q4_k_m.gguf GRADIO_SERVER_PORT=7860 uv run --extra app python app/app.py"
+      ],
+      "port": 7860
+    },
+    {
+      "name": "extension-harness",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8766",
+        "-d",
+        "extension"
+      ],
+      "port": 8766
+    }
   ]
 }

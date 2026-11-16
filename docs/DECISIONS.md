@@ -52,6 +52,8 @@ New decisions are appended with the next number; superseded ones are marked, nev
 | [D42](#d42--the-demo-a-free-static-page-of-precomputed-examples-public-model-honest-grade-caveat) | The demo: a free static page of precomputed examples, public model, honest grade caveat | ✅ |
 | [D43](#d43--grading-whole-services-keep-the-d41-rule-the-gap-is-missed-blockers) | Grading whole services: keep the D41 rule; the gap is missed blockers | ✅ |
 | [D44](#d44--public-dataset-the-labels-only-not-the-training-chunks) | Public dataset: the labels only, not the training chunks | ✅ |
+| [D45](#d45--blockers-measure-the-ceiling-first-no-fix-for-now) | Blockers: measure the ceiling first; no fix for now | ✅ |
+| [D46](#d46--browser-extension-a-local-model-server-not-a-hosted-one) | Browser extension: a local model server, not a hosted one | ✅ |
 
 ---
 
@@ -1191,3 +1193,83 @@ code fetches from ToS;DR. ToS;DR's share-alike licence carries over.
 
 **Explain it:** *"I released the 31k human-reviewed labels with the same company split I used, under ToS;DR's
 licence, but not the documents themselves, because the companies own that text."*
+
+## D45 — Blockers: measure the ceiling first; no fix for now
+
+**Context.** D43 found the model reports about half as many blocker issues per service as ToS;DR (0.31 vs 0.60),
+and named blocker recall as the next lever. The candidate fixes were a severity-specific threshold (nudge the
+model toward "blocker" when it hesitates with "bad") or retraining with blocker examples weighted up. Only 747 of
+31k approved labels are blockers, and D07 rules out adding unreviewed ones.
+
+**Decision.** Before building either, measure what a perfect fix would buy, then decide. Two checks, both from
+existing predictions (`service_grades analyse` → `oracle_blockers`; `service_grades blockers` →
+`results/blocker_trace.json`):
+- **Ceiling:** the model's flags with ToS;DR's blocker count swapped in. Test 0.51 → 0.56 exact, 0.89 → 0.96 within
+  one (45 services), about 2 services.
+- **Where gold blockers go** (chunk-level, ~100 per split): ~48 called blocker, ~13 called bad, ~15 called
+  neutral/good, ~17 flagged in another category, ~10 left empty. When the model says blocker it is right ~75%
+  of the time.
+
+A severity nudge can reach only the ~13 per 100 called "bad", and would also promote some true "bad" flags: a
+realistic 0–1 service of 45, which 45 services can't distinguish from noise. **No fix in v1.x.**
+
+**Alternatives.**
+| Option | Why not (now) |
+|---|---|
+| Severity threshold for blocker vs bad | Reaches ~13% of gold blockers; gain below what 45 test services can measure |
+| Retrain with blocker examples weighted up | ~9 h of free GPU for a ceiling of ~2 services; risks severity accuracy on the other 97% of labels |
+| Count blockers ×2 in the grade rule | Re-tuning on ~50 services overfits (D43) |
+| Add unreviewed blocker points | Breaks D07 |
+
+**Consequences.** The limitation stays documented (README, model card, demo): the worst services come out about a
+grade too kind. Revisit if more reviewed blockers appear in ToS;DR, or if a larger graded set makes a 2-service
+gain measurable.
+
+**Explain it:** *"Before spending GPU time on blockers I checked the ceiling: even perfect blocker counts would fix
+about two of 45 test companies, and a realistic fix maybe one, which I couldn't tell apart from noise. So I wrote
+the measurement down and left it."*
+
+## D46 — Browser extension: a local model server, not a hosted one
+
+**Context.** The ROADMAP's optional v1.0 item: read terms where people meet them, on the page. An extension can't
+run a 3B model by itself, and the project is free-only: there is no paid API or always-on server to call. The
+public demo is static (D42), and free ZeroGPU only opens around 2026-12-15.
+
+**Decision.** A Chrome (Manifest V3) extension plus a small local server that runs the existing pipeline:
+- `inference/server.py`: standard library only (no new dependency), bound to 127.0.0.1:8737. Jobs run one at a
+  time on a lazily loaded GGUF model and report progress; they can be cancelled. It answers only requests from
+  `chrome-extension://` / `moz-extension://` origins or with no origin (curl), so web pages can't use the port.
+  150k-character cap.
+- `extension/`: the background worker reads the page text (the selection, else the largest `main`/`article`, else
+  the body), posts it, and polls. State lives in `chrome.storage.session` per tab, so closing the popup doesn't lose
+  the job. The content script finds each quote on the page with whitespace collapsed, matching the server's
+  `clean_text`; it ignores case and spans inline tags, and wraps the quote in a `<mark>` coloured by severity.
+- Permissions: `activeTab`, `scripting`, `storage` and the one localhost host. No access to every site.
+
+**Checked.**
+- The real model through the server: 2 correct flags on a test text, both quotes found, 8 s.
+- Web-origin requests get 403.
+- Server tests use a stub model (`tests/test_server.py`).
+- Highlighting and the popup run in `extension/dev/` harnesses with the Chrome APIs stubbed:
+  - a quote spanning `<em>`, a non-breaking space, a different-case quote and a missing quote;
+  - highlighting twice gives the same result; scroll-to and clear work;
+  - popup in all four states, light and dark.
+- Not checked here: loading the unpacked extension in Chrome, which needs the user's browser.
+
+**Alternatives.**
+| Option | Why not |
+|---|---|
+| Call a hosted model (HF Inference, a paid API) | Not free; and the page text would leave the machine |
+| ZeroGPU Space as the backend | Not available until ~2026-12-15; can be added later as a second server URL |
+| Model inside the extension (WebAssembly llama.cpp) | 1.9 GB per browser profile, 10–30 s per chunk |
+| Look up ToS;DR's own ratings instead | That is ToS;DR's extension; it shows nothing for services they haven't reviewed |
+| Reuse the Gradio app as the backend | Its API is built for its UI and needs gradio installed; a 200-line stdlib server is simpler to secure |
+| Highlight by the server's character spans | Spans are offsets in cleaned text, not the DOM; searching the quote on the page is robust to markup |
+
+**Consequences.** Anyone with the repo and a laptop can read terms on the page with highlights; it takes minutes,
+not seconds, on a CPU. The extension isn't on the Chrome Web Store, since publishing needs a $5 developer account.
+When ZeroGPU is available the background worker can point to it.
+
+**Explain it:** *"The extension sends the page to a small server on your own laptop that runs the same pipeline as
+everything else, then highlights the quotes it returns on the page. Nothing goes to the cloud, nothing costs money,
+and the server refuses requests from web pages so a site can't use your CPU."*

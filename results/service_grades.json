@@ -241,6 +241,70 @@
       }
     }
   },
+  "oracle_blockers": {
+    "val": {
+      "n": 55,
+      "exact": 0.527,
+      "within_one": 0.982,
+      "majority_guess_exact": 0.291,
+      "confusion": {
+        "A": {
+          "B": 1
+        },
+        "B": {
+          "B": 5,
+          "C": 1,
+          "A": 2
+        },
+        "C": {
+          "C": 6,
+          "D": 7,
+          "B": 2
+        },
+        "D": {
+          "D": 11,
+          "C": 2,
+          "E": 2,
+          "B": 1
+        },
+        "E": {
+          "E": 7,
+          "D": 8
+        }
+      }
+    },
+    "test": {
+      "n": 45,
+      "exact": 0.556,
+      "within_one": 0.956,
+      "majority_guess_exact": 0.333,
+      "confusion": {
+        "A": {
+          "D": 1,
+          "B": 1
+        },
+        "B": {
+          "B": 8,
+          "A": 2,
+          "D": 1,
+          "C": 1
+        },
+        "C": {
+          "C": 6,
+          "D": 6,
+          "B": 3
+        },
+        "D": {
+          "D": 5,
+          "C": 2
+        },
+        "E": {
+          "D": 3,
+          "E": 6
+        }
+      }
+    }
+  },
   "refit_on_model_flags": {
     "params": {
       "w_good": 0.5,

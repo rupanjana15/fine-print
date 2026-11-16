@@ -1,0 +1,7 @@
+mark.fineprint-mark { color: inherit; border-radius: 2px; padding: 0 1px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+mark.fineprint-blocker { background: rgba(201, 42, 42, 0.30); border-bottom: 2px solid #c92a2a; }
+mark.fineprint-bad { background: rgba(232, 89, 12, 0.25); border-bottom: 2px solid #e8590c; }
+mark.fineprint-good { background: rgba(47, 158, 68, 0.22); border-bottom: 2px solid #2f9e44; }
+mark.fineprint-neutral { background: rgba(134, 142, 150, 0.20); border-bottom: 2px dotted #868e96; }
+mark.fineprint-flash { animation: fineprint-flash 1.2s ease-out 2; }
+@keyframes fineprint-flash { 50% { outline: 3px solid currentColor; outline-offset: 2px; } }

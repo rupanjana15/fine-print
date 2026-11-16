@@ -2,6 +2,14 @@
 
 One entry per tagged milestone (see `docs/ROADMAP.md`).
 
+## v1.1 — 2026-11-16 · Browser extension, blocker ceiling
+- Chrome extension (`extension/`, D46): analyse the open page or a selection, highlights quotes on the page by
+  severity, grade + flag list in the popup, click to scroll; runs against a local server
+  (`inference/server.py`: standard library, 127.0.0.1 only, extension origins only, job queue with progress/cancel)
+- Blocker recall checked before fixing (D45): even perfect blocker counts lift test service grades only 0.51 → 0.56
+  exact / 0.89 → 0.96 within one; a severity nudge reaches ~13% of gold blockers. Not pursued
+  (`service_grades blockers`, `results/blocker_trace.json`)
+
 ## v1.0 — 2026-11-16 · Writeup & release
 - Whole-service grading on held-out companies (`eval/service_grades.py`, `notebooks/kaggle_services.py`, D43):
   9,086 chunks of 109 val/test services on 2×T4; D41 rule on the model's flags: test exact 0.46, within one 0.88

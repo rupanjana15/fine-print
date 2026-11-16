@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Harness: highlighting</title>
+<link rel="stylesheet" href="../content.css">
+<style>body{font:15px/1.6 Georgia,serif;max-width:680px;margin:24px auto;padding:0 16px} #log{font:12px monospace;background:#f4f4f5;padding:8px}</style>
+</head><body>
+<p><button id="hl">Highlight</button> <button id="go">Scroll to flag 1</button> <button id="clr">Clear</button></p>
+<pre id="log"></pre>
+<h2>Terms of Service</h2>
+<p><b>Dispute resolution.</b> You and the Company agree that any dispute arising out of these Terms will be
+   resolved by <em>binding individual arbitration</em>, and you waive your right to participate in a class
+   action lawsuit or class-wide arbitration.</p>
+<p>Lorem ipsum filler so the page scrolls. </p><div style="height:900px"></div>
+<p><b>Changes.</b> We may modify these Terms at any time, and such modification shall be effective immediately upon posting.
+   Your continued&nbsp;use of the Service constitutes
+   acceptance of the modified Terms.</p>
+<p><b>Your content.</b> You retain ownership of any content you submit, post or display on the Service.</p>
+<script>
+  window.chrome = { runtime: { onMessage: { addListener: (fn) => { window.__listener = fn; } } } };
+  const flags = [
+    { category: "dispute_resolution", severity: "bad", explanation: "You waive your right to a class action",
+      quote: "You and the Company agree that any dispute arising out of these Terms will be resolved by binding individual arbitration, and you waive your right to participate in a class action lawsuit or class-wide arbitration." },
+    { category: "changes_to_terms", severity: "bad", explanation: "Continued use = consent to changes",
+      quote: "Your continued use of the Service constitutes acceptance of the modified Terms." },
+    { category: "content_ownership", severity: "good", explanation: "You keep ownership of your content",
+      quote: "you retain ownership of any content you submit" },
+    { category: "transparency", severity: "neutral", explanation: "Not on this page", quote: "This sentence is not on the page at all." },
+  ];
+  const send = (msg) => new Promise((r) => window.__listener(msg, null, r));
+  const log = (x) => (document.getElementById("log").textContent = JSON.stringify(x));
+  document.getElementById("hl").onclick = async () => log(await send({ type: "highlight", flags }));
+  document.getElementById("go").onclick = async () => log(await send({ type: "scrollTo", index: 1 }));
+  document.getElementById("clr").onclick = async () => log(await send({ type: "clear" }));
+</script>
+<script src="../content.js"></script>
+</body></html>

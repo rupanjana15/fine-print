@@ -132,7 +132,10 @@ def analyse() -> None:
                                               "human_counts_mean": {sev: round(sum(r["counts"][sev] for r in paired[k])
                                                                                / len(paired[k]), 2)
                                                                     for sev in ("good", "neutral", "bad", "blocker")}}
-                                          for k in rows}}
+                                          for k in rows},
+              # Ceiling for fixing blockers alone: the model's flags with ToS;DR's blocker count swapped in (D45).
+              "oracle_blockers": {k: evaluate([{**r, "counts": {**r["counts"], "blocker": hc[r["id"]]["blocker"]}}
+                                               for r in model_paired[k]], human) for k in rows}}
 
     # Re-fit the same rule on the model's flags of val services, report on test services only.
     best = None
@@ -155,15 +158,48 @@ def analyse() -> None:
                           s: {"n": v["n"], **{x: (v["human_flags"][x], v["model_flags"][x]) for x in ("exact", "within_one")},
                               "human mean counts": v["human_counts_mean"]}
                           for s, v in report["paired_with_human_flags"].items()},
+                      "oracle blockers": {s: {x: v[x] for x in ("n", "exact", "within_one")}
+                                          for s, v in report["oracle_blockers"].items()},
                       "refit params": refit,
                       "refit": {s: {x: report["refit_on_model_flags"][s][x] for x in ("n", "exact", "within_one")}
                                 for s in ("val (fit)", "test")}}, indent=1))
 
 
+def blockers() -> None:
+    """Where gold blocker labels go on the val/test chunk sets (D45): empty chunk, other category, or which severity."""
+    cats = set(load_config("taxonomy")["categories"])
+    report = {}
+    for split in ("val", "test"):
+        gold = {}
+        for line in (data_path("processed") / f"{split}.jsonl").read_text().splitlines():
+            r = json.loads(line)
+            gold[r["id"]] = json.loads(r["messages"][-1]["content"])["flags"]
+        preds = {}
+        for line in predictions_path(SYSTEM, split).read_text().splitlines():
+            r = json.loads(line)
+            preds[r["id"]] = r
+        fate, said, precision = Counter(), Counter(), Counter()
+        for i, g in gold.items():
+            p = preds[i]
+            pf = parse_output(p["forced"], cats)["flags"] if p["p_empty"] < THRESHOLD else []
+            for f in (f for f in g if f["severity"] == "blocker"):
+                same = [x for x in pf if x["category"] == f["category"]]
+                fate["chunk empty" if not pf else "other category" if not same else "same category"] += 1
+                if same:
+                    said[same[0]["severity"]] += 1
+            for x in (x for x in pf if x.get("severity") == "blocker"):
+                gs = [f["severity"] for f in g if f["category"] == x["category"]]
+                precision[gs[0] if gs else "no gold label, same category"] += 1
+        report[split] = {"gold_blockers": sum(fate.values()), "fate": dict(fate),
+                         "severity_when_category_right": dict(said), "predicted_blockers_gold": dict(precision)}
+    (RESULTS / "blocker_trace.json").write_text(json.dumps(report, indent=2) + "\n")
+    print(json.dumps(report, indent=1))
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("step", choices=["prepare", "analyse"])
-    {"prepare": prepare, "analyse": analyse}[ap.parse_args().step]()
+    ap.add_argument("step", choices=["prepare", "analyse", "blockers"])
+    {"prepare": prepare, "analyse": analyse, "blockers": blockers}[ap.parse_args().step]()
 
 
 if __name__ == "__main__":

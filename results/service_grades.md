@@ -50,3 +50,23 @@ fitted on 344 train services' human flags, stays.
   for always guessing the most common grade. It is exact for about half.
 - Most of the gap to the rule's upper bound (0.58 / 1.00) comes from missed blockers, not from the rule.
 - Next lever: blocker recall (more blocker examples or a blocker-specific threshold), not a new grade rule.
+
+## Follow-up: is fixing blockers worth it? (D45)
+
+**Ceiling.** Swapping ToS;DR's blocker count into the model's flags (everything else unchanged) lifts test from
+0.51 to 0.56 exact and 0.89 to 0.96 within one (45 services; val 0.51 → 0.53, 0.95 → 0.98). That is the most a
+perfect blocker fix could give, about 2 services of 45.
+
+**Where gold blockers go** (chunk-level val / test sets, ~100 gold blockers each,
+[blocker_trace.json](blocker_trace.json)):
+
+| | Val | Test |
+|---|---|---|
+| Right category, called blocker | 49 | 46 |
+| Right category, called bad / neutral / good | 26 | 30 |
+| Flagged, other category | 19 | 14 |
+| Chunk left empty | 11 | 10 |
+
+When the model says blocker it is usually right (41 of 63 on val, 43 of 56 on test). A severity nudge toward
+blocker can only reach the ~13 per 100 it calls "bad", and would also promote some true "bad" flags. Realistic
+gain: 0–1 service of 45, below what 45 services can measure. Not pursued; see D45.

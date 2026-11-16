@@ -127,6 +127,10 @@ uv run python -m fineprint.inference.pipeline --model fine-print-v2-q4_k_m.gguf 
 uv run --extra app python app/app.py
 ```
 
+- **Browser extension:** highlights flagged clauses on any terms page, with the model running on your own
+  computer. Load `extension/` unpacked in Chrome and start the local server; see
+  [extension/README.md](extension/README.md).
+
 The model file comes from [rupp15/fine-print-gguf](https://huggingface.co/rupp15/fine-print-gguf); `app/app.py`
 downloads it automatically.
 
@@ -139,10 +143,11 @@ src/fineprint/
   baselines/        always-flag, keywords, TF-IDF, DeBERTa
   training/         QLoRA training (run on Kaggle)
   eval/             eval sets, one scorer, threshold, error analysis, grade fit, whole-service grades
-  inference/        GGUF runner, document pipeline, grade, demo examples
+  inference/        GGUF runner, document pipeline, grade, demo examples, local server
   chunk.py prompt.py   shared by data, training and inference
 notebooks/          Kaggle notebooks and scripts (training, eval, GGUF export, demo examples)
 app/                Gradio app (local), static demo page, model card
+extension/          Chrome extension (talks to inference/server.py on 127.0.0.1)
 results/            metrics JSON + findings (committed)
 docs/               architecture, decisions, concepts, data, roadmap
 tests/
@@ -151,7 +156,7 @@ tests/
 ## Documentation
 
 Every design choice has a numbered entry with alternatives and a one-line explanation
-([DECISIONS.md](docs/DECISIONS.md), 44 entries); ML terms are explained in plain language in
+([DECISIONS.md](docs/DECISIONS.md), 46 entries); ML terms are explained in plain language in
 [CONCEPTS.md](docs/CONCEPTS.md). Start at [docs/README.md](docs/README.md). Changes per version:
 [CHANGELOG.md](CHANGELOG.md).
 

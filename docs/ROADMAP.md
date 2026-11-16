@@ -72,5 +72,5 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] README: problem, architecture diagram, results vs baselines, error analysis, limitations
 - [x] HF model card + dataset card (with attribution)
 - [x] 2-minute demo video / GIF
-- [ ] (optional) browser extension — not done
-- [ ] Future: blocker recall (more blocker examples or a severity-specific threshold, D43)
+- [x] (optional) browser extension: Chrome MV3 + local server (D46, v1.1)
+- [x] Blocker recall: measured the ceiling (≤2 of 45 test services even if perfect); not pursued (D45)
