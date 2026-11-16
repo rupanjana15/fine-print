@@ -70,9 +70,11 @@ function renderResult(s) {
       <div class="grade" style="background:var(--${esc(r.grade)})">${esc(r.grade)}</div>
       <div>
         <div><b>Fine Print estimate</b> · ${plural(r.flags.length, "flag")} in ${plural(r.n_chunks, "chunk")}, ${Math.round(r.seconds)} s</div>
-        <div class="counts">${SEVERITIES.map((k) => `<span style="--c:var(--${k})">${r.counts[k] || 0} ${k}</span>`).join("")}</div>
+        <div class="counts">${SEVERITIES.map((k) => `<span style="--c:var(--${k})">${flags.filter((f) => f.severity === k).length} ${k}</span>`).join("")}</div>
       </div>
     </div>
+    <p class="small muted" style="margin:0 0 8px">The grade counts each distinct issue once (${r.counts.blocker || 0} blocker,
+      ${r.counts.bad || 0} bad, ${r.counts.good || 0} good); neutral flags don't count.</p>
     ${s.selection ? `<p class="small muted">Selected text only. The grade is for this text, not the whole service.</p>` : ""}
     <ul>${main_.map(item).join("") || `<p class="muted">Nothing good or bad flagged.</p>`}</ul>
     ${neutral.length ? `<details><summary>${plural(neutral.length, "neutral flag")}</summary><ul>${neutral.map(item).join("")}</ul></details>` : ""}

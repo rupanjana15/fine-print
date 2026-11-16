@@ -9,6 +9,7 @@ One entry per tagged milestone (see `docs/ROADMAP.md`).
 - Blocker recall checked before fixing (D45): even perfect blocker counts lift test service grades only 0.51 → 0.56
   exact / 0.89 → 0.96 within one; a severity nudge reaches ~13% of gold blockers. Not pursued
   (`service_grades blockers`, `results/blocker_trace.json`)
+- Tried in Chrome on Apple's iTunes terms (84 chunks, 188 s, grade D); popup chips now count flags like the list
 
 ## v1.0 — 2026-11-16 · Writeup & release
 - Whole-service grading on held-out companies (`eval/service_grades.py`, `notebooks/kaggle_services.py`, D43):

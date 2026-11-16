@@ -1254,7 +1254,9 @@ public demo is static (D42), and free ZeroGPU only opens around 2026-12-15.
   - a quote spanning `<em>`, a non-breaking space, a different-case quote and a missing quote;
   - highlighting twice gives the same result; scroll-to and clear work;
   - popup in all four states, light and dark.
-- Not checked here: loading the unpacked extension in Chrome, which needs the user's browser.
+- In Chrome (unpacked) on Apple's iTunes terms: 84 chunks in 188 s on the M1, grade D, quotes highlighted on the
+  page. Fixed after it: the popup's severity chips counted distinct issues (the grade's input) while the list showed
+  every flag; the chips now count flags and a line says what the grade counts.
 
 **Alternatives.**
 | Option | Why not |

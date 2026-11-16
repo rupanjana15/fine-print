@@ -12,6 +12,12 @@ popup. Nothing leaves your machine. Decision D46.
 uv run --extra eval python -m fineprint.inference.server
 ```
 
+If you already have the model file, point to it instead of downloading it again:
+
+```bash
+FINEPRINT_MODEL=data/models/fine-print-v2-q4_k_m.gguf uv run --extra eval python -m fineprint.inference.server
+```
+
 2. Open `chrome://extensions`, switch on **Developer mode**, click **Load unpacked**, and pick this `extension/`
    folder.
 3. Open a terms page, click the Fine Print icon, then **Analyse this page** or **Analyse selected text**.
