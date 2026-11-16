@@ -78,9 +78,9 @@ function renderResult(s) {
     ${s.selection ? `<p class="small muted">Selected text only. The grade is for this text, not the whole service.</p>` : ""}
     <ul>${main_.map(item).join("") || `<p class="muted">Nothing good or bad flagged.</p>`}</ul>
     ${neutral.length ? `<details><summary>${plural(neutral.length, "neutral flag")}</summary><ul>${neutral.map(item).join("")}</ul></details>` : ""}
-    <div class="row" style="margin-top:10px"><button id="again">Analyse again</button></div>
-    <p class="note">Not legal advice. On whole services the grade matches ToS;DR's for about half of companies and is
-      within one grade for ~9 in 10; it tends to be a grade too kind on the worst ones. Click a flag to see its quote.</p>`;
+    <div class="row" style="margin-top:8px"><button id="again">Analyse again</button></div>
+    <p class="note">Not legal advice. Over whole services the grade is within one of ToS;DR's for ~9 in 10 companies,
+      often a grade too kind on the worst. Click a flag to see its quote.</p>`;
   main.querySelectorAll("li:not(.missing)").forEach((li) => {
     li.onclick = () => send({ type: "scrollTo", index: Number(li.dataset.i) });
   });

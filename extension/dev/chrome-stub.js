@@ -13,6 +13,8 @@
     running: { status: "running", done: 12, total: 31, started: Date.now() - 40000 },
     done: { status: "done", result, found: [true, true, true, false, true] },
   };
+  const many = Array.from({ length: 16 }, (_, i) => ({ ...result.flags[i % 5], explanation: result.flags[i % 5].explanation + (i > 4 ? " (repeat)" : "") }));
+  states.long = { status: "done", result: { ...result, flags: many }, found: many.map(() => true) };
   const store = { "tab:1": states[state] || null };
   window.chrome = {
     tabs: { query: async () => [{ id: 1 }] },
