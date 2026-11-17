@@ -19,7 +19,7 @@ def test_find_spans():
 
 
 def test_flags_inside_only_full_quotes_in_order_deduped():
-    f = dict(category="c", severity="bad", explanation="e")
+    f = {"category": "c", "severity": "bad", "explanation": "e"}
     labeled = [{**f, "quote": "B", "span": (50, 60)}, {**f, "quote": "A", "span": (10, 20)},
                {**f, "quote": "A", "span": (10, 20)}, {**f, "quote": "C", "span": (95, 120)}]
     flags = flags_inside((0, 100), labeled)

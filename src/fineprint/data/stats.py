@@ -8,7 +8,6 @@ Output: data/interim/points.parquet       one row per point (third-party text, n
 
 import json
 import re
-from collections import Counter
 from urllib.parse import urlparse
 
 import pandas as pd
@@ -16,10 +15,11 @@ import pandas as pd
 from fineprint.config import RESULTS, data_path
 
 # Rough English check: share of tokens that are very common English function words.
-_EN_WORDS = set(
-    "the of and to a in that is for it as with be on by this are or not you your we our may "
-    "any will from at have an if can such use which all their they us information".split()
-)
+_EN_WORDS = {
+    "the", "of", "and", "to", "a", "in", "that", "is", "for", "it", "as", "with", "be", "on", "by",
+    "this", "are", "or", "not", "you", "your", "we", "our", "may", "any", "will", "from", "at",
+    "have", "an", "if", "can", "such", "use", "which", "all", "their", "they", "us", "information",
+}
 
 
 def looks_english(text: str, threshold: float = 0.15) -> bool:

@@ -25,6 +25,7 @@ import hashlib
 import json
 import random
 from collections import Counter, defaultdict
+from contextlib import ExitStack
 
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -166,8 +167,8 @@ def main() -> None:
 
         if doc is None:
             for r in rows:
-                add("bare", r.quote, [dict(category=r.category, severity=r.severity,
-                                           explanation=r.explanation, quote=r.quote)], group, doc_id)
+                add("bare", r.quote, [{"category": r.category, "severity": r.severity,
+                                            "explanation": r.explanation, "quote": r.quote}], group, doc_id)
             report["points_without_document"] += len(rows)
             continue
 
@@ -175,7 +176,7 @@ def main() -> None:
         spans = find_spans(text, [r.quote for r in rows])
         located = []
         for r, span in zip(rows, spans):
-            flag = dict(category=r.category, severity=r.severity, explanation=r.explanation, quote=r.quote)
+            flag = {"category": r.category, "severity": r.severity, "explanation": r.explanation, "quote": r.quote}
             if span is None:
                 add("bare", r.quote, [flag], group, doc_id)
                 report["points_quote_not_in_document"] += 1
@@ -242,14 +243,13 @@ def main() -> None:
         report[f"{split}_groups"] = len({e["group"] for e in chosen})
 
     out_dir = data_path("processed")
-    files = {s: open(out_dir / f"{s}.jsonl", "w") for s in ("train", "val", "test")}
-    for i, ex in enumerate(final):
-        record = {"id": f"{ex['split']}-{i:06d}", "kind": ex["kind"], "group": ex["group"],
-                  "doc_id": None if pd.isna(ex["doc_id"]) else int(ex["doc_id"]),
-                  "messages": build_messages(ex["text"], ex["flags"])}
-        files[ex["split"]].write(json.dumps(record, ensure_ascii=False) + "\n")
-    for f in files.values():
-        f.close()
+    with ExitStack() as stack:
+        files = {s: stack.enter_context(open(out_dir / f"{s}.jsonl", "w")) for s in ("train", "val", "test")}
+        for i, ex in enumerate(final):
+            record = {"id": f"{ex['split']}-{i:06d}", "kind": ex["kind"], "group": ex["group"],
+                      "doc_id": None if pd.isna(ex["doc_id"]) else int(ex["doc_id"]),
+                      "messages": build_messages(ex["text"], ex["flags"])}
+            files[ex["split"]].write(json.dumps(record, ensure_ascii=False) + "\n")
 
     pos_flags = Counter(f["category"] for e in final if e["split"] == "train" for f in e["flags"])
     report = dict(report)

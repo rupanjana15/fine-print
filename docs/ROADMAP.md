@@ -25,7 +25,7 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] `clean.py`, `taxonomy.py`, `chunk.py`, `prompt.py`, `build_dataset.py` (negatives + hash split inside)
 - [x] Unit tests, plus checks on the built files: no group in two splits, valid JSON, quotes inside chunks
 - [x] Manual review of negatives → similarity filter (D31)
-- [ ] Push processed splits to private HF dataset repo (moved to v0.4: needs an HF account; only Kaggle needs it)
+- [x] ~~Push processed splits to private HF dataset repo~~ — superseded: training reads a private Kaggle dataset, and only the labels are published (D44)
 
 ## v0.3 — Baselines + eval harness (Week 2) · MVP
 - [x] `eval/` harness: one predictions format → all metrics → `results/eval/*.json` + `results/RESULTS.md`

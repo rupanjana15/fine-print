@@ -1,3 +1,4 @@
+import itertools
 import random
 
 from fineprint.chunk import chunk_text, split_sentences, window_around
@@ -20,7 +21,7 @@ def test_chunks_respect_size_and_overlap():
     chunks = chunk_text(TEXT, target_tokens=100, overlap_tokens=15)
     assert all(e - s <= 400 for s, e in chunks)
     assert chunks[0][0] == 0 and chunks[-1][1] == len(TEXT)
-    assert all(b[0] < a[1] for a, b in zip(chunks, chunks[1:]))  # consecutive chunks overlap
+    assert all(b[0] < a[1] for a, b in itertools.pairwise(chunks))  # consecutive chunks overlap
 
 
 def test_window_contains_quote_and_varies():

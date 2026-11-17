@@ -1,6 +1,11 @@
 import pandas as pd
 
-from fineprint.data.taxonomy import assign_category, explanation_from_title, label_points, load_taxonomy
+from fineprint.data.taxonomy import (
+    assign_category,
+    explanation_from_title,
+    label_points,
+    load_taxonomy,
+)
 
 
 def test_config_is_consistent():

@@ -24,7 +24,7 @@ DetectorFactory.seed = 0  # langdetect is random by default; fix it for reproduc
 MIN_CHARS = 20
 MAX_CHARS = 1500  # longer "quotes" are whole sections, not clauses, and exceed one chunk
 
-_BLOCK_TAGS = re.compile(r"</?(p|div|li|ul|ol|h[1-6]|br|tr|td|table|section)\b[^>]*>", re.I)
+_BLOCK_TAGS = re.compile(r"</?(p|div|li|ul|ol|h[1-6]|br|tr|td|table|section)\b[^>]*>", re.IGNORECASE)
 _ANY_TAG = re.compile(r"<[^>]*>")
 _TRAILING_PARTIAL_TAG = re.compile(r"<[^>]*$")
 _LEADING_PARTIAL_TAG = re.compile(r"^[^<>]{0,60}>")

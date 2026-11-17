@@ -29,9 +29,8 @@ def predictions_path(system: str, eval_set: str):
 def write_predictions(system: str, eval_set: str, outputs: dict[str, str], extra: dict | None = None):
     """Save outputs (id -> raw text). `extra` (id -> dict) adds fields such as timings."""
     with open(predictions_path(system, eval_set), "w") as f:
-        for i, out in outputs.items():
-            f.write(json.dumps({"id": i, "output": out, **(extra or {}).get(i, {})},
-                               ensure_ascii=False) + "\n")
+        f.writelines(json.dumps({"id": i, "output": out, **(extra or {}).get(i, {})},
+                               ensure_ascii=False) + "\n" for i, out in outputs.items())
 
 
 def read_predictions(system: str, eval_set: str) -> dict[str, dict]:
