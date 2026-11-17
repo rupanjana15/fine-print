@@ -156,7 +156,7 @@ tests/
 ## Documentation
 
 Every design choice has a numbered entry with alternatives and a one-line explanation
-([DECISIONS.md](docs/DECISIONS.md), 46 entries); ML terms are explained in plain language in
+([DECISIONS.md](docs/DECISIONS.md), 47 entries); ML terms are explained in plain language in
 [CONCEPTS.md](docs/CONCEPTS.md). Start at [docs/README.md](docs/README.md). Changes per version:
 [CHANGELOG.md](CHANGELOG.md).
 

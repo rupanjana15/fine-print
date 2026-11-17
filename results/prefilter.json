@@ -1,0 +1,14 @@
+{
+  "llm_empty": 1305,
+  "llm_flagged": 2719,
+  "skip_empty": 1062,
+  "skip_flagged": 253,
+  "hits": 2104,
+  "hits_lost": 102,
+  "chunks": 4024,
+  "skipped_share_of_llm_empty": 0.814,
+  "skipped_share_of_llm_flagged": 0.093,
+  "correct_hits_lost": 0.048,
+  "time_saved_real_docs": 0.227,
+  "note": "time saved excludes DeBERTa's own run time; DeBERTa at its default cut-off (no probabilities saved)"
+}

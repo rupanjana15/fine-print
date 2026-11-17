@@ -54,6 +54,7 @@ New decisions are appended with the next number; superseded ones are marked, nev
 | [D44](#d44--public-dataset-the-labels-only-not-the-training-chunks) | Public dataset: the labels only, not the training chunks | ✅ |
 | [D45](#d45--blockers-measure-the-ceiling-first-no-fix-for-now) | Blockers: measure the ceiling first; no fix for now | ✅ |
 | [D46](#d46--browser-extension-a-local-model-server-not-a-hosted-one) | Browser extension: a local model server, not a hosted one | ✅ |
+| [D47](#d47--no-deberta-pre-filter-23-faster-for-5-fewer-correct-flags) | No DeBERTa pre-filter: 23% faster for 5% fewer correct flags | ✅ |
 
 ---
 
@@ -1275,3 +1276,33 @@ When ZeroGPU is available the background worker can point to it.
 **Explain it:** *"The extension sends the page to a small server on your own laptop that runs the same pipeline as
 everything else, then highlights the quotes it returns on the page. Nothing goes to the cloud, nothing costs money,
 and the server refuses requests from web pages so a site can't use your CPU."*
+
+## D47 — No DeBERTa pre-filter: 23% faster for 5% fewer correct flags
+
+**Context.** A whole page in the extension takes minutes on a laptop CPU: Apple's iTunes terms took 84 chunks
+and 188–222 s. The ROADMAP kept an optional idea from v0.6: run the small DeBERTa classifier (D33, D36) first and
+skip the 3B model on chunks it calls harmless.
+
+**Decision.** Estimate it from existing test-set predictions before building it (`eval/prefilter.py` →
+`results/prefilter.json`), then decide. **Not built.**
+- DeBERTa calls 33% of test chunks harmless. 81% of what it would skip are chunks the 3B model already answers
+  "empty", which cost only 1.5 s each, because the empty-answer check needs no generation (D38, D40).
+- It would also skip 9% of the chunks the 3B model flags, losing **4.8% of the correct category hits**
+  (102 of 2,104).
+- On real documents (55% of chunks flagged, D43) that saves about **23% of the time**, before DeBERTa's own run
+  time: Apple's page would take ~2.7 min instead of ~3.5.
+
+**Alternatives.**
+| Option | Why not |
+|---|---|
+| Pre-filter at DeBERTa's default cut-off | Loses 1 in 20 correct flags to save about a minute per long page |
+| Pre-filter with a lower cut-off (fewer misses) | Skips fewer chunks, so it saves less than 23%; the saved predictions have no probabilities to tune it, and the slow chunks are the flagged ones, which the filter must keep anyway |
+| Ship DeBERTa anyway as an option | A second model (~140M parameters) to download, convert and maintain, and its weights aren't on the Mac |
+| Faster hardware (ZeroGPU) | The real fix: seconds per document. Planned for ~2026-12-15 (D42) |
+
+**Consequences.** The pipeline stays one model. Long pages take minutes on CPU; the extension shows the time
+left and suggests analysing a selected section. Speed comes from the GPU demo, not from skipping text.
+
+**Explain it:** *"Skipping chunks with a small classifier first would save about a quarter of the time but drop 1
+in 20 correct flags, because the chunks it can skip safely are already the fast ones. I measured it from saved
+predictions and didn't build it."*

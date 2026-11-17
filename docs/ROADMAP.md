@@ -58,7 +58,7 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] Merge adapter → GGUF Q4_K_M; run on Mac with `llama-cpp-python` (D40: test-500 macro-F1 0.652 vs 0.658)
 - [x] `inference/`: chunk → predict → validate → aggregate → grade (grade rule fitted on ToS;DR grades, D41)
 - [x] Latency measurement (M1: 1.5 s empty chunk, 5.4 s flagged chunk; ~45 s–2.5 min for a median 28-chunk document)
-- [ ] (optional) DeBERTa pre-filter — skipped for now; revisit if the Space is too slow (v0.7)
+- [x] (optional) DeBERTa pre-filter: measured, not built (−4.8% correct flags for ~23% time, D47)
 
 ## v0.7 — Demo (Week 4) · MVP ✅
 - [x] Gradio app: paste text → highlighted clauses + grade + explanations (`app/app.py`, runs locally)
