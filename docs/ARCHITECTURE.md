@@ -116,9 +116,11 @@ HTTP 429 on the first request, so the fetcher **must** be polite.
 
 ### Data versioning
 Raw and processed data are **not** committed to git (too large, third-party content). Instead:
-- `configs/data.yaml` records the dataset version string,
-- processed splits are pushed to a **private Hugging Face dataset repo** (free) tagged with that version,
-- `results/` files record which dataset version they were computed on.
+- `configs/data.yaml` records the dataset version string, and every eval result stores a fingerprint of its eval
+  set (D32), so a rebuilt dataset can't be silently compared with old numbers,
+- code + processed data travel to Kaggle as one zip in a **private Kaggle dataset** (`fineprint.kaggle_bundle`,
+  D35, D37); the original plan of a private HF dataset repo was dropped,
+- the **labels only** are public on HF (`rupp15/fine-print-tos-labels`, D44); documents stay private.
 
 ---
 
@@ -128,14 +130,15 @@ Raw and processed data are **not** committed to git (too large, third-party cont
 |---|---|---|
 | Base model | `Qwen2.5-3B-Instruct` (alt: `Llama-3.2-3B-Instruct`) | Strong at JSON at 3B size; swappable via `configs/train.yaml` |
 | Method | **QLoRA** — 4-bit frozen base + LoRA adapters (r=16, α=32, all linear layers) | Fits a free 16 GB T4 |
-| Library | Unsloth + TRL `SFTTrainer` | ~2× faster, less memory on free GPUs |
-| Loss | **Completion-only** (mask system+user tokens) | Model learns to answer, not to echo legal text |
-| Hyper-params (start) | lr 2e-4, 2 epochs, max_len 1024, eff. batch 16, cosine schedule | Sensible QLoRA defaults; tuned in v0.4 |
-| Compute | Kaggle 2×T4 (≈30 GPU-h/week), Colab T4 as backup | Free |
-| Checkpoints | Pushed to private HF model repo every N steps | Kaggle sessions die at ~12 h |
+| Library | Hugging Face `Trainer` + PEFT + bitsandbytes, our own small script (`training/train.py`) | Timed against Unsloth: DDP on both T4s 4.6 h/epoch vs Unsloth on one 6.9 h (D37) |
+| Loss | **Completion-only** (mask system+user tokens, our own unit-tested masking) | Model learns to answer, not to echo legal text |
+| Hyper-params | lr 2e-4 cosine, 3% warmup, max_len 1024, eff. batch 16; epoch 2 continued from v1 at peak lr 1e-4 | D37, D39 |
+| Compute | Kaggle 2×T4 (≈30 GPU-h/week), data-parallel (`torchrun`) | Free |
+| Session limit | Time budget stops and saves before Kaggle's 12 h; adapter returned as notebook output | No HF token needed in Kaggle (D37) |
 
-The training notebook pulls code from this GitHub repo and data from the HF dataset repo, so the
-notebook itself stays thin and the logic is versioned here.
+The Kaggle notebook (`notebooks/kaggle_train.ipynb`) unpacks code + data from the private Kaggle dataset, so the
+notebook stays thin and the logic is versioned here. Result: adapter `ft_qwen3b_v2` (2 epochs) + empty-answer
+threshold t = 0.9 (D38).
 
 **Why not train on the Mac?** M1 / 8 GB unified memory cannot hold a 3B model + optimizer state +
 activations comfortably. The Mac is used for everything else.
@@ -174,7 +177,7 @@ zip (`fineprint.kaggle_bundle`) and results re-imported with `fineprint.kaggle_r
 | Severity accuracy (+ confusion matrix) | flag | bad vs blocker mix-ups |
 | JSON validity rate | output | can the app trust the output? |
 | Quote faithfulness | flag | % of quotes that literally appear in the input (hallucination check) |
-| LexGLUE F1 (mapped 8 labels) | external | generalisation beyond ToS;DR |
+| LexGLUE macro-F1 (8 labels mapped onto 5 of our categories) | external | generalisation beyond ToS;DR |
 | Latency (s / chunk, Mac + CPU Space) | system | is the demo usable? |
 
 Plus a manual **error analysis** of ≥50 mistakes per major version, saved in `results/`.
@@ -194,8 +197,8 @@ flowchart LR
 ```
 
 - **Runtime:** `llama-cpp-python` with the merged GGUF Q4_K_M file (1.93 GB, D40), `inference/gguf.py`. The
-  empty-answer threshold (D38) runs inside it by reading logits. Same file on the Mac and on HF Spaces; outputs
-  can differ slightly between machines (floating point), 76/82 identical in a check.
+  empty-answer threshold (D38) runs inside it by reading logits. Same file on the Mac, on Kaggle CPU and behind the
+  extension; outputs can differ slightly between machines (floating point), 76/82 identical in a check.
 - **Pipeline:** `inference/pipeline.py` `analyse_document`: clean → chunk (same chunker as the dataset) →
   `GGUFModel.analyse` per chunk → parse/validate → locate each quote in the document → merge same-category flags
   with overlapping spans → grade.
@@ -206,8 +209,8 @@ flowchart LR
   (`inference/server.py`, standard library, 127.0.0.1:8737, one job at a time, extension origins only) that runs
   the same pipeline; the content script highlights each quote on the page by severity.
 - **Speed:** M1 ~1.5 s per chunk answered empty, ~5.4 s per flagged chunk; a median document (~28 chunks) takes
-  ~45 s–2.5 min. On the free 2-vCPU Space: precomputed results for ~10 well-known services, a cap on pasted
-  length; a DeBERTa pre-filter stays optional.
+  ~45 s–2.5 min; a long page like Apple's media terms (84 chunks) ~3.5 min. A DeBERTa pre-filter was measured and
+  not built (−4.8% correct flags for ~23% time, D47). Long CPU runs go to free Kaggle CPU kernels, not the Mac.
 - **Grade:** score = good − bad − 2·blocker over distinct (category, severity) pairs, cut-points A ≥ 7, B ≥ 2,
   C ≥ 0, D ≥ −6, fitted on ToS;DR's human grades (D41, `configs/grade.yaml`); shown as a "Fine Print estimate".
 - Disclaimer on every page: *not legal advice*.
@@ -239,8 +242,11 @@ Summary only. Full reasoning and alternatives for every decision are in [DECISIO
 | Python env | `uv` + Python 3.12 | — |
 | GPU training | Kaggle notebooks (2×T4) | ~30 h/week, 12 h/session |
 | Backup GPU | Google Colab free T4 | Session limits vary |
-| Data + model storage | Hugging Face Hub (private repos) | — |
-| Demo hosting | HF Spaces, CPU basic | 2 vCPU / 16 GB, sleeps when idle |
+| Data to Kaggle | Private Kaggle dataset (code + processed data zip) | Upload is slow; mount can be stale, scripts assert the version |
+| Long CPU jobs | Kaggle CPU kernels (GGUF export, demo examples, Apple check) | 12 h/session; ~8× slower than the M1 per chunk |
+| Public model + labels | Hugging Face Hub (public repos) | Qwen licence: non-commercial, "Built with Qwen" |
+| Demo hosting | HF **Static** Space (D42); ZeroGPU from ~2026-12-15 | Free CPU Gradio Spaces need PRO |
+| Browser extension | Unpacked Chrome extension + local server (D46) | Chrome Web Store needs a $5 account |
 | Coding assistant | Claude Code (Pro) | Not used to generate training data |
 
 ---
@@ -252,6 +258,6 @@ Summary only. Full reasoning and alternatives for every decision are in [DECISIO
 | ToS;DR API throttling / changes | Slow cached fetcher; LexGLUE fallback; ask team@tosdr.org for a dump (they plan to publish datasets) |
 | ToS;DR data licence / attribution | Verify in v0.1; attribute in README + model card; don't redistribute raw text publicly |
 | Noisy / inconsistent labels | Merge categories, report as limitation, inspect in error analysis |
-| Kaggle session timeouts | Checkpoint to HF Hub |
+| Kaggle session timeouts | Time budget that saves before the 12 h limit; eval-only mode reuses the trained adapter (D37) |
 | FT does not beat DeBERTa on detection | Still a valid finding; LLM's edge is explanation + quote — report honestly |
-| Slow demo on free CPU | Precomputed examples, length cap, pre-filter |
+| Slow demo on free CPU | Precomputed static demo; live version on ZeroGPU later; extension runs locally (D42, D46) |

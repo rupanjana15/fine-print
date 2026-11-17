@@ -26,7 +26,7 @@ New decisions are appended with the next number; superseded ones are marked, nev
 | [D16](#d16--four-baselines-before-claiming-anything) | Four baselines before claiming anything | ✅ |
 | [D17](#d17--metrics) | Metrics | ✅ |
 | [D18](#d18--serving-4-bit-gguf-with-llamacpp) | Serving: 4-bit GGUF with llama.cpp | ✅ |
-| [D19](#d19--demo-gradio-on-hugging-face-spaces-free-cpu) | Demo: Gradio on HF Spaces (free CPU) | ✅ |
+| [D19](#d19--demo-gradio-on-hugging-face-spaces-free-cpu) | Demo: Gradio on HF Spaces (free CPU) | ⛔ superseded by D42 |
 | [D20](#d20--our-grade-is-an-estimate-never-an-official-tosdr-grade) | Our grade is an estimate, not ToS;DR's | ✅ |
 | [D21](#d21--versioning-git-tags-for-code-hf-hub-for-data-and-models) | Versioning: git tags + HF Hub | ✅ |
 | [D22](#d22--python-tooling-uv-python-312-config-in-yaml) | Tooling: uv, Python 3.12, YAML configs | ✅ |
@@ -220,7 +220,7 @@ human-approved labels, and used the clauses humans rejected as tricky negative e
 bulk dump (DocBot uses a private database).
 
 **Decision.** Fetch `/point/v1?case_id=X` page by page for every case id (there is no case-list
-endpoint, so ids are scanned), then `/document/v2` for each document behind an approved point.
+endpoint, so ids are scanned), then `/document/v1` for each document behind an approved point (the spec's `/document/v2` returns 404; DATA.md).
 Every response is cached to disk; 2 s between requests; exponential backoff on HTTP 429.
 
 **Alternatives considered.**
@@ -321,7 +321,7 @@ otherwise it cries wolf on every paragraph."*
 ## D14 — Split by service (company), never randomly
 
 **Decision.** All examples from one service go to exactly one of train/val/test.
-Service comes from `/document/v2` `service_id` (not the source URL, which ~40% of points lack).
+Service comes from the document's `service_id` (`/document/v1`) (not the source URL, which ~40% of points lack).
 
 **Why.** Companies reuse boilerplate, and one company's clauses resemble each other. A random split puts
 near-duplicates in both train and test, which **inflates scores** (data leakage).
@@ -401,6 +401,9 @@ and on a free CPU server: what I test is what I ship."*
 ---
 
 ## D19 — Demo: Gradio on Hugging Face Spaces (free CPU)
+
+> **Superseded by D42.** Free CPU Gradio Spaces now need HF PRO; the demo became a free Static Space, and the
+> pre-filter was measured and not built (D47).
 
 **Decision.** Gradio app on a free HF Space (2 vCPU, 16 GB RAM). Precomputed results for ~10 well-known
 services, a length cap on pasted text, optional DeBERTa pre-filter to skip harmless chunks.
@@ -1054,8 +1057,8 @@ early plan was a hand-written rule ("any blocker → E"). A hand rule can't be c
 | Fit on all services | Leaves no honest check; val/test services are the check |
 
 **Consequences.** The rule is measured with ToS;DR's own (complete, human) flags. With the model's flags the
-grade inherits the model's misses and false alarms; that end-to-end grade accuracy is not measured yet (it needs
-full documents of graded test services run through the pipeline, a v0.7/v1.0 item). It is never more than one
+grade inherits the model's misses and false alarms; that end-to-end grade accuracy was measured later in D43 (model flags over whole held-out services: exact
+0.46, within one 0.88). It is never more than one
 grade off on held-out services, and the error is mostly C ↔ B/D, the middle grades.
 
 **Explain it:** *"Each flag adds or removes points: good +1, bad −1, blocker −2. Four cut-offs turn points into
@@ -1117,7 +1120,8 @@ issue in several places. Quotes were found verbatim for 228 of 229 flags.
 
 **Consequences.** Visitors can browse the 10 services but can't analyse their own text online until the ZeroGPU
 version. The demo states plainly that the grade tends to be too generous and that the flags are the more
-reliable part. Grading a whole service (all its documents) and the neutral/bad calibration are v1.0 items.
+reliable part. *(D43 later showed that over whole services the errors are close to balanced: the generosity here
+was mostly the one-document effect.)* Grading a whole service (all its documents) and the neutral/bad calibration are v1.0 items.
 
 **Explain it:** *"The demo shows ten well-known services, precomputed for free on Kaggle, as a static page, because
 Hugging Face stopped hosting free CPU apps; a live version comes on their free GPU tier. When I first ran whole documents, the grade turned out more generous than ToS;DR's for 8 of 10, so

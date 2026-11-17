@@ -30,3 +30,6 @@ checkpoints/
 # Upload/download bundles
 dist/
 fine-print-results.zip
+
+# Personal guide PDF: rebuilt from docs/GUIDE.md by docs/guide/build.py
+docs/guide/*.pdf

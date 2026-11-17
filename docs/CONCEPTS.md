@@ -24,8 +24,9 @@ in a chat format. We start from an instruct model so it already understands "her
 ### Chat template
 Instruct models expect conversations in a specific format with special tokens marking who is speaking
 (system / user / assistant). Training data must use the **same template** the model was built with,
-or it learns garbage. Our JSONL stores `messages` and the tokenizer applies the template.
-*Repo:* `src/fineprint/data/format.py` (v0.2), training notebook (v0.4).
+or it learns garbage. Our JSONL stores `messages` and the tokenizer applies the template; for llama.cpp the same
+ChatML format is built by hand and unit-tested against Hugging Face's template.
+*Repo:* `training/train.py` (`tokenize_example`), `inference/gguf.py` (`chatml`).
 
 ---
 
@@ -48,7 +49,8 @@ skips. In our data the answer is only ~18% of the tokens, so this matters. *Repo
 `training/train.py` → `tokenize_example`, checked by `tests/test_training.py`.
 
 ### Epoch, learning rate, batch size
-- **Epoch:** one pass over all training data. We use ~2; more risks memorising (overfitting).
+- **Epoch:** one pass over all training data. We used 2 (one, then a second continued from it, D39); more risks
+  memorising (overfitting).
 - **Learning rate:** how big each weight update is. Too high → unstable; too low → learns nothing.
   2e-4 is a standard LoRA starting point.
 - **Batch size:** examples per update. "Effective batch 16" = 4 per step × 4 **gradient accumulation**
@@ -316,7 +318,8 @@ validate the JSON and quotes → merge duplicate flags across chunks → compute
 
 ### Latency
 Time to get an answer. On CPU, a 3B model generates roughly a few to ~20 tokens/second depending on
-hardware, so we keep outputs short and skip chunks that are obviously harmless.
+hardware, so we keep outputs short. Chunks the model leaves empty are cheap (one forward pass, no generation,
+~1.5 s on the M1); flagged chunks cost ~5 s because the answer is written token by token.
 
 ---
 
@@ -327,9 +330,10 @@ hardware, so we keep outputs short and skip chunks that are obviously harmless.
 3. **Build the dataset** (v0.2): clean HTML, keep approved English points, map cases → categories,
    add negatives (including hard negatives), split by service, write chat-format JSONL.
 4. **Baselines** (v0.3): keyword rules, base model zero/few-shot, DeBERTa → scored by one harness.
-5. **Fine-tune** (v0.4): QLoRA on Kaggle; checkpoints to HF Hub.
+5. **Fine-tune** (v0.4): QLoRA on Kaggle's two GPUs; the adapter comes back as notebook output.
 6. **Evaluate and iterate** (v0.5): metrics table + error analysis → fix the biggest problem → retrain.
 7. **Package** (v0.6): merge adapter → GGUF 4-bit → inference pipeline on the Mac.
-8. **Demo and write up** (v0.7–v1.0): Gradio app on HF Spaces, README with results, model card.
+8. **Demo and write up** (v0.7–v1.1): static demo on HF Spaces, local Gradio app, browser extension, public
+   model and labels, whole-service grade check, README with results.
 
 Each step reads files written by the previous one, so any step can be re-run on its own.

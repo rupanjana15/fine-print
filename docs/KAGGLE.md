@@ -8,6 +8,26 @@ Kaggle's free GPUs (decision D35). One notebook uses **both T4 GPUs at once**:
 | 0 | B1 Qwen2.5-3B zero-shot on `test-500`, then `lexglue` | ~40 min |
 | 1 | B3 DeBERTa-v3-small train + eval, then B2 Qwen 3-shot on `test-500`, then `lexglue` | ~1.5 h |
 
+## Every Kaggle job in the project
+All are private kernels in `dist/kaggle/kernel-*/` (gitignored staging), with their code in `notebooks/`. Each one
+reads the private `fine-print` dataset (code + data zip) and returns a zip as notebook output.
+
+| Kernel | Code | Hardware | What it does | Decision |
+|---|---|---|---|---|
+| fine-print-baselines | `kaggle_baselines.ipynb` | 2×T4 | Base Qwen zero/few-shot (B1, B2) + DeBERTa (B3) | D35 |
+| fine-print-deberta | DeBERTa-only copy of `kaggle_baselines.ipynb` | T4 | DeBERTa rerun after the fp16 NaN fix | D36 |
+| fine-print-train | `kaggle_train.ipynb` | 2×T4 | QLoRA training (timing / full / epoch2 modes) + evaluation | D37, D39 |
+| fine-print-eval | `kaggle_train.ipynb` (eval mode) | 2×T4 | Evaluation and the empty-answer threshold run from a trained adapter | D37, D38 |
+| fine-print-gguf | `kaggle_gguf.py` | CPU | Merge adapter → GGUF Q4_K_M | D40 |
+| fine-print-gguf-eval | `kaggle_gguf_eval.py` | CPU | Score the 4-bit file on test-500 | D40 |
+| fine-print-examples-0/1/2 | `kaggle_examples.py` | CPU ×3 | The 10 demo services, in parallel | D42 |
+| fine-print-services | `kaggle_services.py` | 2×T4 | Whole-service grading, 9,086 chunks | D43 |
+| fine-print-apple | `kaggle_apple.py` | CPU | Apple's iTunes terms for the extension check | `results/apple_check.md` |
+
+Lessons that cost time: wait until a new dataset version is *ready* before pushing a kernel (scripts assert the
+expected files exist); Kaggle's preinstalled `torchao` breaks PEFT (uninstalled first); the CLI sometimes drops the
+connection after a successful push (check `kernels status` before pushing again).
+
 ## Fastest route: Claude Code drives it with the Kaggle CLI (D36)
 Once `~/.kaggle/access_token` exists on the Mac (Kaggle → Settings → API → *Generate New Token*, then run the
 save command it shows, in Terminal), no clicking is needed:

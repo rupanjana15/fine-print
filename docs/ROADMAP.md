@@ -27,7 +27,7 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] Manual review of negatives → similarity filter (D31)
 - [x] ~~Push processed splits to private HF dataset repo~~ — superseded: training reads a private Kaggle dataset, and only the labels are published (D44)
 
-## v0.3 — Baselines + eval harness (Week 2) · MVP
+## v0.3 — Baselines + eval harness (Week 2) · MVP ✅
 - [x] `eval/` harness: one predictions format → all metrics → `results/eval/*.json` + `results/RESULTS.md`
 - [x] B0 keyword baseline, B0b TF-IDF + logistic regression, `ref_always_flag` reference
 - [x] Kaggle notebook + bundle/import scripts (Mac can't run the heavy jobs, D35)
@@ -35,7 +35,7 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] B3 DeBERTa-v3-small classifier: same notebook (first run NaN → fp32 fix and rerun, D36)
 - [x] Import results, write up findings (`results/baselines_v0.3.md`), tag v0.3
 
-## v0.4 — First fine-tune (Week 2–3) · MVP
+## v0.4 — First fine-tune (Week 2–3) · MVP ✅
 - [x] ~~Push processed splits to a private HF dataset repo~~ → data comes from the private Kaggle dataset (D37)
 - [x] `training/train.py` (QLoRA, transformers + peft, completion-only loss, unit-tested masking) +
       `notebooks/kaggle_train.ipynb` (timing / full modes)
@@ -74,3 +74,12 @@ Target: ~4 weeks part-time. The "MVP cut" marks what to keep if time runs short.
 - [x] 2-minute demo video / GIF
 - [x] (optional) browser extension: Chrome MV3 + local server (D46, v1.1)
 - [x] Blocker recall: measured the ceiling (≤2 of 45 test services even if perfect); not pursued (D45)
+
+## v1.1 — Extension and follow-ups ✅
+- [x] Browser extension + local server, tried in Chrome on Apple's iTunes terms (D46)
+- [x] Apple check vs ToS;DR's points on Kaggle CPU (`results/apple_check.md`)
+- [x] DeBERTa pre-filter and blocker fix measured, neither built (D45, D47)
+- [x] Lint clean; docs audit and the project guide (`docs/GUIDE.md`, PDF via `docs/guide/build.py`)
+
+## Next
+- [ ] Live "paste your own" demo on ZeroGPU (~2026-12-15), also usable as the extension's backend

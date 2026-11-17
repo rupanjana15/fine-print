@@ -24,7 +24,7 @@ Quirks:
 - `status` includes `approved`, `declined`, and others — **only `approved` points are used**.
 - Quotes can contain HTML fragments (e.g. `</li>\n</`) and non-English text → cleaned/filtered in v0.2.
 - Points don't include `service_id`, and ~40% of approved points have no `source` URL either.
-  Every point does have a `document_id`, so the service comes from `/document/v2` (`fetch_tosdr documents`).
+  Every point does have a `document_id`, so the service comes from `/document/v1` (`fetch_tosdr documents`).
 - Severity comes from `case.classification`: `good` / `neutral` / `bad` / `blocker`.
 - There is no public case list (edit.tosdr.org/cases needs a login), so case ids are scanned.
   Real ids start around 120.
@@ -131,6 +131,14 @@ Few A services (22 in all), so the A/B boundary is the least certain. Fit result
 All documents of the 109 comprehensively-reviewed val/test services with a grade: 9,086 chunks (val 4,928 / test
 4,158), `data/examples/service_chunks.jsonl` (not in git). 100 of them have approved ToS;DR points (55 val / 45
 test); the other 9 have a grade but no usable points. Results: `results/service_grades.md` (D43).
+
+## Public labels dataset (v1.0, D44)
+[rupp15/fine-print-tos-labels](https://huggingface.co/datasets/rupp15/fine-print-tos-labels), CC BY-SA 3.0, built by
+`data/export_labels.py` from `points_labeled.parquet`: **31,362** approved points, train / validation / test
+**25,030 / 3,382 / 2,950** by the same service hash as training. Severity: neutral 14,152 · bad 8,655 · good 7,808 ·
+blocker 747. Each row: quote, case title (explanation), category, severity, service, document URL and a link to the
+point on edit.tosdr.org. **No document text** (the companies own it); retraining needs the documents, which
+`fetch_tosdr` downloads.
 
 ## LexGLUE `unfair_tos` (CLAUDETTE)
 
