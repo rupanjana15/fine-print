@@ -85,7 +85,7 @@ Held-out companies (test set, 4,024 chunks):
 All numbers: [results/RESULTS.md](results/RESULTS.md) · findings per milestone:
 [baselines](results/baselines_v0.3.md) · [first fine-tune](results/finetune_v0.4.md) ·
 [error analysis](results/error_analysis_v1.md) · [threshold + 2nd epoch](results/finetune_v0.5.md) ·
-[whole-service grades](results/service_grades.md)
+[whole-service grades](results/service_grades.md) · [Apple check](results/apple_check.md)
 
 ### Error analysis, in short
 - Most misses of the first model were **silence**: 56% of missed labels were chunks it answered with no flags at

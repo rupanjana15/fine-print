@@ -10,6 +10,10 @@ One entry per tagged milestone (see `docs/ROADMAP.md`).
   exact / 0.89 → 0.96 within one; a severity nudge reaches ~13% of gold blockers. Not pursued
   (`service_grades blockers`, `results/blocker_trace.json`)
 - Tried in Chrome on Apple's iTunes terms (84 chunks, 188 s, grade D); popup chips now count flags like the list
+- Apple check vs ToS;DR (`results/apple_check.md`, Kaggle CPU): 18/18 quotes found; 3 of ToS;DR's 4 points on the
+  document matched exactly; 1 of 2 blockers matches a real Apple blocker, 1 is a false alarm (Apple is a training
+  service, so this is a recall check, not generalisation)
+- DeBERTa pre-filter measured, not built (D47); lint clean; HF processed-splits roadmap item superseded
 
 ## v1.0 — 2026-11-16 · Writeup & release
 - Whole-service grading on held-out companies (`eval/service_grades.py`, `notebooks/kaggle_services.py`, D43):
